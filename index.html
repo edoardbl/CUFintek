@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Aplikasi Penagihan</title>
     
-    <!-- Sembunyikan URL asli dari preview link (WhatsApp, Telegram, dll) -->
     <meta property="og:title" content="Aplikasi Penagihan">
     <meta property="og:description" content="Membuat tugas penagihan menjadi lebih praktis">
     <meta property="og:url" content="https://edoardbl.github.io/CUFintek/">
-    
-    <!-- Cegah indexing Google -->
     <meta name="robots" content="noindex, nofollow">
     
     <style>
@@ -19,32 +16,29 @@
         html, body {
             width: 100%;
             height: 100%;
-            /* KUNCI PERBAIKAN: Izinkan scroll agar konten tidak terpotong */
-            overflow: auto; 
-            -webkit-overflow-scrolling: touch; /* Smooth scroll di iOS */
+            overflow: hidden; /* Kunci halaman utama agar tidak ada scroll ganda */
             background: #f5f5f5;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-overflow-scrolling: touch;
         }
         
-        /* Container untuk iframe */
         #app-container {
-            position: relative; /* Ubah dari fixed ke relative */
-            width: 100%;
-            min-height: 100vh; /* Gunakan min-height, bukan height */
-            overflow: visible;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
         }
         
-        /* Iframe */
         #app-frame {
             width: 100%;
-            height: 100vh;       /* Setinggi layar */
-            min-height: 100vh;   /* Minimal setinggi layar */
+            height: 100%;
             border: 0;
             display: block;
-            /* HAPUS margin-top negatif agar tidak memotong konten bawah */
+            /* HAPUS margin-top negatif */
         }
         
-        /* Loading screen */
         #loader {
             position: fixed;
             inset: 0;
@@ -81,7 +75,6 @@
             font-size: 14px;
         }
         
-        /* Fallback kalau iframe diblokir */
         #fallback {
             display: none;
             position: fixed;
@@ -93,7 +86,6 @@
         }
         
         #fallback.show { display: block; }
-        
         #fallback h2 { color: #333; margin-bottom: 16px; }
         #fallback a {
             display: inline-block;
@@ -109,28 +101,25 @@
 </head>
 <body>
 
-    <!-- Loading Screen -->
     <div id="loader">
         <div class="spinner"></div>
         <div class="loader-text">Memuat aplikasi...</div>
     </div>
 
-    <!-- Container utama -->
     <div id="app-container">
         <iframe 
             id="app-frame"
-            src="https://script.google.com/macros/s/AKfycbwf_C6KNeDusEYpJFXG0dTVVaom0rYJQGUnxRv9CxmRAoaQld2DRFT1Sou0grKdKDUPbg/exec"
+            src="https://script.google.com/macros/s/AKfycbxVxqw938VsI6QUrwMu1iALppH8dTbsOZ1BFubz8zxyjurTMC9_PVswQi4-G-NmqzXcgw/exec"
             allow="clipboard-read; clipboard-write; camera; microphone; geolocation"
             referrerpolicy="no-referrer"
             loading="eager">
         </iframe>
     </div>
 
-    <!-- Fallback kalau iframe gagal -->
     <div id="fallback">
         <h2>⚠️ Tidak dapat memuat aplikasi</h2>
         <p>Aplikasi tidak bisa ditampilkan di sini.</p>
-        <a href="https://script.google.com/macros/s/AKfycbwf_C6KNeDusEYpJFXG0dTVVaom0rYJQGUnxRv9CxmRAoaQld2DRFT1Sou0grKdKDUPbg/exec" 
+        <a href="https://script.google.com/macros/s/AKfycbxVxqw938VsI6QUrwMu1iALppH8dTbsOZ1BFubz8zxyjurTMC9_PVswQi4-G-NmqzXcgw/exec" 
            target="_blank" rel="noopener">
             Buka Aplikasi di Tab Baru
         </a>
@@ -143,13 +132,11 @@
             const fallback = document.getElementById('fallback');
             let loaded = false;
             
-            // Sembunyikan loader setelah iframe dimuat
             iframe.addEventListener('load', function() {
                 loaded = true;
                 setTimeout(() => loader.classList.add('hidden'), 300);
             });
             
-            // Timeout: kalau 12 detik belum load, tampilkan fallback
             setTimeout(function() {
                 if (!loaded) {
                     loader.classList.add('hidden');
@@ -157,16 +144,6 @@
                 }
             }, 12000);
             
-            // Deteksi kalau iframe diblokir (X-Frame-Options)
-            setTimeout(function() {
-                try {
-                    const test = iframe.contentWindow.location.href;
-                } catch (e) {
-                    // Normal untuk cross-origin, abaikan
-                }
-            }, 2000);
-            
-            // Cegah zoom di mobile (Hanya pada container, bukan global)
             const container = document.getElementById('app-container');
             if (container) {
                 container.addEventListener('gesturestart', e => e.preventDefault());
