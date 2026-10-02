@@ -2,21 +2,29 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <!-- Tambahan 'viewport-fit=cover' sangat penting untuk perangkat dengan safe area (notch) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- Judul aplikasi -->
     <title>Penagihan TP Saluampak</title>
+
+    <!-- Meta tags agar tampil full screen seperti aplikasi native saat di Add to Home Screen -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Penagihan TP Saluampak">
+    <meta name="apple-mobile-web-app-title" content="Penagihan TP Saluampak">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#a60000"> <!-- Warna tema (sesuai warna merah aplikasi Anda) -->
+
     <style>
-        /* Reset dasar agar body dan html memenuhi layar */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            height: 100dvh; /* Tinggi viewport dinamis */
-            overflow: hidden; /* Mencegah scroll ganda di luar aplikasi */
-            background-color: #f7f7f7; /* Background agar tidak terlihat kosong */
+            height: 100dvh; 
+            overflow: hidden; 
+            background-color: #f7f7f7; 
         }
 
-        /* Container luar utama */
         .iframe-container {
             position: relative;
             width: 100%;
@@ -24,29 +32,26 @@
             overflow: hidden;
         }
 
-        /* Container pemotong khusus - INI KUNCINYA */
         .iframe-cutter {
             position: absolute;
             width: 100%;
-            height: 100%; /* Tetap tinggi 100% viewport, TIDAK ADA TINGGI EKSTRA */
-            top: -5px; /* Pindahkan seluruh container ke atas 5px untuk memotong banner */
-            overflow: hidden; /* Sembunyikan bagian atas yang bergeser ke luar */
+            height: 100%; 
+            top: -5px; 
+            overflow: hidden; 
         }
 
-        /* Aturan Iframe */
         iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%; /* Iframe memiliki tinggi 100% penuh, tidak ada tinggi ekstra */
+            height: 100%; 
             border: none;
         }
     </style>
 </head>
 <body>
     <div class="iframe-container">
-        <!-- Container pemotong khusus di dalam container utama -->
         <div class="iframe-cutter">
             <iframe src="https://script.google.com/macros/s/AKfycbxVQ7DQQeKt0KkzJ_EriKF-V3Pvz4G2O4svz1iUj0Hz1Y-ypyFVBpuRdRmgAJR_7WjJPw/exec"></iframe>
         </div>
