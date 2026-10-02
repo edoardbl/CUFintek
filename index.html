@@ -2,32 +2,35 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tambahan maximum-scale agar layar tidak ter-zoom tidak sengaja di HP -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Aplikasi Saya</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow: hidden; /* Mencegah scroll ganda */
+            height: 100%; /* Fallback untuk browser lama */
+            height: 100dvh; /* Menyesuaikan tinggi dinamis browser HP */
+            overflow: hidden;
         }
         .iframe-container {
+            position: relative;
             width: 100%;
-            height: 100vh;
+            height: 100%;
             overflow: hidden;
         }
         iframe {
+            position: absolute;
+            top: -5px; /* Memotong 5px dari atas */
+            left: 0;
             width: 100%;
-            /* Coba kurangi angka 40px menjadi lebih kecil, misalnya 25px */
-            height: calc(100vh + 5px); 
-            margin-top: -5px; 
+            height: calc(100% + 5px); /* Mengimbangi potongan atas agar pas di bawah */
             border: none;
         }
     </style>
 </head>
 <body>
     <div class="iframe-container">
-        <!-- Ganti src dengan link web app Google Apps Script Anda yang baru dideploy -->
         <iframe src="https://script.google.com/macros/s/AKfycbzD5XwX6JOMkx7cTNpaXIpARh2fvEANxgWXjuE0LMy6p8m9Ij2NA_utxYZ7tcdxOcbNdw/exec"></iframe>
     </div>
 </body>
