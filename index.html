@@ -2,34 +2,33 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Aplikasi Koperasi / Penagihan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Saya</title>
     <style>
-        html, body {
+        body, html {
             margin: 0;
             padding: 0;
-            width: 100%;
             height: 100%;
+            overflow: hidden; /* Mencegah scroll ganda */
+        }
+        .iframe-container {
+            width: 100%;
+            height: 100vh;
             overflow: hidden;
-            background-color: #FDF6E3;
         }
         iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            border: 0;
-            display: block;
+            /* Tambah tinggi dan geser ke atas untuk menyembunyikan banner Google */
+            height: calc(100vh + 40px); 
+            margin-top: -40px; 
+            border: none;
         }
     </style>
 </head>
 <body>
-    <iframe
-        src="https://script.google.com/macros/s/AKfycbyCe_TBmyrP9mRmCCywOxkq6PZwzGxZlHuPOZo6Qpwze164zvt2hAq7-OlC0V-17Ji64A/exec"
-        allow="camera; microphone; geolocation"
-        loading="eager"
-        referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
+    <div class="iframe-container">
+        <!-- Ganti src dengan link web app Google Apps Script Anda yang baru dideploy -->
+        <iframe src="https://script.google.com/macros/s/AKfycbzD5XwX6JOMkx7cTNpaXIpARh2fvEANxgWXjuE0LMy6p8m9Ij2NA_utxYZ7tcdxOcbNdw/exec"></iframe>
+    </div>
 </body>
 </html>
