@@ -2,164 +2,24 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Aplikasi Penagihan</title>
-    
-    <meta property="og:title" content="Aplikasi Penagihan">
-    <meta property="og:description" content="Membuat tugas penagihan menjadi lebih menyenangkan">
-    <meta property="og:url" content="https://edoardbl.github.io/CUFintek/">
-    <meta name="robots" content="noindex, nofollow">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nama Aplikasi Anda</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        html, body {
-            width: 100%;
+        body, html {
+            margin: 0;
+            padding: 0;
             height: 100%;
-            /* Tetap hidden agar tidak ada double scrollbar */
-            overflow: hidden; 
-            background: #f5f5f5;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        #app-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            
-            /* KUNCI PERBAIKAN: Gunakan dvh (Dynamic Viewport Height) */
-            height: 100dvh; 
-            
-            /* Fallback untuk browser lama yang belum support dvh */
-            height: 100vh; 
-            height: 100dvh; 
-            
             overflow: hidden;
-            /* Beri sedikit ruang di bawah agar tidak tertutup gesture bar HP */
-            padding-bottom: 5px; 
         }
-        
-        #app-frame {
+        iframe {
+            border: none;
             width: 100%;
             height: 100%;
-            border: 0;
-            display: block;
-        }
-        
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.3s ease;
-        }
-        
-        #loader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #e0e0e0;
-            border-top-color: #4285f4;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .loader-text {
-            margin-top: 16px;
-            color: #666;
-            font-size: 14px;
-        }
-        
-        #fallback {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #fff;
-            padding: 40px 20px;
-            text-align: center;
-            z-index: 10000;
-        }
-        
-        #fallback.show { display: block; }
-        #fallback h2 { color: #333; margin-bottom: 16px; }
-        #fallback a {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 24px;
-            background: #4285f4;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 500;
         }
     </style>
 </head>
 <body>
-
-    <div id="loader">
-        <div class="spinner"></div>
-        <div class="loader-text">Memuat aplikasi...</div>
-    </div>
-
-    <div id="app-container">
-        <iframe 
-            id="app-frame"
-            src="https://script.google.com/macros/s/AKfycbwXzkPeTZBLz2cvG9j5kUdZml69w-ARkoj4T7g_aK5SoSDGT9DREuIQJlFxifhH1lpgYA/exec"
-            allow="clipboard-read; clipboard-write; camera; microphone; geolocation"
-            referrerpolicy="no-referrer"
-            loading="eager">
-        </iframe>
-    </div>
-
-    <div id="fallback">
-        <h2>⚠️ Tidak dapat memuat aplikasi</h2>
-        <p>Aplikasi tidak bisa ditampilkan di sini.</p>
-        <a href="https://script.google.com/macros/s/AKfycbwXzkPeTZBLz2cvG9j5kUdZml69w-ARkoj4T7g_aK5SoSDGT9DREuIQJlFxifhH1lpgYA/exec" 
-           target="_blank" rel="noopener">
-            Buka Aplikasi di Tab Baru
-        </a>
-    </div>
-
-    <script>
-        (function() {
-            const iframe   = document.getElementById('app-frame');
-            const loader   = document.getElementById('loader');
-            const fallback = document.getElementById('fallback');
-            let loaded = false;
-            
-            iframe.addEventListener('load', function() {
-                loaded = true;
-                setTimeout(() => loader.classList.add('hidden'), 300);
-            });
-            
-            setTimeout(function() {
-                if (!loaded) {
-                    loader.classList.add('hidden');
-                    fallback.classList.add('show');
-                }
-            }, 12000);
-            
-            const container = document.getElementById('app-container');
-            if (container) {
-                container.addEventListener('gesturestart', e => e.preventDefault());
-                container.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
-            }
-        })();
-    </script>
-
+    <!-- Ganti URL di bawah dengan URL Web App Google Apps Script Anda -->
+    <iframe src="https://script.google.com/macros/s/AKfycbxj9vAYtG4fI9R9S94WrTzbxYGbsk81-0LB0gmkol5bMPgIKRQagutcrVGMck0dNPnRqQ/exec"></iframe>
 </body>
 </html>
