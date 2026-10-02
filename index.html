@@ -2,36 +2,54 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <!-- Tambahan maximum-scale agar layar tidak ter-zoom tidak sengaja di HP -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Tambahan 'viewport-fit=cover' sangat penting untuk perangkat dengan safe area (notch) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Aplikasi Saya</title>
     <style>
+        /* Reset dasar agar body dan html memenuhi layar */
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%; /* Fallback untuk browser lama */
-            height: 100dvh; /* Menyesuaikan tinggi dinamis browser HP */
-            overflow: hidden;
+            height: 100%;
+            height: 100dvh; /* Tinggi viewport dinamis */
+            overflow: hidden; /* Mencegah scroll ganda di luar aplikasi */
+            background-color: #f7f7f7; /* Background agar tidak terlihat kosong */
         }
+
+        /* Container luar utama */
         .iframe-container {
             position: relative;
             width: 100%;
             height: 100%;
             overflow: hidden;
         }
+
+        /* Container pemotong khusus - INI KUNCINYA */
+        .iframe-cutter {
+            position: absolute;
+            width: 100%;
+            height: 100%; /* Tetap tinggi 100% viewport, TIDAK ADA TINGGI EKSTRA */
+            top: -5px; /* Pindahkan seluruh container ke atas 5px untuk memotong banner */
+            overflow: hidden; /* Sembunyikan bagian atas yang bergeser ke luar */
+        }
+
+        /* Aturan Iframe */
         iframe {
             position: absolute;
-            top: -5px; /* Memotong 5px dari atas */
+            top: 0;
             left: 0;
             width: 100%;
-            height: calc(100% + 5px); /* Mengimbangi potongan atas agar pas di bawah */
+            height: 100%; /* Iframe memiliki tinggi 100% penuh, tidak ada tinggi ekstra */
             border: none;
         }
     </style>
 </head>
 <body>
     <div class="iframe-container">
-        <iframe src="https://script.google.com/macros/s/AKfycbzD5XwX6JOMkx7cTNpaXIpARh2fvEANxgWXjuE0LMy6p8m9Ij2NA_utxYZ7tcdxOcbNdw/exec"></iframe>
+        <!-- Container pemotong khusus di dalam container utama -->
+        <div class="iframe-cutter">
+            <iframe src="https://script.google.com/macros/s/AKfycbzD5XwX6JOMkx7cTNpaXIpARh2fvEANxgWXjuE0LMy6p8m9Ij2NA_utxYZ7tcdxOcbNdw/exec"></iframe>
+        </div>
     </div>
 </body>
 </html>
