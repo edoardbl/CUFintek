@@ -5,32 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Aplikasi Koperasi / Penagihan</title>
     <style>
-        /* Memaksa halaman utama GitHub benar-benar bersih dan pas di layar */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Menghilangkan scrollbar pada pembungkus luar */
-            background-color: #f5f5f5; /* Sesuaikan warna latar jika diperlukan */
+            overflow: hidden;
+            background-color: #8B0000; /* warna header app Anda, biar nyatu */
         }
-        
-        /* Mengatur iframe agar memenuhi layar secara absolut */
-        iframe {
-            position: absolute;
+
+        /* Container pembungkus iframe */
+        .iframe-wrapper {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border: none;
+            overflow: hidden;
+        }
+
+        iframe {
+            position: absolute;
+            top: -56px;                     /* geser naik utk sembunyikan banner Google */
+            left: 0;
+            width: 100%;
+            height: calc(100% + 56px);      /* kompensasi tinggi */
+            border: 0;
             display: block;
+        }
+
+        /* Tutup area pojok kanan atas tempat tombol "Buka di Tab Baru" */
+        .top-right-shield {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 90px;      /* sesuaikan lebar tombol */
+            height: 56px;     /* setinggi banner Google */
+            background: #8B0000;  /* <-- samakan dengan warna header app Anda */
+            z-index: 9999;
+            pointer-events: auto;  /* blokir klik ke tombol Google */
+        }
+
+        /* Opsional: shield transparan kalau header Anda punya gradient/gambar */
+        .top-right-shield.transparent {
+            background: transparent;
+            pointer-events: none;
+        }
+
+        /* Tampilkan shield transparan yang mencegah klik */
+        .top-right-shield.block-click {
+            background: transparent;
+            pointer-events: auto;
         }
     </style>
 </head>
 <body>
+    <div class="iframe-wrapper">
+        <iframe
+            src="https://script.google.com/macros/s/AKfycbxj9vAYtG4fI9R9S94WrTzbxYGbsk81-0LB0gmkol5bMPgIKRQagutcrVGMck0dNPnRqQ/exec"
+            allow="camera; microphone; geolocation"
+            loading="eager"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
 
-    <!-- Masukkan URL Google Apps Script Anda di sini -->
-    <iframe src="https://script.google.com/macros/s/AKfycbxj9vAYtG4fI9R9S94WrTzbxYGbsk81-0LB0gmkol5bMPgIKRQagutcrVGMck0dNPnRqQ/exec"></iframe>
-
+    <!-- Penutup tombol "Buka di Tab Baru" di kanan atas -->
+    <div class="top-right-shield"></div>
 </body>
 </html>
