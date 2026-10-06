@@ -1,1 +1,807 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Panduan Pengguna — Aplikasi Penagihan Credit Union</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px 30px;
+    color: #333;
+    line-height: 1.6;
+    background: #FDF6E3;
+  }
+  h1 {
+    color: #8B0000;
+    border-bottom: 3px solid #FFD700;
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 26px;
+  }
+  h2 {
+    color: #8B0000;
+    border-bottom: 2px solid #FFD700;
+    padding-bottom: 6px;
+    margin-top: 35px;
+    font-size: 20px;
+  }
+  h3 {
+    color: #A31515;
+    margin-top: 22px;
+    font-size: 16px;
+  }
+  h4 {
+    color: #B8860B;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  .cover {
+    text-align: center;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #8B0000, #A31515);
+    color: white;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    border-bottom: 5px solid #FFD700;
+  }
+  .cover h1 {
+    color: #FFD700;
+    border: none;
+    font-size: 28px;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .cover p {
+    color: white;
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  .cover .versi {
+    color: #FFD700;
+    font-weight: 700;
+    margin-top: 18px;
+    font-size: 13px;
+    background: rgba(255,215,0,0.15);
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 1px solid #FFD700;
+  }
+  .box {
+    background: #FFF8DC;
+    border-left: 4px solid #FFD700;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 15px 0;
+    font-size: 14px;
+  }
+  .box.warning {
+    background: #FFF3E0;
+    border-left-color: #E65100;
+  }
+  .box.info {
+    background: #E3F2FD;
+    border-left-color: #1976D2;
+  }
+  .box.success {
+    background: #E8F5E9;
+    border-left-color: #2E7D32;
+  }
+  .box.danger {
+    background: #FFEBEE;
+    border-left-color: #C62828;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 13px;
+    background: white;
+  }
+  th {
+    background: #8B0000;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #8B0000;
+    font-size: 13px;
+  }
+  td {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+  }
+  tr:nth-child(even) {
+    background: #FDF6E3;
+  }
+  code {
+    background: #F5EED9;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 12px;
+    color: #8B0000;
+  }
+  .step {
+    background: white;
+    border-left: 4px solid #8B0000;
+    padding: 10px 15px;
+    margin: 8px 0;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  .step strong {
+    color: #8B0000;
+  }
+  ul, ol {
+    padding-left: 25px;
+  }
+  li {
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+  .toc {
+    background: #FFF8DC;
+    padding: 20px 25px;
+    border-radius: 8px;
+    border: 1px solid #FFD700;
+    margin: 20px 0;
+  }
+  .toc h3 {
+    margin-top: 0;
+    color: #8B0000;
+  }
+  .toc ol {
+    margin: 0;
+  }
+  .toc a {
+    color: #8B0000;
+    text-decoration: none;
+  }
+  .toc a:hover {
+    text-decoration: underline;
+  }
+  hr {
+    border: none;
+    border-top: 2px dashed #FFD700;
+    margin: 35px 0;
+  }
+  .footer {
+    text-align: center;
+    color: #8B6914;
+    font-size: 12px;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 2px solid #FFD700;
+  }
+  .badge {
+    display: inline-block;
+    background: #FFD700;
+    color: #8B0000;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .badge-red {
+    background: #8B0000;
+    color: #FFD700;
+  }
+  @media print {
+    body {
+      background: white;
+      margin: 0;
+      padding: 15px;
+      max-width: 100%;
+    }
+    .cover {
+      background: #8B0000 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      break-after: page;
+    }
+    h2 {
+      break-before: page;
+    }
+    h2:first-of-type {
+      break-before: avoid;
+    }
+    .box, .step, table, .toc {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
 
+<!-- COVER -->
+<div class="cover">
+  <h1>📋 PANDUAN PENGGUNA</h1>
+  <p style="font-size: 18px; margin-top: 10px;">Aplikasi Penagihan Credit Union</p>
+  <p>Koperasi Credit Union Sauan Sibarrung</p>
+  <p>TP Saluampak · Sulawesi Selatan</p>
+  <div class="versi">Versi 23.0 · 2026</div>
+</div>
+
+<!-- DAFTAR ISI -->
+<div class="toc">
+  <h3>📑 Daftar Isi</h3>
+  <ol>
+    <li><a href="#login">Login & Navigasi</a></li>
+    <li><a href="#beranda">Beranda</a></li>
+    <li><a href="#anggota">Daftar & Detail Anggota</a></li>
+    <li><a href="#kunjungan">Kunjungan</a></li>
+    <li><a href="#penanganan">Penanganan</a></li>
+    <li><a href="#setoran">Setoran</a></li>
+    <li><a href="#statistik">Statistik & Rekap</a></li>
+    <li><a href="#laporan">Cetak Laporan</a></li>
+    <li><a href="#persuratan">Persuratan</a></li>
+    <li><a href="#admin">Menu Admin (untuk Admin)</a></li>
+    <li><a href="#faq">Pertanyaan Umum (FAQ)</a></li>
+  </ol>
+</div>
+
+<!-- 1. LOGIN -->
+<h2 id="login">🔐 1. Login & Navigasi</h2>
+
+<h3>Cara Login</h3>
+<div class="step">
+  <strong>Langkah 1:</strong> Buka link aplikasi di browser (HP / komputer)
+</div>
+<div class="step">
+  <strong>Langkah 2:</strong> Isi <code>Username</code> dan <code>Password</code> Anda
+</div>
+<div class="step">
+  <strong>Langkah 3:</strong> (Opsional) Centang <strong>"Ingat saya"</strong> supaya tidak perlu login ulang
+</div>
+<div class="step">
+  <strong>Langkah 4:</strong> Klik tombol <strong>"MASUK APLIKASI"</strong>
+</div>
+
+<div class="box info">
+  <strong>💡 Tips:</strong> Klik ikon 👁️ di kolom password untuk melihat password yang Anda ketik — menghindari salah ketik.
+</div>
+
+<h3>Navigasi Utama</h3>
+<p>Setelah login, Anda akan melihat <strong>4 menu di bawah</strong>:</p>
+<table>
+  <tr>
+    <th>Menu</th>
+    <th>Fungsi</th>
+  </tr>
+  <tr>
+    <td>🏠 <strong>Beranda</strong></td>
+    <td>Daftar anggota, dashboard, statistik hari ini</td>
+  </tr>
+  <tr>
+    <td>📊 <strong>Statistik</strong></td>
+    <td>Statistik per aktivis & per staf</td>
+  </tr>
+  <tr>
+    <td>📂 <strong>Rekap</strong></td>
+    <td>Rekap bulanan, rekap setoran, cetak laporan</td>
+  </tr>
+  <tr>
+    <td>👤 <strong>Profil</strong></td>
+    <td>Edit profil, ganti password, logout</td>
+  </tr>
+</table>
+
+<h3>Menu Sidebar</h3>
+<p>Klik tombol <strong>☰</strong> di kiri atas untuk membuka sidebar:</p>
+<ul>
+  <li>🏠 Beranda</li>
+  <li>📊 Statistik</li>
+  <li>📂 Rekap & Laporan</li>
+  <li>✉️ Persuratan</li>
+  <li>🖨️ Cetak Laporan</li>
+  <li>🔔 Pengingat</li>
+  <li>⚙️ Menu Admin <span class="badge badge-red">ADMIN</span></li>
+  <li>📥 Import Data <span class="badge badge-red">ADMIN</span></li>
+  <li>🔧 Tools Database <span class="badge badge-red">ADMIN</span></li>
+  <li>📦 Backup Database <span class="badge badge-red">ADMIN</span></li>
+  <li>👤 Profil Saya</li>
+  <li>❓ Bantuan</li>
+  <li>ℹ️ Tentang Aplikasi</li>
+  <li>🚪 Keluar</li>
+</ul>
+
+<hr>
+
+<!-- 2. BERANDA -->
+<h2 id="beranda">🏠 2. Beranda</h2>
+
+<p>Setelah login, halaman pertama adalah <strong>Beranda</strong>. Berisi:</p>
+
+<h3>Dashboard (6 Kartu)</h3>
+<ul>
+  <li><strong>Total Anggota</strong> — jumlah semua anggota terdaftar</li>
+  <li><strong>Total Anggota Meminjam</strong> — jumlah anggota yang punya pinjaman aktif</li>
+  <li><strong>Total Saldo Pinjaman</strong> — total saldo pinjaman semua anggota</li>
+  <li><strong>Saldo Tertunggak</strong> — total saldo yang menunggak</li>
+  <li><strong>Belum Bayar</strong> — jumlah anggota yang belum bayar</li>
+  <li><strong>% KL (Kredit Lalai)</strong> — persentase kredit lalai</li>
+</ul>
+
+<h3>Kartu Statistik Hari Ini</h3>
+<p>Menampilkan ringkasan kunjungan hari ini:</p>
+<ul>
+  <li>📝 Jumlah kunjungan</li>
+  <li>💰 Total nominal terkumpul</li>
+  <li>Breakdown status: Bayar / Janji / Belum / Tidak Ditemui / Pindah</li>
+  <li>🏆 Top 3 petugas hari ini</li>
+</ul>
+
+<h3>Kartu Pengingat</h3>
+<p>Muncul otomatis kalau ada:</p>
+<ul>
+  <li>⚠️ <strong>Terlewat</strong> — janji bayar atau kunjungan ulang yang sudah lewat</li>
+  <li>💰 <strong>Janji Bayar</strong> — janji bayar dalam 7 hari ke depan</li>
+  <li>🏠 <strong>Kunjungan Ulang</strong> — kunjungan ulang dalam 7 hari ke depan</li>
+</ul>
+
+<h3>Menu Cepat</h3>
+<ul>
+  <li>🏠 <strong>Kunjungan Multi</strong> — kunjungi 2-10 anggota sekaligus</li>
+  <li>💰 <strong>Input Setoran</strong> — input setoran ke kantor</li>
+</ul>
+
+<h3>Pencarian & Filter</h3>
+<ul>
+  <li>🔍 <strong>Search box</strong> — cari nama / CIF / desa / NoRek</li>
+  <li>📥 <strong>CSV</strong> — export daftar ke Excel/CSV</li>
+  <li>📍 <strong>Filter Aktivis</strong> — tampilkan hanya anggota dari aktivis tertentu</li>
+  <li>⚙️ <strong>Filter Menunggak</strong> — tampilkan hanya yang menunggak, atau semua</li>
+</ul>
+
+<hr>
+
+<!-- 3. ANGGOTA -->
+<h2 id="anggota">👥 3. Daftar & Detail Anggota</h2>
+
+<h3>Daftar Anggota</h3>
+<p>Di beranda, semua anggota ditampilkan dalam bentuk <strong>kartu</strong>. Setiap kartu berisi:</p>
+<ul>
+  <li>Nama lengkap & nama panggilan</li>
+  <li>CIF (nomor anggota)</li>
+  <li>Jenis pinjaman (badge kuning)</li>
+  <li>Alamat & desa</li>
+  <li>Tanggal jatuh tempo (JTO)</li>
+  <li>Staf pendamping & aktivis</li>
+  <li>Saldo pinjaman</li>
+  <li>Tagihan normal & tagihan program</li>
+</ul>
+
+<div class="box warning">
+  <strong>⚠️ Kartu warna merah muda</strong> = anggota menunggak
+</div>
+
+<h3>Detail Anggota</h3>
+<p>Klik kartu anggota → muncul halaman detail dengan:</p>
+
+<h4>Info Lengkap</h4>
+<ul>
+  <li>Nama, NoRek, CIF, jenis pinjaman</li>
+  <li>No HP (dengan tombol <strong>Edit</strong> dan <strong>Salin</strong>)</li>
+  <li>Alamat lengkap</li>
+  <li>Tanggal jatuh tempo</li>
+  <li>Saldo pinjaman, tagihan normal, tagihan program</li>
+  <li>Lama menunggak & keterangan</li>
+  <li>Saldo Pasallo' & Saldo Sepu'</li>
+</ul>
+
+<h4>Tombol Aksi</h4>
+<ul>
+  <li>📞 <strong>Telepon</strong> — langsung panggil nomor HP</li>
+  <li>💬 <strong>WhatsApp</strong> — kirim pesan tagihan via WA</li>
+  <li>🗺️ <strong>Maps</strong> — buka lokasi di Google Maps</li>
+  <li>💳 <strong>Kirim Info Transfer</strong> — kirim nomor rekening kantor via WA</li>
+</ul>
+
+<h4>Tombol Penanganan</h4>
+<ul>
+  <li>📝 <strong>Proses Penanganan</strong> — pilih jenis penanganan</li>
+  <li>🏠 <strong>Kunjungan Multi-Anggota</strong> — kunjungi beberapa anggota</li>
+  <li>📄 <strong>Cetak KPKL (PDF)</strong> — cetak Kartu Penanganan Kredit Lalai</li>
+</ul>
+
+<h4>Riwayat</h4>
+<ul>
+  <li>📋 <strong>Riwayat Penanganan</strong> — daftar surat/telepon/WA</li>
+  <li>📜 <strong>Riwayat Kunjungan</strong> — daftar kunjungan dengan foto & TTD</li>
+  <li>📞 <strong>Riwayat Update No HP</strong> — log perubahan nomor HP</li>
+</ul>
+
+<hr>
+
+<!-- 4. KUNJUNGAN -->
+<h2 id="kunjungan">🏠 4. Kunjungan</h2>
+
+<h3>Kunjungan Langsung (1 Anggota)</h3>
+<div class="step">
+  <strong>Langkah 1:</strong> Buka detail anggota
+</div>
+<div class="step">
+  <strong>Langkah 2:</strong> Klik <strong>"PROSES PENANGANAN"</strong> → <strong>"Kunjungan Langsung"</strong>
+</div>
+<div class="step">
+  <strong>Langkah 3:</strong> Isi form:
+  <ul>
+    <li>📅 Tanggal kunjungan (kalau tidak dikunci admin)</li>
+    <li>✅ Status kunjungan (7 pilihan)</li>
+    <li>💰 Nominal bayar (kalau ada)</li>
+    <li>📝 Catatan</li>
+    <li>📷 Foto bukti (kamera/galeri)</li>
+    <li>✍️ Tanda tangan anggota</li>
+  </ul>
+</div>
+<div class="step">
+  <strong>Langkah 4:</strong> Klik <strong>"SIMPAN KUNJUNGAN"</strong>
+</div>
+
+<div class="box info">
+  <strong>💡 Tips:</strong> Foto otomatis diberi <strong>watermark</strong> (tanggal, lokasi, nama petugas). Jadi tidak perlu edit manual.
+</div>
+
+<h3>Penagihan Tim (Beberapa Petugas)</h3>
+<p>Kalau Anda menagih <strong>bersama petugas lain</strong>:</p>
+<div class="step">
+  <strong>Langkah 1:</strong> Klik <strong>"Proses Penanganan"</strong> → <strong>"Penagihan Tim"</strong>
+</div>
+<div class="step">
+  <strong>Langkah 2:</strong> <strong>Pilih petugas</strong> yang ikut (minimal 2 orang)
+</div>
+<div class="step">
+  <strong>Langkah 3:</strong> Isi status, nominal, foto, TTD (sama seperti kunjungan biasa)
+</div>
+<div class="step">
+  <strong>Langkah 4:</strong> Klik <strong>"SIMPAN"</strong>
+</div>
+
+<div class="box success">
+  <strong>✅ Keuntungan:</strong> Cukup 1 orang input. Kunjungan dihitung untuk semua petugas. Setoran tetap 1x (tidak dobel).
+</div>
+
+<h3>Kunjungan Multi-Anggota (2-10 Anggota)</h3>
+<p>Kalau Anda mengunjungi <strong>beberapa anggota sekaligus</strong>:</p>
+<div class="step">
+  <strong>Langkah 1:</strong> Dari beranda → <strong>"Kunjungan Multi"</strong>
+</div>
+<div class="step">
+  <strong>Langkah 2:</strong> Cari & pilih 2-10 anggota (centang)
+</div>
+<div class="step">
+  <strong>Langkah 3:</strong> Isi status & nominal <strong>per anggota</strong>
+</div>
+<div class="step">
+  <strong>Langkah 4:</strong> Isi catatan, foto, TTD (berlaku semua)
+</div>
+<div class="step">
+  <strong>Langkah 5:</strong> Klik <strong>"SIMPAN"</strong>
+</div>
+
+<hr>
+
+<!-- 5. PENANGANAN -->
+<h2 id="penanganan">📞 5. Penanganan</h2>
+
+<h3>Telepon / WA</h3>
+<p>Untuk mencatat hasil telepon atau WhatsApp:</p>
+<div class="step">
+  <strong>Langkah 1:</strong> Buka detail anggota → <strong>"Proses Penanganan"</strong> → <strong>"Telepon / WA"</strong>
+</div>
+<div class="step">
+  <strong>Langkah 2:</strong> Klik tombol <strong>Telepon</strong> atau <strong>WhatsApp</strong> — otomatis buka aplikasi
+</div>
+<div class="step">
+  <strong>Langkah 3:</strong> Isi hasil telpon/WA (wajib)
+</div>
+<div class="step">
+  <strong>Langkah 4:</strong> Isi tanggal janji (kalau ada)
+</div>
+<div class="step">
+  <strong>Langkah 5:</strong> Klik <strong>"SIMPAN PENANGANAN"</strong>
+</div>
+
+<div class="box info">
+  <strong>💡 WhatsApp otomatis pakai template:</strong> Pesan tagihan sudah otomatis terisi. Cukup klik kirim.
+</div>
+
+<h3>Persuratan</h3>
+<p>Untuk membuat surat resmi (Surat Tagihan, SP1, SP2, SP3):</p>
+<div class="step">
+  <strong>Langkah 1:</strong> Buka detail anggota → <strong>"Proses Penanganan"</strong> → <strong>"Persuratan"</strong>
+</div>
+<div class="step">
+  <strong>Langkah 2:</strong> Pilih <strong>jenis surat</strong> (Surat Tagihan / SP1 / SP2 / SP3)
+</div>
+<div class="step">
+  <strong>Langkah 3:</strong> Isi <strong>nomor surat</strong> (dari kantor)
+</div>
+<div class="step">
+  <strong>Langkah 4:</strong> Isi <strong>tanggal surat</strong>
+</div>
+<div class="step">
+  <strong>Langkah 5:</strong> Upload <strong>bukti pengiriman</strong> (opsional)
+</div>
+<div class="step">
+  <strong>Langkah 6:</strong> Klik <strong>"SIMPAN"</strong> → akan muncul pilihan <strong>"Cetak Sekarang?"</strong>
+</div>
+
+<hr>
+
+<!-- 6. SETORAN -->
+<h2 id="setoran">💰 6. Setoran</h2>
+
+<p>Untuk mencatat setoran dari anggota ke kantor:</p>
+<div class="step">
+  <strong>Langkah 1:</strong> Dari beranda → klik <strong>"Input Setoran"</strong>
+</div>
+<div class="step">
+  <strong>Langkah 2:</strong> Klik <strong>"TAMBAH ANGGOTA"</strong> untuk tambah baris
+</div>
+<div class="step">
+  <strong>Langkah 3:</strong> Cari & pilih anggota (nama, NoRek, atau CIF)
+</div>
+<div class="step">
+  <strong>Langkah 4:</strong> Isi <strong>nominal setoran</strong>
+</div>
+<div class="step">
+  <strong>Langkah 5:</strong> Ulangi untuk anggota lain (kalau perlu)
+</div>
+<div class="step">
+  <strong>Langkah 6:</strong> Isi <strong>tanggal setoran</strong> & <strong>catatan</strong> (opsional)
+</div>
+<div class="step">
+  <strong>Langkah 7:</strong> Klik <strong>"SIMPAN SEMUA SETORAN"</strong>
+</div>
+
+<div class="box warning">
+  <strong>⚠️ Penting:</strong> Setoran akan menunggu <strong>approval</strong> dari admin. Setelah di-approve, baru dihitung sebagai setoran sah.
+</div>
+
+<hr>
+
+<!-- 7. STATISTIK -->
+<h2 id="statistik">📊 7. Statistik & Rekap</h2>
+
+<h3>Statistik Per Aktivis</h3>
+<p>Menu <strong>📊 Statistik → Statistik Per Aktivis</strong></p>
+<ul>
+  <li>Ranking aktivis berdasarkan % penyelesaian</li>
+  <li>Total pinjaman, sudah bayar, belum bayar</li>
+  <li>Jumlah kunjungan bulan ini</li>
+  <li>Total nominal terkumpul</li>
+  <li>Staf pendamping & daftar desa</li>
+</ul>
+<p>Klik kartu aktivis → lihat daftar anggota yang di-handle</p>
+
+<h3>Statistik Per Staf</h3>
+<p>Menu <strong>📊 Statistik → Statistik Per Staf</strong></p>
+<ul>
+  <li>Ranking staf berdasarkan % penyelesaian</li>
+  <li>Jumlah aktivis binaan</li>
+  <li>Daftar aktivis binaan (dengan % masing-masing)</li>
+</ul>
+
+<h3>Rekap Bulanan Saya</h3>
+<p>Menu <strong>📂 Rekap → Rekap Bulanan Saya</strong></p>
+<p>Menampilkan daftar anggota yang Anda tangani bulan ini, status kunjungan, dan total dibayar.</p>
+
+<h3>Rekap Bulanan Semua (Admin/Manager/Pengurus)</h3>
+<p>Menu <strong>📂 Rekap → Rekap Bulanan Semua</strong></p>
+<p>Pilih petugas & bulan → lihat rekap lengkap.</p>
+
+<hr>
+
+<!-- 8. LAPORAN -->
+<h2 id="laporan">🖨️ 8. Cetak Laporan</h2>
+
+<p>Menu <strong>🖨️ Cetak Laporan</strong> menyediakan 4 jenis laporan:</p>
+<table>
+  <tr>
+    <th>Laporan</th>
+    <th>Kegunaan</th>
+  </tr>
+  <tr>
+    <td><strong>Kartu Kontrol Staf</strong></td>
+    <td>Rekap penagihan per staf per bulan</td>
+  </tr>
+  <tr>
+    <td><strong>Kartu Kontrol Aktivis</strong></td>
+    <td>Rekap kunjungan per aktivis per bulan</td>
+  </tr>
+  <tr>
+    <td><strong>Data Rekap KPKL</strong></td>
+    <td>Rekap KPKL semua wilayah</td>
+  </tr>
+  <tr>
+    <td><strong>KPKL</strong></td>
+    <td>Kartu Kredit Lalai per anggota</td>
+  </tr>
+</table>
+
+<h4>Cara Cetak</h4>
+<div class="step">
+  <strong>Langkah 1:</strong> Pilih jenis laporan
+</div>
+<div class="step">
+  <strong>Langkah 2:</strong> Pilih petugas & bulan (atau bulan saja)
+</div>
+<div class="step">
+  <strong>Langkah 3:</strong> Klik <strong>"PREVIEW LAPORAN"</strong>
+</div>
+<div class="step">
+  <strong>Langkah 4:</strong> Preview muncul di tab baru
+</div>
+<div class="step">
+  <strong>Langkah 5:</strong> Klik <strong>"Cetak / Simpan PDF"</strong>
+</div>
+
+<hr>
+
+<!-- 9. PERSURATAN -->
+<h2 id="persuratan">✉️ 9. Persuratan</h2>
+
+<p>Menu <strong>✉️ Persuratan</strong> untuk kelola semua surat:</p>
+
+<h3>Daftar Surat</h3>
+<ul>
+  <li>Lihat semua surat terkirim</li>
+  <li>Filter by jenis surat (Tagihan / SP1 / SP2 / SP3)</li>
+  <li>Cari by nama / nomor surat</li>
+  <li>Klik 🖨️ <strong>Cetak</strong> untuk cetak ulang</li>
+  <li>Klik 🗑️ <strong>Hapus</strong> (khusus admin) untuk hapus</li>
+</ul>
+
+<h3>Buat Surat Baru</h3>
+<div class="step">
+  <strong>Langkah 1:</strong> Cari & pilih anggota
+</div>
+<div class="step">
+  <strong>Langkah 2:</strong> Pilih <strong>jenis surat</strong> (otomatis generate nomor)
+</div>
+<div class="step">
+  <strong>Langkah 3:</strong> Nomor surat terisi otomatis — bisa diubah manual
+</div>
+<div class="step">
+  <strong>Langkah 4:</strong> Isi tanggal surat & catatan
+</div>
+<div class="step">
+  <strong>Langkah 5:</strong> Klik <strong>"SIMPAN SURAT"</strong> → otomatis tanya cetak
+</div>
+
+<h3>Rekap Persuratan</h3>
+<p>Lihat jumlah surat per jenis per bulan.</p>
+
+<hr>
+
+<!-- 10. ADMIN -->
+<h2 id="admin">⚙️ 10. Menu Admin (Khusus Admin)</h2>
+
+<div class="box danger">
+  <strong>⚠️ Menu ini hanya bisa diakses admin.</strong> Hati-hati saat mengubah pengaturan.
+</div>
+
+<h3>Setup Dasar</h3>
+<table>
+  <tr>
+    <th>Menu</th>
+    <th>Fungsi</th>
+  </tr>
+  <tr>
+    <td>🏢 <strong>Setup Credit Union</strong></td>
+    <td>Nama CU, alamat, telepon, email, logo</td>
+  </tr>
+  <tr>
+    <td>🏛️ <strong>Setup Tempat Pelayanan</strong></td>
+    <td>Nama TP, no rekening kantor, nama manager, komite</td>
+  </tr>
+  <tr>
+    <td>👥 <strong>Setup Data Petugas</strong></td>
+    <td>Tambah / edit / reset password / nonaktifkan petugas</td>
+  </tr>
+  <tr>
+    <td>💬 <strong>Setup Pesan WA</strong></td>
+    <td>Template WA tagihan & WA transfer</td>
+  </tr>
+</table>
+
+<h3>Setup Lanjutan</h3>
+<table>
+  <tr>
+    <th>Menu</th>
+    <th>Fungsi</th>
+  </tr>
+  <tr>
+    <td>💰 <strong>Setup Perhitungan</strong></td>
+    <td>Setoran minimal, buffer, simpanan wajib & manna' + banne</td>
+  </tr>
+  <tr>
+    <td>📚 <strong>Setup Config</strong></td>
+    <td>Jenis pinjaman, simpanan, penanganan, status</td>
+  </tr>
+  <tr>
+    <td>🖨️ <strong>Setup Kop Laporan</strong></td>
+    <td>Upload kop surat untuk laporan</td>
+  </tr>
+  <tr>
+    <td>✉️ <strong>Setup Template Surat</strong></td>
+    <td>Kota, manager, tembusan, template isi & penutup</td>
+  </tr>
+  <tr>
+    <td>📅 <strong>Setup Kunci Tanggal</strong></td>
+    <td>Kunci tanggal kunjungan, max hari mundur</td>
+  </tr>
+  <tr>
+    <td>🔐 <strong>Setup Keamanan</strong></td>
+    <td>Level yang bisa approve, akses menu</td>
+  </tr>
+  <tr>
+    <td>🆔 <strong>Setup Format ID</strong></td>
+    <td>Format ID kunjungan, penanganan, setoran</td>
+  </tr>
+  <tr>
+    <td>✉️ <strong>Setup Nomor Surat</strong></td>
+    <td>Format nomor surat otomatis</td>
+  </tr>
+</table>
+
+<h3>Tools Admin</h3>
+<ul>
+  <li>📊 <strong>Tools Database</strong> — cek status database, validasi schema</li>
+  <li>📥 <strong>Import Data</strong> — import dari Excel/CSV</li>
+  <li>📦 <strong>Backup Database</strong> — backup semua data ke Cloud Storage</li>
+  <li>📜 <strong>Log Aktivitas</strong> — audit trail</li>
+</ul>
+
+<hr>
+
+<!-- 11. FAQ -->
+<h2 id="faq">❓ 11. Pertanyaan Umum (FAQ)</h2>
+
+<h4>Q: Lupa password, bagaimana?</h4>
+<p>A: Hubungi admin. Admin bisa reset password Anda via <strong>Menu Admin → Setup Data Petugas → Reset Password</strong>.</p>
+
+<h4>Q: Foto tidak ter-upload, kenapa?</h4>
+<p>A: Cek ukuran foto. Maksimal <strong>10 MB</strong>. Kalau lebih, kompres dulu atau ambil ulang.</p>
+
+<h4>Q: GPS tidak terdeteksi, bagaimana?</h4>
+<p>A: Buka pengaturan browser → izinkan akses lokasi. Kalau masih gagal, coba keluar ruangan atau cari sinyal.</p>
+
+<h4>Q: Bagaimana kalau salah input kunjungan?</h4>
+<p>A: Kalau kunjungan <strong>multi-anggota</strong>, admin bisa edit/hapus. Kalau single, hubungi admin untuk perbaikan.</p>
+
+<h4>Q: Setoran saya pending terus, kenapa?</h4>
+<p>A: Setoran menunggu <strong>approval</strong> dari admin. Hubungi admin untuk approve.</p>
+
+<h4>Q: Bagaimana cara cetak surat ulang?</h4>
+<p>A: Menu <strong>Persuratan → Daftar Surat</strong> → cari surat → klik <strong>🖨️ Cetak</strong>.</p>
+
+<h4>Q: Angka statistik saya berbeda dengan kemarin, kenapa?</h4>
+<p>A: Data kunjungan <strong>di-reset harian</strong> untuk <strong>Statistik Hari Ini</strong>. Untuk data bulanan, lihat di <strong>Rekap Bulanan</strong>.</p>
+
+<h4>Q: Bagaimana cara menghubungi kantor?</h4>
+<p>A: Cek di <strong>Profil → Tentang Aplikasi</strong> atau hubungi admin langsung.</p>
+
+<h4>Q: Apa itu "Cloud Storage"?</h4>
+<p>A: Cloud Storage adalah <strong>penyimpanan online</strong> tempat aplikasi menyimpan data backup dan file. Anda tidak perlu tahu detail teknis — semua otomatis.</p>
+
+<hr>
+
+<div class="footer">
+  <strong>Aplikasi Penagihan Credit Union</strong><br>
+  Koperasi Credit Union Sauan Sibarrung<br>
+  TP Saluampak · Sulawesi Selatan<br>
+  <br>
+  Versi 23.0 · 2026<br>
+  <br>
+  <em>Untuk bantuan lebih lanjut, hubungi admin sistem.</em>
+</div>
+
+</body>
+</html>
