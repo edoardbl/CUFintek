@@ -1,1 +1,1052 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Panduan Penggunaan Aplikasi Penagihan untuk Aktivis</title>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #FDF6E3;
+    color: #3E2723;
+    line-height: 1.5;
+    font-size: 14px;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
 
+  /* ========================================== */
+  /* HEADER STICKY                              */
+  /* ========================================== */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: linear-gradient(135deg, #8B0000, #A31515);
+    color: white;
+    padding: 12px 15px;
+    border-bottom: 3px solid #FFD700;
+    box-shadow: 0 2px 8px rgba(139,0,0,0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-title {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .header-sub {
+    font-size: 10px;
+    color: #FFD700;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .header-badge {
+    background: rgba(255,215,0,0.2);
+    border: 1px solid #FFD700;
+    color: #FFD700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* ========================================== */
+  /* COVER                                      */
+  /* ========================================== */
+  .cover {
+    background: linear-gradient(135deg, #8B0000, #A31515);
+    color: white;
+    padding: 30px 20px 25px;
+    text-align: center;
+    border-bottom: 5px solid #FFD700;
+  }
+  .cover-icon {
+    font-size: 50px;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  .cover h1 {
+    font-size: 19px;
+    color: #FFD700;
+    margin: 0 0 8px;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+  .cover p {
+    font-size: 12px;
+    margin: 3px 0;
+    opacity: 0.95;
+  }
+  .cover .versi {
+    display: inline-block;
+    background: rgba(255,215,0,0.15);
+    border: 1px solid #FFD700;
+    color: #FFD700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 12px;
+  }
+
+  /* ========================================== */
+  /* MENU CEPAT (QUICK NAV)                     */
+  /* ========================================== */
+  .quick-nav {
+    padding: 15px;
+    background: #FFF8DC;
+    border-bottom: 1px solid #FFD700;
+  }
+  .quick-nav-title {
+    font-size: 11px;
+    color: #B8860B;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+  .quick-nav-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .quick-nav-btn {
+    background: white;
+    border: 2px solid #8B0000;
+    color: #8B0000;
+    padding: 10px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-height: 60px;
+    justify-content: center;
+    font-family: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .quick-nav-btn:active {
+    background: #FFD700;
+    color: #8B0000;
+  }
+  .quick-nav-icon {
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  /* ========================================== */
+  /* CONTENT                                    */
+  /* ========================================== */
+  .content {
+    padding: 15px;
+  }
+
+  .section {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 6px rgba(139,0,0,0.08);
+    border-left: 4px solid #8B0000;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #8B0000;
+    margin: 0 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #FFD700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.3;
+  }
+  .section-title-icon {
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .step {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #F5EED9;
+    font-size: 13px;
+    align-items: flex-start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    background: #8B0000;
+    color: #FFD700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .step-text {
+    flex: 1;
+    line-height: 1.45;
+  }
+  .step-text strong { color: #8B0000; }
+
+  .box {
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .box-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .box.info {
+    background: #E3F2FD;
+    border-left: 4px solid #1976D2;
+    color: #0D47A1;
+  }
+  .box.tips {
+    background: #FFF8DC;
+    border-left: 4px solid #FFD700;
+    color: #8B6914;
+  }
+  .box.warning {
+    background: #FFF3E0;
+    border-left: 4px solid #E65100;
+    color: #BF360C;
+  }
+  .box.success {
+    background: #E8F5E9;
+    border-left: 4px solid #2E7D32;
+    color: #1B5E20;
+  }
+  .box.danger {
+    background: #FFEBEE;
+    border-left: 4px solid #C62828;
+    color: #B71C1C;
+  }
+
+  .list-check {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+  }
+  .list-check li {
+    padding: 6px 0 6px 26px;
+    position: relative;
+    font-size: 13px;
+    line-height: 1.45;
+    border-bottom: 1px solid #F5EED9;
+  }
+  .list-check li:last-child { border-bottom: none; }
+  .list-check li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 20px;
+    height: 20px;
+    background: #FFD700;
+    color: #8B0000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-right: 4px;
+    line-height: 1.4;
+  }
+  .badge-bayar { background: #8B0000; color: #FFD700; }
+  .badge-janji { background: #FFD700; color: #8B0000; }
+  .badge-belum { background: #F5E6E6; color: #8B0000; border: 1px solid #8B0000; }
+
+  .card-mini {
+    background: #FDF6E3;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin: 8px 0;
+    border-left: 3px solid #FFD700;
+    font-size: 12px;
+  }
+  .card-mini-title {
+    font-weight: 700;
+    color: #8B0000;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  /* ========================================== */
+  /* FAQ ACCORDION                              */
+  /* ========================================== */
+  .faq-item {
+    background: #FDF6E3;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    border-left: 3px solid #FFD700;
+  }
+  .faq-q {
+    padding: 12px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8B0000;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .faq-q::after {
+    content: '▼';
+    font-size: 10px;
+    color: #B8860B;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .faq-item.open .faq-q::after { transform: rotate(180deg); }
+  .faq-a {
+    display: none;
+    padding: 0 14px 12px 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #3E2723;
+    border-top: 1px dashed #FFD700;
+    padding-top: 10px;
+  }
+  .faq-item.open .faq-a { display: block; }
+
+  /* ========================================== */
+  /* FOOTER                                     */
+  /* ========================================== */
+  .footer {
+    text-align: center;
+    padding: 25px 15px;
+    background: #8B0000;
+    color: #FFD700;
+    font-size: 11px;
+    line-height: 1.6;
+    margin-top: 10px;
+    border-top: 3px solid #FFD700;
+  }
+  .footer strong { color: white; display: block; margin-bottom: 4px; font-size: 12px; }
+
+  /* ========================================== */
+  /* BACK TO TOP                                */
+  /* ========================================== */
+  .back-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #8B0000, #A31515);
+    color: #FFD700;
+    border: 2px solid #FFD700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(139,0,0,0.4);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back-top.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  .back-top:active { transform: scale(0.9); }
+
+  /* ========================================== */
+  /* RESPONSIVE LANDSCAPE                       */
+  /* ========================================== */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .cover { padding: 20px 15px; }
+    .cover-icon { font-size: 36px; }
+    .cover h1 { font-size: 17px; }
+  }
+
+  /* ========================================== */
+  /* TABLET                                     */
+  /* ========================================== */
+  @media (min-width: 600px) {
+    body { font-size: 15px; }
+    .content { max-width: 700px; margin: 0 auto; }
+    .quick-nav { max-width: 700px; margin: 0 auto; }
+    .quick-nav-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* ========================================== */
+  /* PRINT                                      */
+  /* ========================================== */
+  @media print {
+    .header, .quick-nav, .back-top { display: none; }
+    body { background: white; }
+    .section {
+      box-shadow: none;
+      border: 1px solid #ddd;
+      page-break-inside: avoid;
+    }
+    .cover {
+      background: #8B0000 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- HEADER STICKY -->
+<!-- ============================================ -->
+<header class="header">
+  <div>
+    <div class="header-title">📱 PANDUAN AKTIVIS</div>
+    <div class="header-sub">Aplikasi Penagihan CU</div>
+  </div>
+  <div class="header-badge">v1.0</div>
+</header>
+
+<!-- ============================================ -->
+<!-- COVER -->
+<!-- ============================================ -->
+<div class="cover">
+  <div class="cover-icon">📋</div>
+  <h1>Panduan Penggunaan Aplikasi Penagihan untuk Aktivis</h1>
+  <p>Koperasi CU Sauan Sibarrung · TP Saluampak</p>
+  <div class="versi">Versi 1.0 · 2026</div>
+</div>
+
+<!-- ============================================ -->
+<!-- MENU CEPAT -->
+<!-- ============================================ -->
+<div class="quick-nav">
+  <div class="quick-nav-title">⚡ MENU CEPAT</div>
+  <div class="quick-nav-grid">
+    <a href="#login" class="quick-nav-btn">
+      <span class="quick-nav-icon">🔐</span>
+      <span>Login</span>
+    </a>
+    <a href="#beranda" class="quick-nav-btn">
+      <span class="quick-nav-icon">🏠</span>
+      <span>Beranda</span>
+    </a>
+    <a href="#kunjungan" class="quick-nav-btn">
+      <span class="quick-nav-icon">🏘️</span>
+      <span>Kunjungan</span>
+    </a>
+    <a href="#setoran" class="quick-nav-btn">
+      <span class="quick-nav-icon">💰</span>
+      <span>Setoran</span>
+    </a>
+    <a href="#anggota" class="quick-nav-btn">
+      <span class="quick-nav-icon">👥</span>
+      <span>Anggota</span>
+    </a>
+    <a href="#surat" class="quick-nav-btn">
+      <span class="quick-nav-icon">✉️</span>
+      <span>Persuratan</span>
+    </a>
+    <a href="#trouble" class="quick-nav-btn">
+      <span class="quick-nav-icon">🔧</span>
+      <span>Masalah</span>
+    </a>
+    <a href="#faq" class="quick-nav-btn">
+      <span class="quick-nav-icon">❓</span>
+      <span>FAQ</span>
+    </a>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- CONTENT -->
+<!-- ============================================ -->
+<div class="content">
+
+  <!-- 1. LOGIN -->
+  <section class="section" id="login">
+    <h2 class="section-title">
+      <span class="section-title-icon">🔐</span>
+      1. Login &amp; Navigasi
+    </h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">Buka link aplikasi di browser HP</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">Isi <strong>Username</strong> dan <strong>Password</strong> Aktivis</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">Centang <strong>"Ingat saya"</strong> agar tidak login ulang</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">Klik <strong>"MASUK APLIKASI"</strong></div>
+    </div>
+
+    <div class="box tips">
+      <span class="box-title">💡 Tips</span>
+      Klik ikon 👁️ di kolom password untuk lihat/sembunyikan password.
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">📱 Menu Bawah (4 tombol)</div>
+      🏠 Beranda · 📊 Statistik · 📂 Rekap · 👤 Profil
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">☰ Menu Sidebar (kiri atas)</div>
+      Beranda · Statistik · Rekap &amp; Laporan · Persuratan · Cetak Laporan · Pengingat · Profil · Bantuan · Keluar
+    </div>
+  </section>
+
+  <!-- 2. BERANDA -->
+  <section class="section" id="beranda">
+    <h2 class="section-title">
+      <span class="section-title-icon">🏠</span>
+      2. Beranda (Halaman Utama)
+    </h2>
+
+    <p style="font-size:13px;margin:0 0 12px;">Setelah login, Anda langsung masuk ke Beranda. Di sini ada:</p>
+
+    <div class="card-mini">
+      <div class="card-mini-title">📊 Dashboard (6 Angka)</div>
+      • 👥 Total Anggota<br>
+      • 🤝 Total Meminjam<br>
+      • 💰 Total Saldo Pinjaman<br>
+      • 📉 Saldo Tertunggak<br>
+      • ❌ Belum Bayar<br>
+      • 📈 % KL
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">📅 Statistik Hari Ini</div>
+      Ringkasan kunjungan hari ini + Top 3 petugas.
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">🔔 Pengingat (warna ungu)</div>
+      Muncul otomatis jika ada:<br>
+      • ⚠️ Terlewat<br>
+      • 💰 Janji Bayar (7 hari)<br>
+      • 🏘️ Kunjungan Ulang (7 hari)
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">🔍 Pencarian &amp; Filter</div>
+      • Ketik nama/CIF/desa di kotak cari<br>
+      • 📥 Tombol CSV untuk download data<br>
+      • ⚙️ Filter Menunggak (hanya yang menunggak)
+    </div>
+
+    <div class="box info">
+      <span class="box-title">📌 Info Aktivis</span>
+      Sebagai Aktivis, Anda hanya melihat anggota yang <strong>menjadi binaan Anda</strong> (sesuai data di kolom "Aktivis" MasterAnggota).
+    </div>
+  </section>
+
+  <!-- 3. ANGGOTA -->
+  <section class="section" id="anggota">
+    <h2 class="section-title">
+      <span class="section-title-icon">👥</span>
+      3. Daftar &amp; Detail Anggota
+    </h2>
+
+    <h3 style="font-size:13px;color:#A31515;margin:10px 0 6px;">Daftar Anggota (Beranda)</h3>
+    <p style="font-size:13px;margin:0 0 10px;">Semua anggota binaan Anda muncul sebagai <strong>kartu</strong>. Setiap kartu berisi:</p>
+    <ul class="list-check">
+      <li>Nama &amp; panggilan</li>
+      <li>CIF &amp; jenis pinjaman</li>
+      <li>Alamat &amp; desa</li>
+      <li>JTO (tanggal jatuh tempo)</li>
+      <li>Staf pendamping</li>
+      <li>Saldo, Tagihan Normal &amp; Program</li>
+    </ul>
+
+    <div class="box warning">
+      <span class="box-title">⚠️ Perhatian</span>
+      Kartu warna <strong>merah muda</strong> = anggota <strong>menunggak</strong>.
+    </div>
+
+    <h3 style="font-size:13px;color:#A31515;margin:15px 0 6px;">Detail Anggota (Klik Kartu)</h3>
+    <p style="font-size:13px;margin:0 0 10px;">Info lengkap:</p>
+    <ul class="list-check">
+      <li>No HP (bisa Edit / Salin)</li>
+      <li>Alamat lengkap</li>
+      <li>JTO &amp; Lama Menunggak</li>
+      <li>Saldo Pinjaman &amp; Tagihan</li>
+      <li>Saldo Pasallo' &amp; Sepu'</li>
+    </ul>
+
+    <div class="card-mini">
+      <div class="card-mini-title">🔘 Tombol Aksi</div>
+      📞 Telepon · 💬 WhatsApp · 🗺️ Maps · 💳 Kirim Info Transfer
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">📝 Tombol Penanganan</div>
+      📝 Proses Penanganan · 🏘️ Kunjungan Multi · 📄 Cetak KPKL
+    </div>
+  </section>
+
+  <!-- 4. KUNJUNGAN -->
+  <section class="section" id="kunjungan">
+    <h2 class="section-title">
+      <span class="section-title-icon">🏘️</span>
+      4. Kunjungan (3 Cara)
+    </h2>
+
+    <h3 style="font-size:13px;color:#A31515;margin:10px 0 6px;">A. Kunjungan Langsung (1 Anggota)</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">Buka detail anggota → klik <strong>Proses Penanganan</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">Pilih <strong>Kunjungan Langsung</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">Isi form:
+        <ul style="margin:5px 0 0 15px;padding:0;font-size:12px;">
+          <li>📅 Tanggal kunjungan</li>
+          <li>✅ Status (7 pilihan)</li>
+          <li>💰 Nominal bayar (kalau ada)</li>
+          <li>📝 Catatan</li>
+          <li>📷 Foto bukti</li>
+          <li>✍️ Tanda tangan</li>
+        </ul>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">Klik <strong>SIMPAN KUNJUNGAN</strong></div>
+    </div>
+
+    <div class="box tips">
+      <span class="box-title">💡 Tips</span>
+      Foto otomatis diberi watermark (tanggal, lokasi, nama Anda).
+    </div>
+
+    <h3 style="font-size:13px;color:#A31515;margin:15px 0 6px;">B. Penagihan Tim (Bersama)</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">Detail anggota → <strong>Proses Penanganan</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">Pilih <strong>Penagihan Tim</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">Pilih <strong>minimal 2 petugas</strong> (termasuk Anda)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">Isi status, nominal, foto, TTD → <strong>Simpan</strong></div>
+    </div>
+
+    <div class="box success">
+      <span class="box-title">✅ Keuntungan</span>
+      Cukup 1 orang input. Kunjungan dihitung untuk semua petugas.
+    </div>
+
+    <h3 style="font-size:13px;color:#A31515;margin:15px 0 6px;">C. Kunjungan Multi-Anggota (2-10 Orang)</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">Beranda → <strong>Kunjungan Multi</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">Cari &amp; centang 2-10 anggota</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">Isi status &amp; nominal per anggota</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">Isi catatan, foto, TTD (berlaku semua)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-text">Klik <strong>SIMPAN</strong></div>
+    </div>
+
+    <h3 style="font-size:13px;color:#A31515;margin:15px 0 6px;">📋 7 Status Kunjungan</h3>
+    <div style="font-size:12px;line-height:1.9;">
+      <span class="badge badge-bayar">Bayar Tunai</span> Uang langsung<br>
+      <span class="badge badge-bayar">Via Transfer</span> Sudah transfer<br>
+      <span class="badge badge-bayar">Via Tabungan</span> Potong tabungan<br>
+      <span class="badge badge-janji">Janji Bayar</span> Isi tanggal janji<br>
+      <span class="badge badge-belum">Belum Bayar</span> Belum bayar<br>
+      <span class="badge badge-belum">Tidak Ditemui</span> Rumah kosong<br>
+      <span class="badge badge-belum">Pindah</span> Alamat salah
+    </div>
+  </section>
+
+  <!-- 5. PENANGANAN -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-title-icon">📞</span>
+      5. Penanganan (Telp / WA)
+    </h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">Detail anggota → <strong>Proses Penanganan</strong> → <strong>Telepon / WA</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">Klik tombol <strong>Telepon</strong> atau <strong>WhatsApp</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">Isi hasil telpon/WA</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">Isi tanggal janji (kalau ada)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-text">Klik <strong>SIMPAN PENANGANAN</strong></div>
+    </div>
+
+    <div class="box tips">
+      <span class="box-title">💡 Tips WA</span>
+      Pesan WA sudah otomatis terisi dengan template tagihan. Cukup klik kirim.
+    </div>
+  </section>
+
+  <!-- 6. PERSURATAN -->
+  <section class="section" id="surat">
+    <h2 class="section-title">
+      <span class="section-title-icon">✉️</span>
+      6. Persuratan
+    </h2>
+
+    <p style="font-size:13px;margin:0 0 10px;">Menu di sidebar → <strong>✉️ Persuratan</strong>. Ada 3 pilihan:</p>
+
+    <div class="card-mini">
+      <div class="card-mini-title">📄 Daftar Surat</div>
+      Lihat semua surat, filter by jenis/bulan, cetak ulang.
+    </div>
+    <div class="card-mini">
+      <div class="card-mini-title">➕ Buat Surat Baru</div>
+      Pilih anggota → pilih jenis surat → nomor otomatis → simpan.
+    </div>
+    <div class="card-mini">
+      <div class="card-mini-title">📊 Rekap Persuratan</div>
+      Lihat total surat per bulan &amp; per petugas.
+    </div>
+
+    <h3 style="font-size:13px;color:#A31515;margin:15px 0 6px;">Cara Buat Surat Baru</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">Pilih <strong>anggota</strong> (ketik nama/CIF untuk cari)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">Pilih <strong>jenis surat</strong>: Surat Tagihan / SP1 / SP2 / SP3</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">Nomor surat <strong>otomatis terisi</strong> (bisa ubah)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">Isi tanggal surat &amp; catatan</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-text">Klik <strong>SIMPAN SURAT</strong> → tanya cetak → klik Cetak</div>
+    </div>
+
+    <div class="box info">
+      <span class="box-title">📌 Surat Otomatis Isi</span>
+      Nomor, tanggal, nama anggota, rincian tunggakan, dan TTD manager sudah otomatis.
+    </div>
+
+    <div class="box success">
+      <span class="box-title">🖨️ Cetak / Simpan PDF</span>
+      Preview surat muncul di tab baru. Klik tombol <strong>Cetak / Simpan PDF</strong> di atas.
+    </div>
+  </section>
+
+  <!-- 7. SETORAN -->
+  <section class="section" id="setoran">
+    <h2 class="section-title">
+      <span class="section-title-icon">💰</span>
+      7. Setoran
+    </h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">Beranda → klik <strong>Input Setoran</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">Klik <strong>TAMBAH ANGGOTA</strong> untuk tambah baris</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">Cari &amp; pilih anggota</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">Isi <strong>nominal setoran</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-text">Ulangi untuk anggota lain</div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-text">Isi tanggal &amp; catatan</div>
+    </div>
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-text">Klik <strong>SIMPAN SEMUA SETORAN</strong></div>
+    </div>
+
+    <div class="box warning">
+      <span class="box-title">⚠️ Penting</span>
+      Setoran menunggu <strong>approval admin</strong>. Baru dihitung sah setelah di-approve.
+    </div>
+
+    <div class="box tips">
+      <span class="box-title">💡 Tips</span>
+      Untuk melihat riwayat setoran Anda: Menu <strong>📂 Rekap → Rekap Setoran</strong>.
+    </div>
+  </section>
+
+  <!-- 8. PROFIL -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-title-icon">👤</span>
+      8. Profil Saya
+    </h2>
+
+    <p style="font-size:13px;margin:0 0 10px;">Klik menu <strong>👤 Profil</strong> di bawah untuk:</p>
+
+    <ul class="list-check">
+      <li>📷 Ganti Foto Profil</li>
+      <li>✏️ Edit Nomor HP &amp; Email</li>
+      <li>🔑 Ubah Password</li>
+      <li>🚪 Keluar dari aplikasi</li>
+    </ul>
+  </section>
+
+  <!-- 9. TROUBLESHOOTING -->
+  <section class="section" id="trouble">
+    <h2 class="section-title">
+      <span class="section-title-icon">🔧</span>
+      9. Jika Ada Masalah
+    </h2>
+
+    <div class="card-mini">
+      <div class="card-mini-title">😴 Aplikasi Lambat / Loading Lama</div>
+      <ul style="margin:5px 0 0 15px;padding:0;font-size:12px;">
+        <li>Tunggu 5-10 detik (pertama kali buka)</li>
+        <li>Refresh halaman (tarik ke bawah)</li>
+        <li>Cek koneksi internet</li>
+      </ul>
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">📷 Foto Tidak Ter-upload</div>
+      <ul style="margin:5px 0 0 15px;padding:0;font-size:12px;">
+        <li>Cek ukuran foto — max 10 MB</li>
+        <li>Kompres dulu atau ambil ulang</li>
+        <li>Coba pakai kamera langsung</li>
+      </ul>
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">📍 GPS Tidak Terdeteksi</div>
+      <ul style="margin:5px 0 0 15px;padding:0;font-size:12px;">
+        <li>Buka pengaturan browser HP</li>
+        <li>Izinkan akses lokasi</li>
+        <li>Keluar ruangan / cari sinyal</li>
+      </ul>
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">❓ Data Tidak Muncul</div>
+      <ul style="margin:5px 0 0 15px;padding:0;font-size:12px;">
+        <li>Refresh halaman</li>
+        <li>Logout &amp; login ulang</li>
+        <li>Hubungi admin jika masih kosong</li>
+      </ul>
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">🔑 Lupa Password</div>
+      Hubungi <strong>Admin</strong> untuk reset password.
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">💰 Setoran Pending Terus</div>
+      Hubungi <strong>Admin</strong> untuk approve setoran.
+    </div>
+  </section>
+
+  <!-- 10. FAQ -->
+  <section class="section" id="faq">
+    <h2 class="section-title">
+      <span class="section-title-icon">❓</span>
+      10. FAQ (Sering Ditanya)
+    </h2>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Kenapa saya hanya melihat sebagian anggota?</div>
+      <div class="faq-a">
+        Sebagai <strong>Aktivis</strong>, Anda hanya melihat anggota yang <strong>menjadi binaan Anda</strong>. Anggota lain dikelola oleh Aktivis lain.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Bagaimana cara cetak surat ulang?</div>
+      <div class="faq-a">
+        Menu <strong>Persuratan → Daftar Surat</strong> → cari surat → klik <strong>🖨️ Cetak Ulang</strong>.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Kenapa Tagihan Normal &amp; Program berbeda?</div>
+      <div class="faq-a">
+        <strong>Normal</strong> = pakai angsuran penuh.<br>
+        <strong>Program</strong> = pakai angsuran keringanan (PokokJT atau Buffer).<br>
+        Untuk anggota dengan PokokJT > 0, Normal &amp; Program sama.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Kenapa total tagihan dibulatkan?</div>
+      <div class="faq-a">
+        Pembulatan ke <strong>10.000</strong> memudahkan pembayaran. Selisih pembulatan ditambahkan ke Angsuran Pinjaman (khusus surat).
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Setoran saya pending terus, kenapa?</div>
+      <div class="faq-a">
+        Setoran menunggu <strong>approval admin</strong>. Hubungi admin untuk approve.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Apakah data bisa dilihat offline?</div>
+      <div class="faq-a">
+        Tidak. Aplikasi butuh koneksi internet.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Bagaimana cara mengubah No HP anggota?</div>
+      <div class="faq-a">
+        Buka detail anggota → klik <strong>✏️ Edit Nomor HP</strong> → isi nomor baru → Simpan.
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ============================================ -->
+<!-- FOOTER -->
+<!-- ============================================ -->
+<footer class="footer">
+  <strong>Aplikasi Penagihan Credit Union</strong>
+  Koperasi CU Sauan Sibarrung<br>
+  TP Saluampak · Sulawesi Selatan<br><br>
+  <strong>Versi 1.0 · 2026</strong><br>
+  <span style="opacity:0.7;font-size:10px;">Untuk bantuan, hubungi admin sistem</span>
+</footer>
+
+<!-- ============================================ -->
+<!-- BACK TO TOP -->
+<!-- ============================================ -->
+<div class="back-top" id="backTop" onclick="scrollToTop()">▲</div>
+
+<!-- ============================================ -->
+<!-- SCRIPT                                     -->
+<!-- ============================================ -->
+<script>
+  // Toggle FAQ
+  function toggleFaq(el) {
+    el.classList.toggle('open');
+  }
+
+  // Back to top visibility
+  window.addEventListener('scroll', function() {
+    var btn = document.getElementById('backTop');
+    if (window.scrollY > 400) {
+      btn.classList.add('show');
+    } else {
+      btn.classList.remove('show');
+    }
+  });
+
+  // Scroll to top
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Smooth scroll untuk quick-nav link
+  document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        var headerHeight = document.querySelector('.header').offsetHeight;
+        var targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 10;
+        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
