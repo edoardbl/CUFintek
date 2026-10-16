@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Panduan Penggunaan Aplikasi Penagihan untuk Aktivis</title>
+<title>Panduan Penggunaan Aplikasi Penagihan untuk Aktivis v3.4</title>
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html { -webkit-text-size-adjust: 100%; }
@@ -19,9 +19,7 @@
     overflow-x: hidden;
   }
 
-  /* ========================================== */
-  /* HEADER STICKY                              */
-  /* ========================================== */
+  /* HEADER STICKY */
   .header {
     position: sticky;
     top: 0;
@@ -36,17 +34,8 @@
     align-items: center;
     gap: 10px;
   }
-  .header-title {
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-  .header-sub {
-    font-size: 10px;
-    color: #FFD700;
-    font-weight: 600;
-    margin-top: 2px;
-  }
+  .header-title { font-size: 13px; font-weight: 700; line-height: 1.2; }
+  .header-sub { font-size: 10px; color: #FFD700; font-weight: 600; margin-top: 2px; }
   .header-badge {
     background: rgba(255,215,0,0.2);
     border: 1px solid #FFD700;
@@ -58,9 +47,7 @@
     white-space: nowrap;
   }
 
-  /* ========================================== */
-  /* COVER                                      */
-  /* ========================================== */
+  /* COVER */
   .cover {
     background: linear-gradient(135deg, #8B0000, #A31515);
     color: white;
@@ -68,11 +55,7 @@
     text-align: center;
     border-bottom: 5px solid #FFD700;
   }
-  .cover-icon {
-    font-size: 50px;
-    margin-bottom: 10px;
-    line-height: 1;
-  }
+  .cover-icon { font-size: 50px; margin-bottom: 10px; line-height: 1; }
   .cover h1 {
     font-size: 19px;
     color: #FFD700;
@@ -80,11 +63,7 @@
     line-height: 1.3;
     font-weight: 700;
   }
-  .cover p {
-    font-size: 12px;
-    margin: 3px 0;
-    opacity: 0.95;
-  }
+  .cover p { font-size: 12px; margin: 3px 0; opacity: 0.95; }
   .cover .versi {
     display: inline-block;
     background: rgba(255,215,0,0.15);
@@ -96,10 +75,23 @@
     font-weight: 700;
     margin-top: 12px;
   }
+  .cover .whats-new {
+    display: inline-block;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-top: 8px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
 
-  /* ========================================== */
-  /* MENU CEPAT (QUICK NAV)                     */
-  /* ========================================== */
+  /* MENU CEPAT */
   .quick-nav {
     padding: 15px;
     background: #FFF8DC;
@@ -136,24 +128,31 @@
     justify-content: center;
     font-family: inherit;
     cursor: pointer;
+    position: relative;
     -webkit-tap-highlight-color: transparent;
   }
-  .quick-nav-btn:active {
-    background: #FFD700;
-    color: #8B0000;
+  .quick-nav-btn:active { background: #FFD700; color: #8B0000; }
+  .quick-nav-btn.new {
+    background: linear-gradient(135deg, #F1F8E9, #FFFFFF);
+    border-color: #25D366;
+    color: #128C7E;
   }
-  .quick-nav-icon {
-    font-size: 20px;
-    line-height: 1;
+  .quick-nav-icon { font-size: 20px; line-height: 1; }
+  .quick-nav-dot {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: #25D366;
+    color: white;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 8px;
+    line-height: 1.4;
   }
 
-  /* ========================================== */
-  /* CONTENT                                    */
-  /* ========================================== */
-  .content {
-    padding: 15px;
-  }
-
+  /* CONTENT */
+  .content { padding: 15px; }
   .section {
     background: white;
     border-radius: 12px;
@@ -162,7 +161,10 @@
     box-shadow: 0 2px 6px rgba(139,0,0,0.08);
     border-left: 4px solid #8B0000;
   }
-
+  .section.new {
+    border-left-color: #25D366;
+    background: linear-gradient(135deg, #FAFFFE, #FFFFFF);
+  }
   .section-title {
     font-size: 14px;
     font-weight: 700;
@@ -175,9 +177,18 @@
     gap: 8px;
     line-height: 1.3;
   }
-  .section-title-icon {
-    font-size: 20px;
-    line-height: 1;
+  .section-title.new { color: #128C7E; border-bottom-color: #25D366; }
+  .section-title-icon { font-size: 20px; line-height: 1; }
+  .section-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 9px;
+    font-weight: 700;
+    margin-left: auto;
+    letter-spacing: 0.3px;
   }
 
   .step {
@@ -203,10 +214,8 @@
     font-weight: 700;
     line-height: 1;
   }
-  .step-text {
-    flex: 1;
-    line-height: 1.45;
-  }
+  .step-num.new { background: #25D366; color: white; }
+  .step-text { flex: 1; line-height: 1.45; }
   .step-text strong { color: #8B0000; }
 
   .box {
@@ -216,42 +225,24 @@
     font-size: 12px;
     line-height: 1.5;
   }
-  .box-title {
-    font-weight: 700;
-    margin-bottom: 4px;
-    display: block;
+  .box-title { font-weight: 700; margin-bottom: 4px; display: block; }
+  .box.info { background: #E3F2FD; border-left: 4px solid #1976D2; color: #0D47A1; }
+  .box.tips { background: #FFF8DC; border-left: 4px solid #FFD700; color: #8B6914; }
+  .box.warning { background: #FFF3E0; border-left: 4px solid #E65100; color: #BF360C; }
+  .box.success { background: #E8F5E9; border-left: 4px solid #2E7D32; color: #1B5E20; }
+  .box.danger { background: #FFEBEE; border-left: 4px solid #C62828; color: #B71C1C; }
+  .box.new {
+    background: linear-gradient(135deg, #E8F5E9, #F1F8E9);
+    border-left: 4px solid #25D366;
+    color: #1B5E20;
   }
-  .box.info {
-    background: #E3F2FD;
+  .box.offline {
+    background: linear-gradient(135deg, #E3F2FD, #F3E5F5);
     border-left: 4px solid #1976D2;
     color: #0D47A1;
   }
-  .box.tips {
-    background: #FFF8DC;
-    border-left: 4px solid #FFD700;
-    color: #8B6914;
-  }
-  .box.warning {
-    background: #FFF3E0;
-    border-left: 4px solid #E65100;
-    color: #BF360C;
-  }
-  .box.success {
-    background: #E8F5E9;
-    border-left: 4px solid #2E7D32;
-    color: #1B5E20;
-  }
-  .box.danger {
-    background: #FFEBEE;
-    border-left: 4px solid #C62828;
-    color: #B71C1C;
-  }
 
-  .list-check {
-    list-style: none;
-    padding: 0;
-    margin: 8px 0;
-  }
+  .list-check { list-style: none; padding: 0; margin: 8px 0; }
   .list-check li {
     padding: 6px 0 6px 26px;
     position: relative;
@@ -290,6 +281,7 @@
   .badge-bayar { background: #8B0000; color: #FFD700; }
   .badge-janji { background: #FFD700; color: #8B0000; }
   .badge-belum { background: #F5E6E6; color: #8B0000; border: 1px solid #8B0000; }
+  .badge-new { background: linear-gradient(135deg, #25D366, #128C7E); color: white; }
 
   .card-mini {
     background: #FDF6E3;
@@ -299,16 +291,19 @@
     border-left: 3px solid #FFD700;
     font-size: 12px;
   }
+  .card-mini.new {
+    background: linear-gradient(135deg, #F1F8E9, #FAFFFE);
+    border-left-color: #25D366;
+  }
   .card-mini-title {
     font-weight: 700;
     color: #8B0000;
     font-size: 13px;
     margin-bottom: 4px;
   }
+  .card-mini.new .card-mini-title { color: #128C7E; }
 
-  /* ========================================== */
-  /* FAQ ACCORDION                              */
-  /* ========================================== */
+  /* FAQ ACCORDION */
   .faq-item {
     background: #FDF6E3;
     border-radius: 8px;
@@ -348,9 +343,7 @@
   }
   .faq-item.open .faq-a { display: block; }
 
-  /* ========================================== */
-  /* FOOTER                                     */
-  /* ========================================== */
+  /* FOOTER */
   .footer {
     text-align: center;
     padding: 25px 15px;
@@ -363,9 +356,7 @@
   }
   .footer strong { color: white; display: block; margin-bottom: 4px; font-size: 12px; }
 
-  /* ========================================== */
-  /* BACK TO TOP                                */
-  /* ========================================== */
+  /* BACK TO TOP */
   .back-top {
     position: fixed;
     bottom: 20px;
@@ -388,42 +379,25 @@
     transition: all 0.3s;
     -webkit-tap-highlight-color: transparent;
   }
-  .back-top.show {
-    opacity: 1;
-    visibility: visible;
-  }
+  .back-top.show { opacity: 1; visibility: visible; }
   .back-top:active { transform: scale(0.9); }
 
-  /* ========================================== */
-  /* RESPONSIVE LANDSCAPE                       */
-  /* ========================================== */
+  /* RESPONSIVE */
   @media (orientation: landscape) and (max-height: 500px) {
     .cover { padding: 20px 15px; }
     .cover-icon { font-size: 36px; }
     .cover h1 { font-size: 17px; }
   }
-
-  /* ========================================== */
-  /* TABLET                                     */
-  /* ========================================== */
   @media (min-width: 600px) {
     body { font-size: 15px; }
     .content { max-width: 700px; margin: 0 auto; }
     .quick-nav { max-width: 700px; margin: 0 auto; }
     .quick-nav-grid { grid-template-columns: repeat(4, 1fr); }
   }
-
-  /* ========================================== */
-  /* PRINT                                      */
-  /* ========================================== */
   @media print {
     .header, .quick-nav, .back-top { display: none; }
     body { background: white; }
-    .section {
-      box-shadow: none;
-      border: 1px solid #ddd;
-      page-break-inside: avoid;
-    }
+    .section { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
     .cover {
       background: #8B0000 !important;
       -webkit-print-color-adjust: exact;
@@ -434,30 +408,26 @@
 </head>
 <body>
 
-<!-- ============================================ -->
-<!-- HEADER STICKY -->
-<!-- ============================================ -->
+<!-- HEADER -->
 <header class="header">
   <div>
     <div class="header-title">📱 PANDUAN AKTIVIS</div>
     <div class="header-sub">Aplikasi Penagihan CU</div>
   </div>
-  <div class="header-badge">v1.0</div>
+  <div class="header-badge">v3.4</div>
 </header>
 
-<!-- ============================================ -->
 <!-- COVER -->
-<!-- ============================================ -->
 <div class="cover">
   <div class="cover-icon">📋</div>
   <h1>Panduan Penggunaan Aplikasi Penagihan untuk Aktivis</h1>
   <p>Koperasi CU Sauan Sibarrung · TP Saluampak</p>
-  <div class="versi">Versi 1.0 · 2026</div>
+  <div class="versi">Versi 3.4 · 16 Oktober 2026</div>
+  <br>
+  <div class="whats-new">✨ FITUR BARU: Target · WA Bulk · Mode Offline</div>
 </div>
 
-<!-- ============================================ -->
 <!-- MENU CEPAT -->
-<!-- ============================================ -->
 <div class="quick-nav">
   <div class="quick-nav-title">⚡ MENU CEPAT</div>
   <div class="quick-nav-grid">
@@ -469,26 +439,33 @@
       <span class="quick-nav-icon">🏠</span>
       <span>Beranda</span>
     </a>
+    <a href="#target" class="quick-nav-btn new">
+      <span class="quick-nav-dot">BARU</span>
+      <span class="quick-nav-icon">🎯</span>
+      <span>Target</span>
+    </a>
     <a href="#kunjungan" class="quick-nav-btn">
       <span class="quick-nav-icon">🏘️</span>
       <span>Kunjungan</span>
+    </a>
+    <a href="#wa" class="quick-nav-btn new">
+      <span class="quick-nav-dot">BARU</span>
+      <span class="quick-nav-icon">💬</span>
+      <span>WA Pengingat</span>
+    </a>
+    <a href="#offline" class="quick-nav-btn new">
+      <span class="quick-nav-dot">BARU</span>
+      <span class="quick-nav-icon">📡</span>
+      <span>Offline</span>
     </a>
     <a href="#setoran" class="quick-nav-btn">
       <span class="quick-nav-icon">💰</span>
       <span>Setoran</span>
     </a>
-    <a href="#anggota" class="quick-nav-btn">
-      <span class="quick-nav-icon">👥</span>
-      <span>Anggota</span>
-    </a>
-    <a href="#surat" class="quick-nav-btn">
-      <span class="quick-nav-icon">✉️</span>
-      <span>Persuratan</span>
-    </a>
     <a href="#shortcut" class="quick-nav-btn">
       <span class="quick-nav-icon">📱</span>
       <span>Shortcut HP</span>
-    </a>   
+    </a>
     <a href="#trouble" class="quick-nav-btn">
       <span class="quick-nav-icon">🔧</span>
       <span>Masalah</span>
@@ -500,9 +477,7 @@
   </div>
 </div>
 
-<!-- ============================================ -->
 <!-- CONTENT -->
-<!-- ============================================ -->
 <div class="content">
 
   <!-- 1. LOGIN -->
@@ -539,9 +514,14 @@
       🏠 Beranda · 📊 Statistik · 📂 Rekap · 👤 Profil
     </div>
 
-    <div class="card-mini">
+    <div class="card-mini new">
       <div class="card-mini-title">☰ Menu Sidebar (kiri atas)</div>
-      Beranda · Statistik · Rekap &amp; Laporan · Persuratan · Cetak Laporan · Pengingat · Profil · Bantuan · Keluar
+      Beranda · Statistik · <strong>🎯 Target Penanganan</strong> · Persuratan · Cetak Laporan · Pengingat · Profil · Bantuan · Keluar
+    </div>
+
+    <div class="box info">
+      <span class="box-title">📌 Info Aktivis</span>
+      Sebagai <strong>Aktivis</strong>, Anda melihat anggota <strong>binaan Anda</strong>, dan bisa membuat <strong>target kunjungan harian</strong> untuk fokus kerja.
     </div>
   </section>
 
@@ -553,6 +533,14 @@
     </h2>
 
     <p style="font-size:13px;margin:0 0 12px;">Setelah login, Anda langsung masuk ke Beranda. Di sini ada:</p>
+
+    <div class="card-mini new">
+      <div class="card-mini-title">🎯 Badge Target <span class="badge badge-new">BARU</span></div>
+      Muncul kalau Anda punya target aktif:<br>
+      • Progress: <strong>X / Y selesai</strong><br>
+      • Status cache offline<br>
+      • Tombol <strong>"Lihat →"</strong> ke halaman target
+    </div>
 
     <div class="card-mini">
       <div class="card-mini-title">📊 Dashboard (6 Angka)</div>
@@ -580,8 +568,15 @@
     <div class="card-mini">
       <div class="card-mini-title">🔍 Pencarian &amp; Filter</div>
       • Ketik nama/CIF/desa di kotak cari<br>
+      • ❌ Tombol <strong>✕</strong> untuk kosongkan pencarian<br>
       • 📥 Tombol CSV untuk download data<br>
       • ⚙️ Filter Menunggak (hanya yang menunggak)
+    </div>
+
+    <div class="card-mini new">
+      <div class="card-mini-title">📥 Unduh Data Offline <span class="badge badge-new">BARU</span></div>
+      Tombol untuk <strong>menyimpan data target</strong> agar bisa dibuka saat offline.<br>
+      ⚠️ Tombol ini <strong>hanya muncul</strong> kalau Anda punya target aktif.
     </div>
 
     <div class="box info">
@@ -590,11 +585,94 @@
     </div>
   </section>
 
-  <!-- 3. ANGGOTA -->
+  <!-- 3. TARGET -->
+  <section class="section new" id="target">
+    <h2 class="section-title new">
+      <span class="section-title-icon">🎯</span>
+      3. Target Penanganan
+      <span class="section-badge">BARU</span>
+    </h2>
+
+    <div class="box new">
+      <span class="box-title">✨ Fitur Baru!</span>
+      Rencanakan <strong>siapa yang mau Anda kunjungi hari ini</strong>. Target membantu Anda fokus &amp; memudahkan navigasi antar anggota.
+    </div>
+
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">Apa itu Target?</h3>
+    <p style="font-size:13px;margin:0 0 10px;">Target = daftar anggota yang <strong>Anda rencanakan dikunjungi</strong>. Bisa dibuat sendiri atau ditugaskan manager.</p>
+
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">Cara Akses</h3>
+    <div class="step">
+      <div class="step-num new">1</div>
+      <div class="step-text">Klik badge <strong>🎯 Target Hari Ini</strong> di beranda</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">2</div>
+      <div class="step-text">Atau klik sidebar <strong>☰ → 🎯 Target Penanganan</strong></div>
+    </div>
+
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">Tambah Target</h3>
+    <div class="step">
+      <div class="step-num new">1</div>
+      <div class="step-text">Klik <strong>"➕ TAMBAH TARGET"</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num new">2</div>
+      <div class="step-text">Pilih prioritas: <strong>Tinggi / Sedang / Rendah</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num new">3</div>
+      <div class="step-text">Isi keterangan (opsional)</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">4</div>
+      <div class="step-text">Cari &amp; pilih anggota (bisa multi)</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">5</div>
+      <div class="step-text">Klik <strong>"💾 SIMPAN TARGET"</strong></div>
+    </div>
+
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">Navigasi Target <span class="badge badge-new">BARU</span></h3>
+    <div class="box new">
+      <span class="box-title">🎯 Navigasi Otomatis</span>
+      Saat buka detail anggota yang ada di target, muncul navigasi:
+      <ul style="margin:6px 0 0 15px;padding:0;">
+        <li>⬅️ Tombol <strong>"Sebelumnya"</strong></li>
+        <li>➡️ Tombol <strong>"Berikutnya"</strong></li>
+        <li>Progress: <em>Target 3 dari 15</em></li>
+      </ul>
+    </div>
+
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">Setelah Simpan Kunjungan</h3>
+    <div class="box new">
+      Kalau kunjungan disimpan dari target, muncul prompt:<br>
+      <strong>✅ Kunjungan Tersimpan!</strong><br>
+      📍 Posisi: 3 / 15<br>
+      ⏭️ Sisa: <strong>12</strong> anggota<br><br>
+      <strong>[➡️ Lanjut]</strong> ke target berikutnya<br>
+      <strong>[🏠 Beranda]</strong> selesai
+    </div>
+
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">Status Target</h3>
+    <div style="font-size:12px;line-height:1.9;">
+      <strong>⏳ Pending</strong> — belum dikunjungi<br>
+      <strong>🔄 Sedang Dikerjakan</strong> — sedang diproses<br>
+      <strong>✅ Selesai</strong> — sudah dikunjungi (otomatis)<br>
+      <strong>❌ Batal</strong> — dibatalkan
+    </div>
+
+    <div class="box success">
+      <span class="box-title">✅ Tips</span>
+      Fokus kunjungi <strong>target hari ini</strong> dulu. Setelah selesai, baru tambah target baru.
+    </div>
+  </section>
+
+  <!-- 4. ANGGOTA -->
   <section class="section" id="anggota">
     <h2 class="section-title">
       <span class="section-title-icon">👥</span>
-      3. Daftar &amp; Detail Anggota
+      4. Daftar &amp; Detail Anggota
     </h2>
 
     <h3 style="font-size:13px;color:#A31515;margin:10px 0 6px;">Daftar Anggota (Beranda)</h3>
@@ -606,6 +684,7 @@
       <li>JTO (tanggal jatuh tempo)</li>
       <li>Staf pendamping</li>
       <li>Saldo, Tagihan Normal &amp; Program</li>
+      <li>Badge <strong>⚠️ X bulan</strong> (kalau menunggak)</li>
     </ul>
 
     <div class="box warning">
@@ -614,31 +693,31 @@
     </div>
 
     <h3 style="font-size:13px;color:#A31515;margin:15px 0 6px;">Detail Anggota (Klik Kartu)</h3>
-    <p style="font-size:13px;margin:0 0 10px;">Info lengkap:</p>
+    <p style="font-size:13px;margin:0 0 10px;">Info lengkap dengan <strong>5 section accordion</strong>:</p>
     <ul class="list-check">
-      <li>No HP (bisa Edit / Salin)</li>
-      <li>Alamat lengkap</li>
-      <li>JTO &amp; Lama Menunggak</li>
-      <li>Saldo Pinjaman &amp; Tagihan</li>
-      <li>Saldo Pasallo' &amp; Sepu'</li>
+      <li>📞 <strong>Kontak</strong> — No HP (Edit / Salin) &amp; alamat</li>
+      <li>💰 <strong>Pinjaman</strong> — JTO, saldo, tagihan, lama menunggak</li>
+      <li>💎 <strong>Simpanan</strong> — Saldo Pasallo' &amp; Sepu'</li>
+      <li>🎯 <strong>Aksi</strong> — Proses penanganan, kunjungan multi, cetak KPKL, WA pengingat</li>
+      <li>📋 <strong>Riwayat</strong> — Tab kunjungan, penanganan, update No HP</li>
     </ul>
 
     <div class="card-mini">
-      <div class="card-mini-title">🔘 Tombol Aksi</div>
-      📞 Telepon · 💬 WhatsApp · 🗺️ Maps · 💳 Kirim Info Transfer
+      <div class="card-mini-title">🔘 Tombol Aksi Cepat</div>
+      📞 Telepon · 💬 WhatsApp · 🗺️ Maps
     </div>
 
     <div class="card-mini">
       <div class="card-mini-title">📝 Tombol Penanganan</div>
-      📝 Proses Penanganan · 🏘️ Kunjungan Multi · 📄 Cetak KPKL
+      📝 Proses Penanganan · 🏘️ Kunjungan Multi · 📄 Cetak KPKL · 💬 WA Pengingat
     </div>
   </section>
 
-  <!-- 4. KUNJUNGAN -->
+  <!-- 5. KUNJUNGAN -->
   <section class="section" id="kunjungan">
     <h2 class="section-title">
       <span class="section-title-icon">🏘️</span>
-      4. Kunjungan (3 Cara)
+      5. Kunjungan (3 Cara)
     </h2>
 
     <h3 style="font-size:13px;color:#A31515;margin:10px 0 6px;">A. Kunjungan Langsung (1 Anggota)</h3>
@@ -652,19 +731,14 @@
     </div>
     <div class="step">
       <div class="step-num">3</div>
-      <div class="step-text">Isi form:
-        <ul style="margin:5px 0 0 15px;padding:0;font-size:12px;">
-          <li>📅 Tanggal kunjungan</li>
-          <li>✅ Status (7 pilihan)</li>
-          <li>💰 Nominal bayar (kalau ada)</li>
-          <li>📝 Catatan</li>
-          <li>📷 Foto bukti</li>
-          <li>✍️ Tanda tangan</li>
-        </ul>
-      </div>
+      <div class="step-text">Isi form: tanggal, status, nominal, catatan, transportasi</div>
     </div>
     <div class="step">
       <div class="step-num">4</div>
+      <div class="step-text">Upload foto bukti + tanda tangan</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
       <div class="step-text">Klik <strong>SIMPAN KUNJUNGAN</strong></div>
     </div>
 
@@ -672,6 +746,14 @@
       <span class="box-title">💡 Tips</span>
       Foto otomatis diberi watermark (tanggal, lokasi, nama Anda).
     </div>
+
+    <h4 style="font-size:12px;color:#B8860B;margin:12px 0 4px;">🛵 Keterangan Transportasi <span class="badge badge-new">BARU</span></h4>
+    <p style="font-size:12px;margin:0 0 8px;">Field opsional untuk catat transportasi:</p>
+    <ul class="list-check" style="font-size:12px;">
+      <li>🏍️ Motor Pribadi</li>
+      <li>👥 Dibonceng [nama] — isi nama pembonceng</li>
+      <li>🚗 Mobil</li>
+    </ul>
 
     <h3 style="font-size:13px;color:#A31515;margin:15px 0 6px;">B. Penagihan Tim (Bersama)</h3>
     <div class="step">
@@ -730,11 +812,11 @@
     </div>
   </section>
 
-  <!-- 5. PENANGANAN -->
+  <!-- 6. PENANGANAN -->
   <section class="section">
     <h2 class="section-title">
       <span class="section-title-icon">📞</span>
-      5. Penanganan (Telp / WA)
+      6. Penanganan (Telp / WA)
     </h2>
 
     <div class="step">
@@ -764,66 +846,97 @@
     </div>
   </section>
 
-  <!-- 6. PERSURATAN -->
-  <section class="section" id="surat">
-    <h2 class="section-title">
-      <span class="section-title-icon">✉️</span>
-      6. Persuratan
+  <!-- 7. WA PENGINGAT -->
+  <section class="section new" id="wa">
+    <h2 class="section-title new">
+      <span class="section-title-icon">💬</span>
+      7. WA Pengingat
+      <span class="section-badge">BARU</span>
     </h2>
 
-    <p style="font-size:13px;margin:0 0 10px;">Menu di sidebar → <strong>✉️ Persuratan</strong>. Ada 3 pilihan:</p>
-
-    <div class="card-mini">
-      <div class="card-mini-title">📄 Daftar Surat</div>
-      Lihat semua surat, filter by jenis/bulan, cetak ulang.
-    </div>
-    <div class="card-mini">
-      <div class="card-mini-title">➕ Buat Surat Baru</div>
-      Pilih anggota → pilih jenis surat → nomor otomatis → simpan.
-    </div>
-    <div class="card-mini">
-      <div class="card-mini-title">📊 Rekap Persuratan</div>
-      Lihat total surat per bulan &amp; per petugas.
+    <div class="box new">
+      <span class="box-title">✨ Fitur Baru!</span>
+      Kirim pengingat tagihan ke <strong>banyak anggota sekaligus</strong>. Hemat waktu!
     </div>
 
-    <h3 style="font-size:13px;color:#A31515;margin:15px 0 6px;">Cara Buat Surat Baru</h3>
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">Cara Akses</h3>
     <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-text">Pilih <strong>anggota</strong> (ketik nama/CIF untuk cari)</div>
+      <div class="step-num new">1</div>
+      <div class="step-text">Klik tombol <strong>📱 FAB</strong> (bulat hijau) di beranda</div>
     </div>
     <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-text">Pilih <strong>jenis surat</strong>: Surat Tagihan / SP1 / SP2 / SP3</div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-text">Nomor surat <strong>otomatis terisi</strong> (bisa ubah)</div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-text">Isi tanggal surat &amp; catatan</div>
-    </div>
-    <div class="step">
-      <div class="step-num">5</div>
-      <div class="step-text">Klik <strong>SIMPAN SURAT</strong> → tanya cetak → klik Cetak</div>
+      <div class="step-num new">2</div>
+      <div class="step-text">Atau dari detail anggota → section Aksi → tombol WA</div>
     </div>
 
-    <div class="box info">
-      <span class="box-title">📌 Surat Otomatis Isi</span>
-      Nomor, tanggal, nama anggota, rincian tunggakan, dan TTD manager sudah otomatis.
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">WA Pengingat Individual</h3>
+    <p style="font-size:13px;margin:0 0 10px;">Di detail anggota, ada 4 tombol WA:</p>
+    <div style="font-size:12px;line-height:1.9;">
+      🔔 <strong>Pengingat JTO</strong> — ingatkan tagihan jatuh tempo<br>
+      ⏰ <strong>Pengingat H-3</strong> — ingatkan 3 hari sebelum JTO<br>
+      💎 <strong>Info PS</strong> — info Pembayaran Sementara (kalau ada)<br>
+      📅 <strong>Pengingat Janji Bayar</strong> — ingatkan janji bayar
+    </div>
+
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">WA Bulk (Massal)</h3>
+    <div class="step">
+      <div class="step-num new">1</div>
+      <div class="step-text">Klik tombol <strong>📱 FAB</strong> di beranda</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">2</div>
+      <div class="step-text">Pilih filter: <strong>⏰ H-3</strong> / <strong>📅 Hari Ini</strong> / <strong>⚠️ Lewat</strong> / <strong>📋 Semua</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num new">3</div>
+      <div class="step-text">Modal preview muncul dengan daftar anggota</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">4</div>
+      <div class="step-text">Pilih jenis template (Tagihan / H-3 / Janji)</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">5</div>
+      <div class="step-text">Uncheck anggota yang tidak mau di-kirim</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">6</div>
+      <div class="step-text">Klik <strong>"📱 KIRIM WA"</strong></div>
     </div>
 
     <div class="box success">
-      <span class="box-title">🖨️ Cetak / Simpan PDF</span>
-      Preview surat muncul di tab baru. Klik tombol <strong>Cetak / Simpan PDF</strong> di atas.
+      <span class="box-title">✅ Filter Otomatis No HP Valid</span>
+      • Anggota tanpa No HP <strong>tidak akan muncul</strong><br>
+      • No HP invalid (kosong, strip, "xxx") otomatis di-skip<br>
+      • Hanya No HP format <strong>62xxx</strong> (10-15 digit) yang lolos
+    </div>
+
+    <div class="box warning">
+      <span class="box-title">⚠️ Penting</span>
+      WA bulk membuka WA satu per satu. Untuk 20+ anggota, butuh waktu. Siapkan WhatsApp Web/App.
     </div>
   </section>
 
-  <!-- 7. SETORAN -->
+  <!-- 8. PERSURATAN -->
+  <section class="section" id="surat">
+    <h2 class="section-title">
+      <span class="section-title-icon">✉️</span>
+      8. Persuratan
+    </h2>
+
+    <div class="box info">
+      <span class="box-title">ℹ️ Akses</span>
+      Persuratan hanya untuk <strong>Staf, Manager, Pengurus, Komite</strong>. Aktivis <strong>tidak bisa akses</strong>.
+    </div>
+
+    <p style="font-size:13px;margin:0 0 10px;">Menu di sidebar → <strong>✉️ Persuratan</strong>.</p>
+  </section>
+
+  <!-- 9. SETORAN -->
   <section class="section" id="setoran">
     <h2 class="section-title">
       <span class="section-title-icon">💰</span>
-      7. Setoran
+      9. Setoran
     </h2>
 
     <div class="step">
@@ -866,11 +979,127 @@
     </div>
   </section>
 
-  <!-- 8. PROFIL -->
+  <!-- 10. MODE OFFLINE -->
+  <section class="section new" id="offline">
+    <h2 class="section-title new">
+      <span class="section-title-icon">📡</span>
+      10. Mode Offline
+      <span class="section-badge">BARU</span>
+    </h2>
+
+    <div class="box new">
+      <span class="box-title">✨ Fitur Baru!</span>
+      Kerja tanpa internet! Data target bisa <strong>diunduh dulu</strong>, lalu dibuka kapan saja meski offline.
+    </div>
+
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">Kapan Pakai Mode Offline?</h3>
+    <ul class="list-check">
+      <li>📍 Kunjungan ke daerah yang sinyalnya lemah</li>
+      <li>🏍️ Sedang di perjalanan tanpa internet</li>
+      <li>⚡ Ingin buka data lebih cepat</li>
+    </ul>
+
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">Step 1: Unduh Data Target (Online)</h3>
+    <div class="step">
+      <div class="step-num new">1</div>
+      <div class="step-text">Pastikan online + sudah ada target</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">2</div>
+      <div class="step-text">Buka beranda → tunggu sampai target ke-load</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">3</div>
+      <div class="step-text">Klik tombol <strong>📥 Unduh Data Offline</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num new">4</div>
+      <div class="step-text">Tunggu progress bar selesai (~30 detik)</div>
+    </div>
+
+    <div class="box success">
+      <span class="box-title">✅ Setelah selesai</span>
+      Badge target berubah: <strong>"✅ Siap offline (X target)"</strong>
+    </div>
+
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">Step 2: Kerja Offline</h3>
+    <div class="step">
+      <div class="step-num new">1</div>
+      <div class="step-text">Matikan WiFi / data seluler</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">2</div>
+      <div class="step-text">Beranda otomatis filter <strong>hanya target</strong></div>
+    </div>
+    <div class="step">
+      <div class="step-num new">3</div>
+      <div class="step-text">Banner biru <strong>"Mode Target (Offline)"</strong> muncul</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">4</div>
+      <div class="step-text">Buka detail anggota target → data dari cache</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">5</div>
+      <div class="step-text">Kunjungan bisa disimpan offline → masuk queue</div>
+    </div>
+    <div class="step">
+      <div class="step-num new">6</div>
+      <div class="step-text">Sync otomatis saat kembali online</div>
+    </div>
+
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">Indikator Offline</h3>
+    <div style="font-size:12px;line-height:1.9;">
+      📡 <strong>Badge koneksi</strong> di header (🌐 online / 📡 offline)<br>
+      ⏳ <strong>Badge pending</strong> — jumlah data menunggu sync<br>
+      🎯 <strong>Banner "Mode Target"</strong> — filter hanya target
+    </div>
+
+    <h3 style="font-size:13px;color:#128C7E;margin:15px 0 6px;">Batasan Offline</h3>
+    <div style="font-size:12px;line-height:1.9;">
+      ✅ Bisa: buka detail target, simpan kunjungan, lihat riwayat, filter<br>
+      ❌ Tidak bisa: buka non-target, kirim WA, load data baru
+    </div>
+
+    <div class="box warning">
+      <span class="box-title">⚠️ Penting</span>
+      Selalu <strong>save kunjungan langsung</strong> setelah kunjungan. Jangan tunggu HP mati.
+    </div>
+  </section>
+
+  <!-- 11. STATISTIK & REKAP -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-title-icon">📊</span>
+      11. Statistik &amp; Rekap
+    </h2>
+
+    <div class="card-mini">
+      <div class="card-mini-title">📊 Statistik Per Aktivis</div>
+      Lihat ranking aktivis (termasuk Anda) berdasarkan % penyelesaian.
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">📊 Statistik Per Staf</div>
+      Lihat aktivitas staf pendamping.
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">📅 Rekap Bulanan Saya</div>
+      Rekap kunjungan &amp; pencapaian Anda bulan ini.
+    </div>
+
+    <div class="card-mini">
+      <div class="card-mini-title">💰 Rekap Setoran</div>
+      Lihat semua setoran Anda + status approval.
+    </div>
+  </section>
+
+  <!-- 12. PROFIL -->
   <section class="section">
     <h2 class="section-title">
       <span class="section-title-icon">👤</span>
-      8. Profil Saya
+      12. Profil Saya
     </h2>
 
     <p style="font-size:13px;margin:0 0 10px;">Klik menu <strong>👤 Profil</strong> di bawah untuk:</p>
@@ -883,17 +1112,15 @@
     </ul>
   </section>
 
-  <!-- ============================================ -->
-  <!-- CARA MEMBUAT SHORTCUT DI HP                -->
-  <!-- ============================================ -->
+  <!-- 13. SHORTCUT HP -->
   <section class="section" id="shortcut">
     <h2 class="section-title">
       <span class="section-title-icon">📱</span>
-      9. Cara Membuat Shortcut di HP
+      13. Cara Membuat Shortcut di HP
     </h2>
 
     <p style="font-size:13px;margin:0 0 12px;">
-      Supaya aplikasi lebih mudah dibuka — <strong>buat shortcut</strong> di layar utama HP Anda. Tidak perlu ketik URL lagi!
+      Supaya aplikasi lebih mudah dibuka — <strong>buat shortcut</strong> di layar utama HP Anda.
     </p>
 
     <div class="box info">
@@ -903,13 +1130,7 @@
       • Tidak perlu buka browser dulu
     </div>
 
-    <!-- ============================================ -->
-    <!-- ANDROID                                     -->
-    <!-- ============================================ -->
-    <h3 style="font-size:13px;color:#A31515;margin:15px 0 6px;">
-      🤖 Cara di Android (Chrome)
-    </h3>
-
+    <h3 style="font-size:13px;color:#A31515;margin:15px 0 6px;">🤖 Cara di Android (Chrome)</h3>
     <div class="step">
       <div class="step-num">1</div>
       <div class="step-text">Buka aplikasi di <strong>Google Chrome</strong></div>
@@ -920,31 +1141,14 @@
     </div>
     <div class="step">
       <div class="step-num">3</div>
-      <div class="step-text">Pilih <strong>"Tambahkan ke layar utama"</strong> (Add to Home screen)</div>
+      <div class="step-text">Pilih <strong>"Tambahkan ke layar utama"</strong></div>
     </div>
     <div class="step">
       <div class="step-num">4</div>
-      <div class="step-text">Konfirmasi nama: ketuk <strong>"Tambah"</strong> atau <strong>"Add"</strong></div>
-    </div>
-    <div class="step">
-      <div class="step-num">5</div>
-      <div class="step-text">Ikon aplikasi muncul di <strong>layar utama HP</strong> ✅</div>
+      <div class="step-text">Konfirmasi: ketuk <strong>"Tambah"</strong></div>
     </div>
 
-    <div class="box tips">
-      <span class="box-title">💡 Tips Android</span>
-      • Kalau muncul dialog <strong>"Instal Aplikasi"</strong>, ketuk <strong>"Instal"</strong><br>
-      • Ikon akan muncul seperti aplikasi biasa<br>
-      • Bisa di-rename sesuai keinginan
-    </div>
-
-    <!-- ============================================ -->
-    <!-- IPHONE / iOS                                -->
-    <!-- ============================================ -->
-    <h3 style="font-size:13px;color:#A31515;margin:20px 0 6px;">
-      🍎 Cara di iPhone (Safari)
-    </h3>
-
+    <h3 style="font-size:13px;color:#A31515;margin:20px 0 6px;">🍎 Cara di iPhone (Safari)</h3>
     <div class="step">
       <div class="step-num">1</div>
       <div class="step-text">Buka aplikasi di <strong>Safari</strong> (bukan Chrome)</div>
@@ -955,89 +1159,79 @@
     </div>
     <div class="step">
       <div class="step-num">3</div>
-      <div class="step-text">Scroll ke bawah → pilih <strong>"Add to Home Screen"</strong></div>
+      <div class="step-text">Scroll ke bawah → <strong>"Add to Home Screen"</strong></div>
     </div>
     <div class="step">
       <div class="step-num">4</div>
       <div class="step-text">Ketuk <strong>"Add"</strong> di kanan atas</div>
-    </div>
-    <div class="step">
-      <div class="step-num">5</div>
-      <div class="step-text">Ikon aplikasi muncul di <strong>layar utama HP</strong> ✅</div>
     </div>
 
     <div class="box warning">
       <span class="box-title">⚠️ Catatan iPhone</span>
       <strong>Harus pakai Safari</strong> — Chrome di iPhone tidak support "Add to Home Screen".
     </div>
+  </section>
 
-    <!-- ============================================ -->
-    <!-- HAPUS SHORTCUT                              -->
-    <!-- ============================================ -->
-    <h3 style="font-size:13px;color:#A31515;margin:20px 0 6px;">
-      🗑️ Cara Hapus Shortcut
-    </h3>
-
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-text"><strong>Tekan lama</strong> ikon aplikasi di layar utama</div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-text">Pilih <strong>"Hapus"</strong> atau <strong>"Remove"</strong></div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-text">Konfirmasi → ikon hilang dari layar ✅</div>
-    </div>
-
-    <div class="box success">
-      <span class="box-title">✅ Selesai!</span>
-      Sekarang Anda bisa buka aplikasi <strong>1x tap</strong> dari layar utama HP seperti aplikasi biasa.
-    </div>
-  </section> 
- 
-  <!-- 10. TROUBLESHOOTING -->
+  <!-- 14. TROUBLESHOOTING -->
   <section class="section" id="trouble">
     <h2 class="section-title">
       <span class="section-title-icon">🔧</span>
-      10. Jika Ada Masalah
+      14. Jika Ada Masalah
     </h2>
 
     <div class="card-mini">
       <div class="card-mini-title">😴 Aplikasi Lambat / Loading Lama</div>
-      <ul style="margin:5px 0 0 15px;padding:0;font-size:12px;">
-        <li>Tunggu 5-10 detik (pertama kali buka)</li>
-        <li>Refresh halaman (tarik ke bawah)</li>
-        <li>Cek koneksi internet</li>
-      </ul>
+      • Tunggu 5-10 detik (pertama kali buka)<br>
+      • Refresh halaman (tarik ke bawah)<br>
+      • Cek koneksi internet
     </div>
 
     <div class="card-mini">
       <div class="card-mini-title">📷 Foto Tidak Ter-upload</div>
-      <ul style="margin:5px 0 0 15px;padding:0;font-size:12px;">
-        <li>Cek ukuran foto — max 10 MB</li>
-        <li>Kompres dulu atau ambil ulang</li>
-        <li>Coba pakai kamera langsung</li>
-      </ul>
+      • Cek ukuran foto — max 10 MB<br>
+      • Kompres dulu atau ambil ulang<br>
+      • Coba pakai kamera langsung
     </div>
 
     <div class="card-mini">
       <div class="card-mini-title">📍 GPS Tidak Terdeteksi</div>
-      <ul style="margin:5px 0 0 15px;padding:0;font-size:12px;">
-        <li>Buka pengaturan browser HP</li>
-        <li>Izinkan akses lokasi</li>
-        <li>Keluar ruangan / cari sinyal</li>
-      </ul>
+      • Buka pengaturan browser HP<br>
+      • Izinkan akses lokasi<br>
+      • Keluar ruangan / cari sinyal
+    </div>
+
+    <div class="card-mini new">
+      <div class="card-mini-title">📥 Tombol "Unduh Offline" Tidak Muncul <span class="badge badge-new">BARU</span></div>
+      <strong>Penyebab:</strong> Belum ada target.<br>
+      <strong>Solusi:</strong> Buka <strong>🎯 Target Penanganan</strong> → tambah target dulu.
+    </div>
+
+    <div class="card-mini new">
+      <div class="card-mini-title">📡 Offline Mode Tidak Bisa Buka Detail <span class="badge badge-new">BARU</span></div>
+      • Pastikan sudah <strong>unduh data offline</strong> sebelumnya<br>
+      • Detail anggota <strong>bukan target</strong> tidak bisa dibuka offline<br>
+      • Balik online → buka detail sekali → cache tersimpan
+    </div>
+
+    <div class="card-mini new">
+      <div class="card-mini-title">⏳ Kunjungan Offline Tidak Ter-sync <span class="badge badge-new">BARU</span></div>
+      • Cek badge pending di header — ada angka?<br>
+      • Klik badge pending → <strong>🔄 Sync Sekarang</strong><br>
+      • Kalau gagal, cek koneksi lalu coba lagi
+    </div>
+
+    <div class="card-mini new">
+      <div class="card-mini-title">💬 WA Bulk Tidak Terkirim <span class="badge badge-new">BARU</span></div>
+      • Cek apakah anggota punya No HP valid<br>
+      • Mode manual: buka WhatsApp dulu<br>
+      • Kalau &gt; 20 anggota: kirim bertahap
     </div>
 
     <div class="card-mini">
       <div class="card-mini-title">❓ Data Tidak Muncul</div>
-      <ul style="margin:5px 0 0 15px;padding:0;font-size:12px;">
-        <li>Refresh halaman</li>
-        <li>Logout &amp; login ulang</li>
-        <li>Hubungi admin jika masih kosong</li>
-      </ul>
+      • Refresh halaman<br>
+      • Logout &amp; login ulang<br>
+      • Hubungi admin jika masih kosong
     </div>
 
     <div class="card-mini">
@@ -1051,12 +1245,58 @@
     </div>
   </section>
 
-  <!-- 11. FAQ -->
+  <!-- 15. FAQ -->
   <section class="section" id="faq">
     <h2 class="section-title">
       <span class="section-title-icon">❓</span>
-      11. FAQ (Sering Ditanya)
+      15. FAQ (Sering Ditanya)
     </h2>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Apa itu Target Penanganan? <span class="badge badge-new" style="margin-left:6px;">BARU</span></div>
+      <div class="faq-a">
+        Target = daftar anggota yang <strong>Anda rencanakan dikunjungi</strong>. Membantu Anda fokus &amp; memudahkan navigasi antar anggota. Bisa dibuat sendiri atau ditugaskan manager.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Bagaimana cara tambah target?</div>
+      <div class="faq-a">
+        Menu <strong>🎯 Target Penanganan</strong> → <strong>"➕ TAMBAH TARGET"</strong> → pilih prioritas → cari &amp; pilih anggota → <strong>SIMPAN</strong>.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Kenapa tombol "Unduh Offline" tidak muncul? <span class="badge badge-new" style="margin-left:6px;">BARU</span></div>
+      <div class="faq-a">
+        Tombol ini <strong>hanya muncul kalau Anda punya target aktif</strong>. Tambah target dulu di menu Target Penanganan.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Bagaimana cara kerja Mode Offline? <span class="badge badge-new" style="margin-left:6px;">BARU</span></div>
+      <div class="faq-a">
+        <strong>1.</strong> Saat online: klik <strong>📥 Unduh Data Offline</strong> untuk cache detail target<br>
+        <strong>2.</strong> Saat offline: beranda otomatis filter hanya target<br>
+        <strong>3.</strong> Buka detail target → data dari cache<br>
+        <strong>4.</strong> Simpan kunjungan → masuk queue<br>
+        <strong>5.</strong> Saat online lagi: auto-sync
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Bisa buka detail non-target saat offline? <span class="badge badge-new" style="margin-left:6px;">BARU</span></div>
+      <div class="faq-a">
+        <strong>Tidak bisa</strong>. Hanya detail anggota target yang di-cache. Untuk buka yang lain, harus online dulu.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Bagaimana cara kirim WA ke banyak anggota? <span class="badge badge-new" style="margin-left:6px;">BARU</span></div>
+      <div class="faq-a">
+        Klik tombol <strong>📱 FAB</strong> di beranda → pilih filter (H-3/Hari Ini/Lewat/Semua) → pilih template → <strong>KIRIM WA</strong>. Anggota tanpa No HP valid otomatis di-skip.
+      </div>
+    </div>
 
     <div class="faq-item" onclick="toggleFaq(this)">
       <div class="faq-q">Kenapa saya hanya melihat sebagian anggota?</div>
@@ -1066,25 +1306,11 @@
     </div>
 
     <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">Bagaimana cara cetak surat ulang?</div>
-      <div class="faq-a">
-        Menu <strong>Persuratan → Daftar Surat</strong> → cari surat → klik <strong>🖨️ Cetak Ulang</strong>.
-      </div>
-    </div>
-
-    <div class="faq-item" onclick="toggleFaq(this)">
       <div class="faq-q">Kenapa Tagihan Normal &amp; Program berbeda?</div>
       <div class="faq-a">
         <strong>Normal</strong> = pakai angsuran penuh.<br>
         <strong>Program</strong> = pakai angsuran keringanan (PokokJT atau Buffer).<br>
-        Untuk anggota dengan PokokJT > 0, Normal &amp; Program sama.
-      </div>
-    </div>
-
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">Kenapa total tagihan dibulatkan?</div>
-      <div class="faq-a">
-        Pembulatan ke <strong>10.000</strong> memudahkan pembayaran. Selisih pembulatan ditambahkan ke Angsuran Pinjaman (khusus surat).
+        Untuk anggota dengan PokokJT &gt; 0, Normal &amp; Program sama.
       </div>
     </div>
 
@@ -1092,13 +1318,6 @@
       <div class="faq-q">Setoran saya pending terus, kenapa?</div>
       <div class="faq-a">
         Setoran menunggu <strong>approval admin</strong>. Hubungi admin untuk approve.
-      </div>
-    </div>
-
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">Apakah data bisa dilihat offline?</div>
-      <div class="faq-a">
-        Tidak. Aplikasi butuh koneksi internet.
       </div>
     </div>
 
@@ -1112,32 +1331,23 @@
 
 </div>
 
-<!-- ============================================ -->
 <!-- FOOTER -->
-<!-- ============================================ -->
 <footer class="footer">
   <strong>Aplikasi Penagihan Credit Union</strong>
   Koperasi CU Sauan Sibarrung<br>
   TP Saluampak · Sulawesi Selatan<br><br>
-  <strong>Versi 1.0 · 2026</strong><br>
+  <strong>Versi 3.4 · 16 Oktober 2026</strong><br>
   <span style="opacity:0.7;font-size:10px;">Untuk bantuan, hubungi admin sistem</span>
 </footer>
 
-<!-- ============================================ -->
 <!-- BACK TO TOP -->
-<!-- ============================================ -->
 <div class="back-top" id="backTop" onclick="scrollToTop()">▲</div>
 
-<!-- ============================================ -->
-<!-- SCRIPT                                     -->
-<!-- ============================================ -->
 <script>
-  // Toggle FAQ
   function toggleFaq(el) {
     el.classList.toggle('open');
   }
 
-  // Back to top visibility
   window.addEventListener('scroll', function() {
     var btn = document.getElementById('backTop');
     if (window.scrollY > 400) {
@@ -1147,12 +1357,10 @@
     }
   });
 
-  // Scroll to top
   function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Smooth scroll untuk quick-nav link
   document.querySelectorAll('a[href^="#"]').forEach(function(link) {
     link.addEventListener('click', function(e) {
       e.preventDefault();
