@@ -2,7 +2,8 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Panduan Pengguna — Aplikasi Penagihan Credit Union v1.0</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panduan Pengguna — Aplikasi Penagihan Credit Union v3.4</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -78,6 +79,8 @@
   .box.info { background: #E3F2FD; border-left-color: #1976D2; }
   .box.success { background: #E8F5E9; border-left-color: #2E7D32; }
   .box.danger { background: #FFEBEE; border-left-color: #C62828; }
+  .box.new { background: linear-gradient(135deg, #E8F5E9, #F1F8E9); border-left-color: #25D366; }
+  .box.offline { background: linear-gradient(135deg, #E3F2FD, #F3E5F5); border-left-color: #1976D2; }
   table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 13px; background: white; }
   th { background: #8B0000; color: white; padding: 10px; text-align: left; border: 1px solid #8B0000; font-size: 13px; }
   td { padding: 8px 10px; border: 1px solid #ddd; }
@@ -134,6 +137,15 @@
   .badge-red { background: #8B0000; color: #FFD700; }
   .badge-green { background: #2E7D32; color: white; }
   .badge-blue { background: #1976D2; color: white; }
+  .badge-new {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
   .feature-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -148,253 +160,40 @@
     font-size: 13px;
   }
   .feature-card strong { color: #8B0000; display: block; margin-bottom: 4px; }
-  
-  /* ========================================== */
-  /* RESPONSIVE — TABLET (max-width 768px)      */
-  /* ========================================== */
+  .feature-card.new {
+    border-left-color: #25D366;
+    background: linear-gradient(135deg, #F1F8E9, #FFFFFF);
+  }
+
+  /* Responsive */
   @media (max-width: 768px) {
-    body {
-      margin: 0;
-      padding: 12px 15px;
-      font-size: 15px;
-    }
+    body { margin: 0; padding: 12px 15px; font-size: 15px; }
     h1 { font-size: 22px; }
     h2 { font-size: 18px; margin-top: 25px; }
-    h3 { font-size: 15px; }
-    h4 { font-size: 13px; }
-
-    .cover {
-      padding: 40px 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
+    .cover { padding: 40px 20px; border-radius: 8px; }
     .cover h1 { font-size: 24px; }
-    .cover p { font-size: 13px; }
-    .cover .versi {
-      font-size: 12px;
-      padding: 5px 14px;
-    }
-
-    .toc {
-      padding: 15px 18px;
-      font-size: 14px;
-    }
-    .toc h3 { font-size: 16px; }
-    .toc li { margin-bottom: 3px; }
-
-    .step {
-      padding: 8px 12px;
-      font-size: 13px;
-      margin: 6px 0;
-    }
-
-    .box {
-      padding: 10px 12px;
-      font-size: 13px;
-      margin: 10px 0;
-    }
-
-    table {
-      font-size: 12px;
-      display: block;
-      overflow-x: auto;
-      white-space: nowrap;
-    }
-    th, td {
-      padding: 6px 8px;
-      font-size: 12px;
-    }
-
-    ul, ol {
-      padding-left: 20px;
-    }
-    li {
-      font-size: 13px;
-      margin-bottom: 4px;
-    }
-
-    .feature-grid {
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-    .feature-card {
-      padding: 10px 12px;
-      font-size: 12px;
-    }
-
-    code {
-      font-size: 11px;
-      padding: 1px 4px;
-      word-break: break-all;
-    }
-
-    hr { margin: 25px 0; }
-
-    .footer {
-      font-size: 11px;
-      margin-top: 30px;
-      padding-top: 15px;
-    }
+    .feature-grid { grid-template-columns: 1fr; gap: 8px; }
+    table { font-size: 12px; display: block; overflow-x: auto; white-space: nowrap; }
+    th, td { padding: 6px 8px; font-size: 12px; }
+    .step { padding: 8px 12px; font-size: 13px; }
+    .box { padding: 10px 12px; font-size: 13px; }
+    ul, ol { padding-left: 20px; }
+    li { font-size: 13px; }
   }
-
-  /* ========================================== */
-  /* RESPONSIVE — HP (max-width 480px)          */
-  /* ========================================== */
   @media (max-width: 480px) {
-    body {
-      padding: 10px 12px;
-      font-size: 14px;
-      line-height: 1.55;
-    }
-    h1 { font-size: 20px; padding-bottom: 6px; }
-    h2 {
-      font-size: 16px;
-      padding-bottom: 4px;
-      margin-top: 22px;
-      border-bottom-width: 1px;
-    }
-    h3 { font-size: 14px; margin-top: 16px; }
-    h4 { font-size: 13px; margin-top: 12px; }
-
-    .cover {
-      padding: 30px 15px;
-      border-radius: 6px;
-      border-bottom-width: 4px;
-      margin-bottom: 15px;
-    }
-    .cover h1 { font-size: 20px; margin-bottom: 8px; }
-    .cover p { font-size: 12px; margin: 3px 0; }
-    .cover .versi {
-      font-size: 11px;
-      padding: 4px 12px;
-      margin-top: 12px;
-    }
-
-    .toc {
-      padding: 12px 15px;
-      border-radius: 6px;
-      margin: 15px 0;
-    }
-    .toc h3 { font-size: 15px; margin-bottom: 8px; }
-    .toc ol { padding-left: 18px; }
-    .toc li { font-size: 13px; margin-bottom: 2px; }
-
-    .step {
-      padding: 8px 10px;
-      font-size: 13px;
-      border-left-width: 3px;
-      margin: 5px 0;
-      border-radius: 3px;
-    }
-
-    .box {
-      padding: 8px 10px;
-      font-size: 12px;
-      border-left-width: 3px;
-      border-radius: 4px;
-      margin: 8px 0;
-    }
-    .box strong { display: block; margin-bottom: 3px; }
-
-    table {
-      font-size: 11px;
-      display: block;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      border-radius: 4px;
-    }
-    th, td {
-      padding: 5px 6px;
-      font-size: 11px;
-      min-width: 80px;
-    }
-    th { font-size: 11px; }
-
-    ul, ol {
-      padding-left: 18px;
-    }
-    li {
-      font-size: 12px;
-      margin-bottom: 3px;
-      line-height: 1.5;
-    }
-
-    .feature-grid {
-      grid-template-columns: 1fr;
-      gap: 6px;
-      margin: 10px 0;
-    }
-    .feature-card {
-      padding: 8px 10px;
-      font-size: 12px;
-      border-left-width: 3px;
-    }
-    .feature-card strong {
-      font-size: 12px;
-      margin-bottom: 2px;
-    }
-
-    code {
-      font-size: 10px;
-      padding: 1px 3px;
-      word-break: break-all;
-    }
-
-    hr {
-      margin: 20px 0;
-      border-top-width: 1px;
-    }
-
-    .footer {
-      font-size: 10px;
-      margin-top: 25px;
-      padding-top: 12px;
-    }
-
-    .badge {
-      font-size: 9px;
-      padding: 1px 5px;
-    }
+    body { padding: 10px 12px; font-size: 14px; }
+    h1 { font-size: 20px; }
+    h2 { font-size: 16px; }
+    h3 { font-size: 14px; }
+    .cover { padding: 30px 15px; }
+    .cover h1 { font-size: 20px; }
+    .cover p { font-size: 12px; }
+    th, td { font-size: 11px; padding: 5px 6px; }
+    .step { font-size: 13px; padding: 8px 10px; }
+    .box { font-size: 12px; padding: 8px 10px; }
+    li { font-size: 12px; }
+    .toc { padding: 12px 15px; }
   }
-
-  /* ========================================== */
-  /* RESPONSIVE — HP KECIL (max-width 360px)    */
-  /* ========================================== */
-  @media (max-width: 360px) {
-    body {
-      padding: 8px 10px;
-      font-size: 13px;
-    }
-    h1 { font-size: 18px; }
-    h2 { font-size: 15px; }
-    h3 { font-size: 13px; }
-    h4 { font-size: 12px; }
-
-    .cover { padding: 25px 12px; }
-    .cover h1 { font-size: 18px; }
-    .cover p { font-size: 11px; }
-
-    .toc { padding: 10px 12px; }
-    .toc h3 { font-size: 14px; }
-    .toc li { font-size: 12px; }
-
-    .step { font-size: 12px; padding: 6px 8px; }
-    .box { font-size: 11px; padding: 6px 8px; }
-
-    th, td { font-size: 10px; padding: 4px 5px; min-width: 70px; }
-
-    li { font-size: 11px; }
-  }
-
-  /* ========================================== */
-  /* LANDSCAPE HP (orientation: landscape)      */
-  /* ========================================== */
-  @media (max-width: 768px) and (orientation: landscape) {
-    body { padding: 10px 20px; }
-    .cover { padding: 20px 25px; }
-    .cover h1 { font-size: 22px; }
-  }  
-  
   @media print {
     body { background: white; margin: 0; padding: 15px; max-width: 100%; }
     .cover {
@@ -419,7 +218,7 @@
   <p style="font-size: 20px; margin-top: 10px;">Aplikasi Penagihan Credit Union</p>
   <p>Koperasi Credit Union Sauan Sibarrung</p>
   <p>TP Saluampak · Sulawesi Selatan</p>
-  <div class="versi">Versi 1.0 · 9 Oktober 2026</div>
+  <div class="versi">Versi 3.4 · 16 Oktober 2026</div>
 </div>
 
 <!-- ============================================ -->
@@ -431,15 +230,17 @@
     <li><a href="#pendahuluan">Pendahuluan</a></li>
     <li><a href="#login">Login &amp; Navigasi</a></li>
     <li><a href="#beranda">Beranda (Dashboard)</a></li>
+    <li><a href="#filter">Filter Cerdas (Aktivis + Jenis Anggota)</a> <span class="badge badge-new">BARU</span></li>
     <li><a href="#anggota">Daftar &amp; Detail Anggota</a></li>
-    <li><a href="#kunjungan">Kunjungan</a></li>
+    <li><a href="#target">Target Penanganan</a> <span class="badge badge-new">BARU</span></li>
+    <li><a href="#kunjungan">Kunjungan (3 Metode)</a></li>
     <li><a href="#penanganan">Penanganan (Telp/WA)</a></li>
+    <li><a href="#wa">WA Pengingat</a> <span class="badge badge-new">BARU</span></li>
     <li><a href="#persuratan">Persuratan</a></li>
     <li><a href="#setoran">Setoran</a></li>
+    <li><a href="#offline">Mode Offline</a> <span class="badge badge-new">BARU</span></li>
     <li><a href="#statistik">Statistik &amp; Rekap</a></li>
     <li><a href="#laporan">Cetak Laporan</a></li>
-    <li><a href="#admin">Menu Admin</a></li>
-    <li><a href="#import">Import Data</a></li>
     <li><a href="#alur">Alur Kerja Harian</a></li>
     <li><a href="#troubleshooting">Troubleshooting</a></li>
     <li><a href="#glosarium">Glosarium</a></li>
@@ -458,20 +259,22 @@
 <h3>Fitur Utama</h3>
 <div class="feature-grid">
   <div class="feature-card"><strong>📊 Dashboard Real-time</strong>Statistik tagihan, tunggakan, dan % KL</div>
+  <div class="feature-card new"><strong>🎯 Target Penanganan</strong>Rencanakan kunjungan harian <span class="badge badge-new">BARU</span></div>
   <div class="feature-card"><strong>👥 Data Anggota</strong>Info lengkap + saldo Pasallo &amp; Sepu'</div>
+  <div class="feature-card new"><strong>💬 WA Pengingat</strong>Kirim pengingat massal <span class="badge badge-new">BARU</span></div>
   <div class="feature-card"><strong>🏠 Kunjungan</strong>Single, Tim, &amp; Multi-Anggota</div>
+  <div class="feature-card new"><strong>📡 Mode Offline</strong>Kerja tanpa internet <span class="badge badge-new">BARU</span></div>
   <div class="feature-card"><strong>📝 Penanganan</strong>Telp/WA + Persuratan (SP1-SP3)</div>
-  <div class="feature-card"><strong>💰 Setoran</strong>Batch input + Approval admin</div>
+  <div class="feature-card"><strong>💰 Setoran</strong>Batch input + Approval</div>
   <div class="feature-card"><strong>📈 Statistik</strong>Per aktivis, per staf, rekap bulanan</div>
   <div class="feature-card"><strong>🖨️ Laporan</strong>Kartu Kontrol, KPKL, Rekap KPKL</div>
-  <div class="feature-card"><strong>📥 Import Data</strong>Auto-fix + Mapping template</div>
 </div>
 
 <h3>Role &amp; Level Pengguna</h3>
 <table>
   <tr><th>Level</th><th>Akses Utama</th></tr>
-  <tr><td><strong>Pengurus / Komite</strong></td><td>Semua fitur + approve setoran</td></tr>
-  <tr><td><strong>Manager</strong></td><td>Semua fitur + admin tools</td></tr>
+  <tr><td><strong>Pengurus / Komite</strong></td><td>Lihat semua data + approve setoran</td></tr>
+  <tr><td><strong>Manager</strong></td><td>Kelola tim &amp; lihat semua data</td></tr>
   <tr><td><strong>Staf</strong></td><td>Kelola anggota binaan aktivis</td></tr>
   <tr><td><strong>Aktivis</strong></td><td>Kelola anggota sendiri</td></tr>
 </table>
@@ -508,14 +311,10 @@
 <ul>
   <li>🏠 Beranda</li>
   <li>📊 Statistik</li>
-  <li>📂 Rekap &amp; Laporan</li>
-  <li>✉️ Persuratan</li>
+  <li>✉️ Persuratan <em>(khusus Staf/Manager/Pengurus/Komite)</em></li>
   <li>🖨️ Cetak Laporan</li>
+  <li>🎯 Target Penanganan <span class="badge badge-new">BARU</span></li>
   <li>🔔 Pengingat</li>
-  <li>⚙️ Menu Admin <span class="badge badge-red">ADMIN</span></li>
-  <li>📥 Import Data <span class="badge badge-red">ADMIN</span></li>
-  <li>🔧 Tools Database <span class="badge badge-red">ADMIN</span></li>
-  <li>📦 Backup Database <span class="badge badge-red">ADMIN</span></li>
   <li>👤 Profil Saya</li>
   <li>❓ Bantuan</li>
   <li>ℹ️ Tentang Aplikasi</li>
@@ -530,6 +329,17 @@
 <h2 id="beranda">🏠 3. Beranda (Dashboard)</h2>
 
 <p>Setelah login, halaman pertama adalah <strong>Beranda</strong>. Berisi:</p>
+
+<h3>Badge Target <span class="badge badge-new">BARU</span></h3>
+<div class="box new">
+  <strong>🎯 Badge Target Hari Ini</strong><br>
+  Muncul otomatis kalau Anda punya target aktif. Menampilkan:
+  <ul>
+    <li>Progress target hari ini (X/Y selesai)</li>
+    <li>Status cache offline (✅ Siap / ⚠️ Belum diunduh)</li>
+    <li>Tombol <strong>"Lihat →"</strong> ke halaman target</li>
+  </ul>
+</div>
 
 <h3>Dashboard (6 Kartu)</h3>
 <ul>
@@ -562,22 +372,73 @@
 <ul>
   <li>🏠 <strong>Kunjungan Multi</strong> — kunjungi 2-10 anggota sekaligus</li>
   <li>💰 <strong>Input Setoran</strong> — input setoran ke kantor</li>
+  <li>📥 <strong>Unduh Data Offline</strong> — persiapkan data offline <span class="badge badge-new">BARU</span></li>
 </ul>
 
-<h3>Pencarian &amp; Filter</h3>
+<h3>Pencarian</h3>
 <ul>
   <li>🔍 <strong>Search box</strong> — cari nama / CIF / desa / NoRek</li>
+  <li>❌ <strong>Tombol clear (✕)</strong> — kosongkan pencarian dengan cepat</li>
   <li>📥 <strong>CSV</strong> — export daftar ke Excel/CSV</li>
-  <li>📍 <strong>Filter Aktivis</strong> — tampilkan hanya anggota dari aktivis tertentu</li>
-  <li>⚙️ <strong>Filter Menunggak</strong> — tampilkan hanya yang menunggak, atau semua</li>
 </ul>
 
 <hr>
 
 <!-- ============================================ -->
-<!-- 4. ANGGOTA -->
+<!-- 4. FILTER -->
 <!-- ============================================ -->
-<h2 id="anggota">👥 4. Daftar &amp; Detail Anggota</h2>
+<h2 id="filter">⚙️ 4. Filter Cerdas (Aktivis + Jenis Anggota) <span class="badge badge-new">BARU</span></h2>
+
+<div class="box new">
+  <strong>✨ BARU:</strong> Filter Aktivis dan Filter Jenis Anggota sekarang <strong>berdampingan</strong> agar mudah dipilih bersamaan.
+</div>
+
+<h3>Cara Pakai Filter</h3>
+
+<h4>1. Filter Aktivis (📍)</h4>
+<div class="step"><strong>Langkah 1:</strong> Klik tombol <strong>"📍 Semua Aktivis (35)"</strong> di beranda</div>
+<div class="step"><strong>Langkah 2:</strong> Centang aktivis yang mau ditampilkan</div>
+<div class="step"><strong>Langkah 3:</strong> Klik <strong>"✓ Terapkan Filter"</strong></div>
+
+<div class="box info">
+  <strong>💡 Tips:</strong>
+  <ul>
+    <li>Tombol <strong>"✓ Pilih Semua"</strong> — centang semua aktivis</li>
+    <li>Tombol <strong>"✗ Kosongkan"</strong> — hapus centang semua</li>
+    <li>Ada kotak <strong>pencarian aktivis</strong> untuk filter cepat</li>
+    <li>Filter aktif muncul sebagai <strong>chip biru</strong> di bawah search box</li>
+  </ul>
+</div>
+
+<h4>2. Filter Jenis Anggota (⚙️)</h4>
+<p>Di sebelah filter aktivis ada filter jenis:</p>
+<ul>
+  <li><strong>⚙️ Semua Anggota</strong> — tampilkan semua</li>
+  <li><strong>⚠️ Hanya Menunggak</strong> — hanya yang menunggak</li>
+</ul>
+
+<div class="box success">
+  <strong>✅ Cara Kerja Bersamaan:</strong>
+  <ul>
+    <li>Pilih aktivis "Ahmad" + filter "Hanya Menunggak"</li>
+    <li>Hasil: hanya anggota menunggak milik Ahmad</li>
+  </ul>
+</div>
+
+<h3>Chip Filter Aktif</h3>
+<p>Kalau ada filter aktif, muncul chip di bawah search box:</p>
+<ul>
+  <li>Setiap chip menampilkan 1 aktivis terpilih</li>
+  <li>Klik <strong>✕</strong> di chip untuk hapus filter tersebut</li>
+  <li>Klik <strong>"✕ Reset"</strong> untuk hapus semua filter</li>
+</ul>
+
+<hr>
+
+<!-- ============================================ -->
+<!-- 5. ANGGOTA -->
+<!-- ============================================ -->
+<h2 id="anggota">👥 5. Daftar &amp; Detail Anggota</h2>
 
 <h3>Daftar Anggota</h3>
 <p>Di beranda, semua anggota ditampilkan dalam bentuk <strong>kartu</strong>. Setiap kartu berisi:</p>
@@ -590,6 +451,8 @@
   <li>Staf pendamping &amp; aktivis</li>
   <li>Saldo pinjaman</li>
   <li>Tagihan normal &amp; tagihan program</li>
+  <li>Badge <strong>🔒 PS</strong> (kalau ada Pembayaran Sementara) <span class="badge badge-new">BARU</span></li>
+  <li>Badge <strong>⚠️ X bulan</strong> (kalau menunggak)</li>
 </ul>
 
 <div class="box warning">
@@ -597,20 +460,54 @@
 </div>
 
 <h3>Detail Anggota</h3>
-<p>Klik kartu anggota → muncul halaman detail dengan:</p>
+<p>Klik kartu anggota → muncul halaman detail dengan <strong>5 section accordion</strong>:</p>
 
-<h4>Info Lengkap</h4>
+<h4>📞 Section Kontak</h4>
 <ul>
-  <li>Nama, NoRek, CIF, jenis pinjaman</li>
   <li>No HP (dengan tombol <strong>Edit</strong> dan <strong>Salin</strong>)</li>
   <li>Alamat lengkap</li>
-  <li>Tanggal jatuh tempo</li>
-  <li>Saldo pinjaman, tagihan normal, tagihan program</li>
-  <li>Lama menunggak &amp; keterangan</li>
-  <li>Saldo Pasallo' &amp; Saldo Sepu'</li>
 </ul>
 
-<h4>Rumus Tagihan (Penting!)</h4>
+<h4>💰 Section Pinjaman</h4>
+<ul>
+  <li>Tanggal jatuh tempo</li>
+  <li>Saldo pinjaman</li>
+  <li>Tagihan normal &amp; tagihan program</li>
+  <li>Lama menunggak</li>
+  <li>Keterangan tunggakan</li>
+  <li><strong>Info PS</strong> (kalau ada) — nominal, tanggal, keterangan <span class="badge badge-new">BARU</span></li>
+</ul>
+
+<h4>💎 Section Simpanan</h4>
+<ul>
+  <li>Saldo Pasallo'</li>
+  <li>Saldo Sepu'</li>
+</ul>
+
+<h4>🎯 Section Aksi</h4>
+<ul>
+  <li>📝 Proses Penanganan</li>
+  <li>🏠 Kunjungan Multi-Anggota</li>
+  <li>📄 Cetak KPKL (PDF)</li>
+  <li><strong>📱 Tombol WA Pengingat</strong> (4 jenis) <span class="badge badge-new">BARU</span></li>
+</ul>
+
+<h4>📋 Section Riwayat</h4>
+<p>Tab-based:</p>
+<ul>
+  <li>🏠 <strong>Kunjungan</strong> — semua riwayat kunjungan</li>
+  <li>📝 <strong>Penanganan</strong> — riwayat telp/WA/surat</li>
+  <li>📞 <strong>No HP</strong> — riwayat update nomor HP</li>
+</ul>
+
+<h3>Tombol Cepat</h3>
+<ul>
+  <li>📞 <strong>Telepon</strong> — langsung panggil nomor HP</li>
+  <li>💬 <strong>WhatsApp</strong> — kirim pesan tagihan via WA</li>
+  <li>🗺️ <strong>Maps</strong> — buka lokasi di Google Maps</li>
+</ul>
+
+<h3>Rumus Tagihan (Penting!)</h3>
 <div class="box success">
   <strong>📐 Rumus Tagihan Normal:</strong><br>
   Angsuran = <code>PokokJT + TunggakanPokok</code> (kalau &gt; 0), atau <code>NilaiAngsuran</code> (kalau = 0)<br>
@@ -622,51 +519,107 @@
   Total = <code>Angsuran + Bunga + Denda + SimpananStandar</code> → dibulatkan ke 10.000
 </div>
 
-<h4>Tombol Aksi</h4>
+<hr>
+
+<!-- ============================================ -->
+<!-- 6. TARGET -->
+<!-- ============================================ -->
+<h2 id="target">🎯 6. Target Penanganan <span class="badge badge-new">BARU</span></h2>
+
+<div class="box new">
+  <strong>✨ FITUR BARU:</strong> Rencanakan siapa yang mau Anda kunjungi hari ini. Target membantu Anda fokus &amp; memudahkan navigasi antar anggota.
+</div>
+
+<h3>Apa itu Target?</h3>
+<p>Target = daftar anggota yang Anda rencanakan untuk dikunjungi. Bisa dibuat sendiri atau ditugaskan oleh manager.</p>
+
+<h3>Cara Akses</h3>
+<div class="step"><strong>Cara 1:</strong> Klik badge <strong>🎯 Target Hari Ini</strong> di beranda</div>
+<div class="step"><strong>Cara 2:</strong> Klik sidebar <strong>☰ → 🎯 Target Penanganan</strong></div>
+
+<h3>Tambah Target (Self)</h3>
+<div class="step"><strong>Langkah 1:</strong> Di halaman Target, klik <strong>"➕ TAMBAH TARGET"</strong></div>
+<div class="step"><strong>Langkah 2:</strong> Pilih prioritas (Tinggi / Sedang / Rendah)</div>
+<div class="step"><strong>Langkah 3:</strong> Isi keterangan (opsional)</div>
+<div class="step"><strong>Langkah 4:</strong> Cari anggota dengan search box</div>
+<div class="step"><strong>Langkah 5:</strong> Klik anggota untuk pilih (bisa multi)</div>
+<div class="step"><strong>Langkah 6:</strong> Klik <strong>"💾 SIMPAN TARGET"</strong></div>
+
+<h3>Target dari Manager (Assign)</h3>
+<p>Kalau manager menugaskan target ke Anda:</p>
 <ul>
-  <li>📞 <strong>Telepon</strong> — langsung panggil nomor HP</li>
-  <li>💬 <strong>WhatsApp</strong> — kirim pesan tagihan via WA</li>
-  <li>🗺️ <strong>Maps</strong> — buka lokasi di Google Maps</li>
-  <li>💳 <strong>Kirim Info Transfer</strong> — kirim nomor rekening kantor via WA</li>
+  <li>Badge target menampilkan target tersebut</li>
+  <li>Tombol <strong>🗑️ Hapus</strong> diganti <strong>🔒</strong> (tidak bisa hapus)</li>
+  <li>Hubungi manager untuk hapus</li>
 </ul>
 
-<h4>Tombol Penanganan</h4>
-<ul>
-  <li>📝 <strong>Proses Penanganan</strong> — pilih jenis penanganan</li>
-  <li>🏠 <strong>Kunjungan Multi-Anggota</strong> — kunjungi beberapa anggota</li>
-  <li>📄 <strong>Cetak KPKL (PDF)</strong> — cetak Kartu Penanganan Kredit Lalai</li>
-</ul>
+<h3>Navigasi Antara Target <span class="badge badge-new">BARU</span></h3>
+<div class="box new">
+  <strong>✨ BARU:</strong> Saat buka detail anggota yang ada di target, muncul <strong>navigasi target</strong> di atas:
+  <ul>
+    <li>🎯 <strong>Badge "TARGET"</strong> kuning</li>
+    <li>⬅️ <strong>Tombol "Sebelumnya"</strong> (kunjungi target sebelumnya)</li>
+    <li>➡️ <strong>Tombol "Berikutnya"</strong> (kunjungi target berikutnya)</li>
+    <li>Progress: <em>Target 3 dari 15</em></li>
+    <li>Counter: <em>Sesi ini: 2 kunjungan</em></li>
+  </ul>
+</div>
+
+<h3>Setelah Simpan Kunjungan</h3>
+<p>Kalau kunjungan disimpan dari target, akan muncul prompt:</p>
+<div class="box info">
+  <strong>✅ Kunjungan Tersimpan!</strong><br>
+  📝 Sesi ini: <strong>2</strong> kunjungan<br>
+  📍 Posisi: 3 / 15<br>
+  ⏭️ Sisa: <strong>12</strong> anggota<br><br>
+  <strong>[➡️ Lanjut]</strong> — ke target berikutnya<br>
+  <strong>[🏠 Beranda]</strong> — selesai, balik ke beranda
+</div>
+
+<h3>Status Target</h3>
+<table>
+  <tr><th>Status</th><th>Keterangan</th></tr>
+  <tr><td><strong>⏳ Pending</strong></td><td>Belum dikunjungi</td></tr>
+  <tr><td><strong>🔄 Sedang Dikerjakan</strong></td><td>Sedang diproses</td></tr>
+  <tr><td><strong>✅ Selesai</strong></td><td>Sudah dikunjungi (auto setelah kunjungan)</td></tr>
+  <tr><td><strong>❌ Batal</strong></td><td>Dibatalkan</td></tr>
+</table>
+
+<h3>Multi-Select Hapus Target <span class="badge badge-new">BARU</span></h3>
+<div class="step"><strong>Langkah 1:</strong> Klik <strong>"☑️ PILIH MULTI"</strong></div>
+<div class="step"><strong>Langkah 2:</strong> Centang target yang mau dihapus</div>
+<div class="step"><strong>Langkah 3:</strong> Klik <strong>"🗑️ HAPUS TERPILIH (N)"</strong></div>
 
 <hr>
 
 <!-- ============================================ -->
-<!-- 5. KUNJUNGAN -->
+<!-- 7. KUNJUNGAN -->
 <!-- ============================================ -->
-<h2 id="kunjungan">🏠 5. Kunjungan</h2>
+<h2 id="kunjungan">🏠 7. Kunjungan (3 Metode)</h2>
 
-<h3>Kunjungan Langsung (1 Anggota)</h3>
+<h3>Metode 1: Kunjungan Langsung (1 Anggota)</h3>
 <div class="step"><strong>Langkah 1:</strong> Buka detail anggota</div>
 <div class="step"><strong>Langkah 2:</strong> Klik <strong>"PROSES PENANGANAN"</strong> → <strong>"Kunjungan Langsung"</strong></div>
-<div class="step"><strong>Langkah 3:</strong> Isi form:
-  <ul>
-    <li>📅 Tanggal kunjungan</li>
-    <li>✅ Status kunjungan (7 pilihan)</li>
-    <li>💰 Nominal bayar (kalau ada)</li>
-    <li>📝 Catatan</li>
-    <li>📷 Foto bukti (kamera/galeri)</li>
-    <li>✍️ Tanda tangan anggota</li>
-  </ul>
-</div>
-<div class="step"><strong>Langkah 4:</strong> Klik <strong>"SIMPAN KUNJUNGAN"</strong></div>
+<div class="step"><strong>Langkah 3:</strong> Isi form: tanggal, status, nominal, catatan, transportasi</div>
+<div class="step"><strong>Langkah 4:</strong> Upload foto bukti (kamera/galeri)</div>
+<div class="step"><strong>Langkah 5:</strong> Tanda tangan anggota (canvas)</div>
+<div class="step"><strong>Langkah 6:</strong> Klik <strong>"SIMPAN KUNJUNGAN"</strong></div>
 
 <div class="box info">
-  <strong>💡 Tips:</strong> Foto otomatis diberi <strong>watermark</strong> (tanggal, lokasi, nama petugas).
+  <strong>💡 Tips:</strong> Foto otomatis diberi <strong>watermark</strong> (tanggal, lokasi GPS, nama petugas, nama anggota).
 </div>
 
-<h3>Penagihan Tim</h3>
-<p>Kalau Anda menagih <strong>bersama petugas lain</strong>:</p>
+<h4>Keterangan Transportasi <span class="badge badge-new">BARU</span></h4>
+<p>Field opsional untuk catat transportasi:</p>
+<ul>
+  <li>🏍️ <strong>Motor Pribadi</strong></li>
+  <li>👥 <strong>Dibonceng [nama]</strong> — isi nama yang membonceng</li>
+  <li>🚗 <strong>Mobil</strong></li>
+</ul>
+
+<h3>Metode 2: Penagihan Tim (Multi Petugas)</h3>
 <div class="step"><strong>Langkah 1:</strong> Klik <strong>"Proses Penanganan"</strong> → <strong>"Penagihan Tim"</strong></div>
-<div class="step"><strong>Langkah 2:</strong> <strong>Pilih petugas</strong> yang ikut (minimal 2 orang)</div>
+<div class="step"><strong>Langkah 2:</strong> <strong>Pilih petugas</strong> yang ikut (min 2 orang)</div>
 <div class="step"><strong>Langkah 3:</strong> Isi status, nominal, foto, TTD</div>
 <div class="step"><strong>Langkah 4:</strong> Klik <strong>"SIMPAN"</strong></div>
 
@@ -674,19 +627,31 @@
   <strong>✅ Keuntungan:</strong> Cukup 1 orang input. Kunjungan dihitung untuk semua petugas. Setoran tetap 1x.
 </div>
 
-<h3>Kunjungan Multi-Anggota (2-10 Anggota)</h3>
+<h3>Metode 3: Kunjungan Multi-Anggota (2-10 Anggota)</h3>
 <div class="step"><strong>Langkah 1:</strong> Dari beranda → <strong>"Kunjungan Multi"</strong></div>
 <div class="step"><strong>Langkah 2:</strong> Cari &amp; pilih 2-10 anggota</div>
 <div class="step"><strong>Langkah 3:</strong> Isi status &amp; nominal <strong>per anggota</strong></div>
 <div class="step"><strong>Langkah 4:</strong> Isi catatan, foto, TTD (berlaku semua)</div>
 <div class="step"><strong>Langkah 5:</strong> Klik <strong>"SIMPAN"</strong></div>
 
+<h3>Status Kunjungan (7 Pilihan)</h3>
+<table>
+  <tr><th>Status</th><th>Kapan Dipakai</th></tr>
+  <tr><td>💰 <strong>Bayar Tunai</strong></td><td>Anggota bayar langsung cash</td></tr>
+  <tr><td>💳 <strong>Sudah Bayar Via Transfer</strong></td><td>Sudah transfer ke rekening kantor</td></tr>
+  <tr><td>🏦 <strong>Sudah Bayar Via Tabungan</strong></td><td>Bayar pakai tabungan</td></tr>
+  <tr><td>🟡 <strong>Janji Bayar</strong></td><td>Berjanji bayar di tanggal tertentu</td></tr>
+  <tr><td>❌ <strong>Belum Bayar</strong></td><td>Belum ada bayar, belum janji</td></tr>
+  <tr><td>🚫 <strong>Tidak Ditemui</strong></td><td>Anggota tidak ada di rumah</td></tr>
+  <tr><td>📍 <strong>Pindah/Alamat Salah</strong></td><td>Anggota pindah / alamat tidak valid</td></tr>
+</table>
+
 <hr>
 
 <!-- ============================================ -->
-<!-- 6. PENANGANAN -->
+<!-- 8. PENANGANAN -->
 <!-- ============================================ -->
-<h2 id="penanganan">📞 6. Penanganan (Telp/WA)</h2>
+<h2 id="penanganan">📞 8. Penanganan (Telp/WA)</h2>
 
 <p>Untuk mencatat hasil telepon atau WhatsApp:</p>
 <div class="step"><strong>Langkah 1:</strong> Buka detail anggota → <strong>"Proses Penanganan"</strong> → <strong>"Telepon / WA"</strong></div>
@@ -702,11 +667,69 @@
 <hr>
 
 <!-- ============================================ -->
-<!-- 7. PERSURATAN -->
+<!-- 9. WA PENGINGAT -->
 <!-- ============================================ -->
-<h2 id="persuratan">✉️ 7. Persuratan</h2>
+<h2 id="wa">💬 9. WA Pengingat <span class="badge badge-new">BARU</span></h2>
 
-<p>Menu <strong>Persuratan</strong> (di sidebar) untuk kelola semua surat.</p>
+<div class="box new">
+  <strong>✨ FITUR BARU:</strong> Kirim pengingat tagihan massal ke banyak anggota sekaligus. Hemat waktu!
+</div>
+
+<h3>Cara Akses</h3>
+<div class="step"><strong>Cara 1:</strong> Klik tombol <strong>📱 FAB</strong> (bulat hijau) di beranda</div>
+<div class="step"><strong>Cara 2:</strong> Dari detail anggota → section Aksi → tombol WA Pengingat</div>
+
+<h3>WA Pengingat Individual (dari Detail)</h3>
+<p>Di detail anggota, ada 4 tombol WA:</p>
+<table>
+  <tr><th>Tombol</th><th>Untuk</th></tr>
+  <tr><td>🔔 <strong>Pengingat JTO</strong></td><td>Ingatkan tagihan jatuh tempo</td></tr>
+  <tr><td>⏰ <strong>Pengingat H-3</strong></td><td>Ingatkan 3 hari sebelum JTO</td></tr>
+  <tr><td>💎 <strong>Info PS</strong></td><td>Info Pembayaran Sementara (kalau ada)</td></tr>
+  <tr><td>📅 <strong>Pengingat Janji Bayar</strong></td><td>Ingatkan janji bayar</td></tr>
+</table>
+
+<h3>WA Bulk (Massal)</h3>
+<div class="step"><strong>Langkah 1:</strong> Klik tombol <strong>📱 FAB</strong> di beranda</div>
+<div class="step"><strong>Langkah 2:</strong> Pilih filter: <strong>⏰ JTO H-3</strong> / <strong>📅 JTO Hari Ini</strong> / <strong>⚠️ JTO Lewat</strong> / <strong>📋 Semua</strong></div>
+<div class="step"><strong>Langkah 3:</strong> Modal preview muncul dengan daftar anggota</div>
+<div class="step"><strong>Langkah 4:</strong> Pilih jenis template (Tagihan / H-3 / Janji)</div>
+<div class="step"><strong>Langkah 5:</strong> Uncheck anggota yang tidak mau di-kirim</div>
+<div class="step"><strong>Langkah 6:</strong> Klik <strong>"📱 KIRIM WA"</strong></div>
+
+<div class="box success">
+  <strong>✅ Filter Otomatis No HP Valid:</strong>
+  <ul>
+    <li>Anggota tanpa No HP <strong>tidak akan muncul</strong> di daftar</li>
+    <li>No HP invalid (kosong, strip, "xxx") otomatis di-skip</li>
+    <li>Hanya No HP format <code>62xxx</code> (10-15 digit) yang lolos</li>
+  </ul>
+</div>
+
+<h3>Mode Pengiriman</h3>
+<table>
+  <tr><th>Mode</th><th>Cara Kerja</th></tr>
+  <tr><td>📱 <strong>Manual</strong></td><td>Buka WhatsApp Web/App satu per satu (gratis)</td></tr>
+  <tr><td>🚀 <strong>Gateway</strong></td><td>Kirim otomatis via API (butuh API key dari admin)</td></tr>
+</table>
+
+<div class="box warning">
+  <strong>⚠️ Penting:</strong> Mode manual membuka WA satu per satu. Untuk 20+ anggota, butuh waktu. Siapkan WA Web atau WA App.
+</div>
+
+<h3>Log Pengiriman</h3>
+<p>Semua WA yang dikirim tercatat di log. Hubungi admin untuk lihat log.</p>
+
+<hr>
+
+<!-- ============================================ -->
+<!-- 10. PERSURATAN -->
+<!-- ============================================ -->
+<h2 id="persuratan">✉️ 10. Persuratan</h2>
+
+<div class="box info">
+  <strong>ℹ️ Akses:</strong> Persuratan hanya tersedia untuk <strong>Staf, Manager, Pengurus, Komite</strong>. Aktivis tidak bisa akses.
+</div>
 
 <h3>Halaman Utama Persuratan</h3>
 <p>Ada 3 menu:</p>
@@ -729,7 +752,6 @@
   <li>Filter by bulan</li>
   <li>Pencarian by nama/nomor</li>
   <li>Cetak ulang</li>
-  <li>Hapus (admin only)</li>
 </ul>
 
 <h3>Rekap Persuratan</h3>
@@ -739,16 +761,12 @@
   <li>Per petugas</li>
 </ul>
 
-<div class="box success">
-  <strong>✨ Format Surat:</strong> Surat Tagihan, SP1, SP2, SP3 dengan kop surat, nomor otomatis, rincian tunggakan, dan tanda tangan manager.
-</div>
-
 <hr>
 
 <!-- ============================================ -->
-<!-- 8. SETORAN -->
+<!-- 11. SETORAN -->
 <!-- ============================================ -->
-<h2 id="setoran">💰 8. Setoran</h2>
+<h2 id="setoran">💰 11. Setoran</h2>
 
 <p>Untuk mencatat setoran dari anggota ke kantor:</p>
 <div class="step"><strong>Langkah 1:</strong> Dari beranda → klik <strong>"Input Setoran"</strong></div>
@@ -766,9 +784,81 @@
 <hr>
 
 <!-- ============================================ -->
-<!-- 9. STATISTIK -->
+<!-- 12. MODE OFFLINE -->
 <!-- ============================================ -->
-<h2 id="statistik">📊 9. Statistik &amp; Rekap</h2>
+<h2 id="offline">📡 12. Mode Offline <span class="badge badge-new">BARU</span></h2>
+
+<div class="box new">
+  <strong>✨ FITUR BARU:</strong> Kerja tanpa internet! Data target bisa diunduh dulu, lalu dibuka kapan saja meski offline.
+</div>
+
+<h3>Kapan Pakai Mode Offline?</h3>
+<ul>
+  <li>📍 Kunjungan ke daerah yang sinyalnya lemah</li>
+  <li>🏍️ Sedang di perjalanan tanpa internet</li>
+  <li>⚡ Ingin buka data lebih cepat (dari cache, tidak perlu load server)</li>
+</ul>
+
+<h3>Cara Aktifkan Offline Mode</h3>
+
+<h4>Step 1: Unduh Data Target (Online)</h4>
+<div class="step"><strong>Langkah 1:</strong> Pastikan online + sudah ada target</div>
+<div class="step"><strong>Langkah 2:</strong> Buka beranda → tunggu sampai target ke-load</div>
+<div class="step"><strong>Langkah 3:</strong> Klik tombol <strong>📥 Unduh Data Offline</strong></div>
+<div class="step"><strong>Langkah 4:</strong> Tunggu progress bar selesai (~30 detik untuk 15 target)</div>
+
+<div class="box success">
+  <strong>✅ Setelah selesai:</strong><br>
+  Badge target berubah: <strong>"✅ Siap offline (15 target)"</strong>
+</div>
+
+<h4>Step 2: Kerja Offline</h4>
+<div class="step"><strong>Langkah 1:</strong> Matikan WiFi / data seluler</div>
+<div class="step"><strong>Langkah 2:</strong> Beranda otomatis filter <strong>hanya target</strong></div>
+<div class="step"><strong>Langkah 3:</strong> Banner biru <strong>"Mode Target (Offline)"</strong> muncul</div>
+<div class="step"><strong>Langkah 4:</strong> Buka detail anggota target → data dari cache</div>
+<div class="step"><strong>Langkah 5:</strong> Kunjungan bisa di-save offline → masuk <strong>queue</strong></div>
+<div class="step"><strong>Langkah 6:</strong> Sync otomatis saat kembali online</div>
+
+<h3>Indikator Offline</h3>
+<ul>
+  <li>📡 <strong>Badge koneksi</strong> di header (🌐 online / 📡 offline)</li>
+  <li>⏳ <strong>Badge pending</strong> — jumlah data menunggu sync</li>
+  <li>🎯 <strong>Banner "Mode Target (Offline)"</strong> — filter hanya target</li>
+</ul>
+
+<h3>Batasan Offline</h3>
+<table>
+  <tr><th>Bisa</th><th>Tidak Bisa</th></tr>
+  <tr><td>✅ Buka detail anggota target</td><td>❌ Buka detail di luar target</td></tr>
+  <tr><td>✅ Simpan kunjungan (queue)</td><td>❌ Kirim WA</td></tr>
+  <tr><td>✅ Lihat riwayat</td><td>❌ Load data baru</td></tr>
+  <tr><td>✅ Filter &amp; search</td><td>❌ Update profil</td></tr>
+</table>
+
+<h3>Sync Otomatis</h3>
+<p>Saat kembali online:</p>
+<ul>
+  <li>Toast muncul: <em>"🌐 Online! Sync N data..."</em></li>
+  <li>Data queue otomatis di-sync ke server</li>
+  <li>Badge pending hilang</li>
+</ul>
+
+<h3>Kelola Queue Manual</h3>
+<p>Klik <strong>badge pending</strong> di header untuk:</p>
+<ul>
+  <li>Lihat semua data menunggu</li>
+  <li><strong>🔄 Sync Sekarang</strong> — paksa sync manual</li>
+  <li><strong>🔄 Retry</strong> — coba sync item gagal</li>
+  <li><strong>🗑️ Hapus</strong> — buang item (kalau data sudah tidak perlu)</li>
+</ul>
+
+<hr>
+
+<!-- ============================================ -->
+<!-- 13. STATISTIK -->
+<!-- ============================================ -->
+<h2 id="statistik">📊 13. Statistik &amp; Rekap</h2>
 
 <h3>Statistik Per Aktivis</h3>
 <p>Menu <strong>📊 Statistik → Statistik Per Aktivis</strong></p>
@@ -791,20 +881,25 @@
 <h3>Rekap Bulanan Saya</h3>
 <p>Menu <strong>📂 Rekap → Rekap Bulanan Saya</strong></p>
 
-<h3>Rekap Bulanan Semua (Admin/Manager/Pengurus)</h3>
-<p>Menu <strong>📂 Rekap → Rekap Bulanan Semua</strong></p>
+<h3>Rekap Setoran</h3>
+<p>Menu <strong>📂 Rekap → Rekap Setoran</strong></p>
+<ul>
+  <li>Total setoran bulan ini</li>
+  <li>Breakdown approved / pending</li>
+  <li>Export CSV</li>
+</ul>
 
 <hr>
 
 <!-- ============================================ -->
-<!-- 10. LAPORAN -->
+<!-- 14. LAPORAN -->
 <!-- ============================================ -->
-<h2 id="laporan">🖨️ 10. Cetak Laporan</h2>
+<h2 id="laporan">🖨️ 14. Cetak Laporan</h2>
 
 <p>Menu <strong>🖨️ Cetak Laporan</strong> menyediakan 4 jenis laporan:</p>
 <table>
   <tr><th>Laporan</th><th>Kegunaan</th></tr>
-  <tr><td><strong>Kartu Kontrol Staf</strong></td><td>Rekap penagihan per staf per bulan</td></tr>
+  <tr><td><strong>Kartu Kontrol Staf</strong></td><td>Rekap penagihan per staf per bulan (2 lembar: 1-15 &amp; 16-31)</td></tr>
   <tr><td><strong>Kartu Kontrol Aktivis</strong></td><td>Rekap kunjungan per aktivis per bulan</td></tr>
   <tr><td><strong>Data Rekap KPKL</strong></td><td>Rekap KPKL semua wilayah</td></tr>
   <tr><td><strong>KPKL</strong></td><td>Kartu Kredit Lalai per anggota</td></tr>
@@ -820,143 +915,52 @@
 <hr>
 
 <!-- ============================================ -->
-<!-- 11. ADMIN -->
+<!-- 15. ALUR KERJA HARIAN -->
 <!-- ============================================ -->
-<h2 id="admin">⚙️ 11. Menu Admin</h2>
+<h2 id="alur">📅 15. Alur Kerja Harian</h2>
 
-<div class="box danger">
-  <strong>⚠️ Menu ini hanya bisa diakses admin.</strong>
-</div>
-
-<h3>Setup Dasar</h3>
-<table>
-  <tr><th>Menu</th><th>Fungsi</th></tr>
-  <tr><td>🏛️ <strong>Setup Credit Union</strong></td><td>Nama CU, alamat, telepon, email, logo</td></tr>
-  <tr><td>🏪 <strong>Setup TP</strong></td><td>Nama TP, kota surat, no rekening kantor, nama manager, komite</td></tr>
-  <tr><td>👥 <strong>Setup Petugas</strong></td><td>Tambah / edit / reset password / nonaktifkan</td></tr>
-  <tr><td>💬 <strong>Setup WA</strong></td><td>Template WA tagihan &amp; transfer</td></tr>
-  <tr><td>🧮 <strong>Setup Perhitungan</strong></td><td>Buffer, simpanan standar, pembulatan</td></tr>
-  <tr><td>📋 <strong>Setup Config</strong></td><td>Jenis pinjaman, simpanan, penanganan, status</td></tr>
-</table>
-
-<h3>Setup Persuratan</h3>
-<table>
-  <tr><th>Menu</th><th>Fungsi</th></tr>
-  <tr><td>🔢 <strong>Nomor Surat</strong></td><td>Format nomor surat otomatis</td></tr>
-  <tr><td>📝 <strong>Template Surat</strong></td><td>Isi template per jenis surat + tembusan</td></tr>
-  <tr><td>🖼️ <strong>Kop Laporan</strong></td><td>Upload kop surat untuk laporan</td></tr>
-</table>
-
-<h3>Setup Operasional</h3>
-<table>
-  <tr><th>Menu</th><th>Fungsi</th></tr>
-  <tr><td>🔒 <strong>Kunci Tanggal</strong></td><td>Kunci tanggal kunjungan</td></tr>
-  <tr><td>📅 <strong>Kalender Kerja</strong></td><td>Hari kerja &amp; libur</td></tr>
-  <tr><td>🔤 <strong>Format ID</strong></td><td>Format ID kunjungan/penanganan/setoran</td></tr>
-  <tr><td>🔔 <strong>Notifikasi</strong></td><td>Hari pengingat</td></tr>
-  <tr><td>🎨 <strong>Tampilan</strong></td><td>Warna &amp; logo</td></tr>
-  <tr><td>🛡️ <strong>Keamanan</strong></td><td>Level akses menu</td></tr>
-  <tr><td>📋 <strong>Template Import</strong></td><td>Kelola template mapping Excel</td></tr>
-</table>
-
-<hr>
-
-<!-- ============================================ -->
-<!-- 12. IMPORT -->
-<!-- ============================================ -->
-<h2 id="import">📥 12. Import Data</h2>
-
-<p>Menu <strong>Import Data</strong> untuk upload data dari Excel.</p>
-
-<h3>Langkah Import</h3>
-<div class="step"><strong>Langkah 1:</strong> Pilih <strong>Tabel Tujuan</strong> (01_MasterAnggota, 02_DataPinjaman, 03_DataSimpanan, 04_DataTagihan, 05_Petugas)</div>
-<div class="step"><strong>Langkah 2:</strong> Upload file Excel/CSV</div>
-<div class="step"><strong>Langkah 3:</strong> Preview &amp; Mapping kolom (otomatis dari template)</div>
-<div class="step"><strong>Langkah 4:</strong> Pilih mode import:
-  <ul>
-    <li>➕ <strong>Tambah Baru</strong> — skip duplikat</li>
-    <li>🔄 <strong>Update</strong> — timpa yang ada</li>
-    <li>🔃 <strong>Ganti Semua</strong> — hapus dulu</li>
-  </ul>
-</div>
-<div class="step"><strong>Langkah 5:</strong> Klik <strong>"PROSES IMPORT"</strong></div>
-
-<h3>Auto-Fix saat Import</h3>
-<p>Sistem otomatis memperbaiki:</p>
-<ul>
-  <li>CIF dinormalisasi (hindari notasi ilmiah)</li>
-  <li>NoHP dinormalisasi (format 62xxx)</li>
-  <li>Tanggal konversi dari serial Excel</li>
-  <li>Nama panggilan, alamat, desa (dari master)</li>
-  <li>Jenis pinjaman dikonversi ke kode</li>
-  <li>Kolom turunan dihitung otomatis</li>
-</ul>
-
-<div class="box warning">
-  <strong>⚠️ URUTAN IMPORT YANG BENAR:</strong>
-  <ol>
-    <li>01_MasterAnggota</li>
-    <li>02_DataPinjaman</li>
-    <li>03_DataSimpanan</li>
-    <li>04_DataTagihan</li>
-    <li><strong>Jalankan "Rehitung Tagihan"</strong> (lihat bawah)</li>
-  </ol>
-</div>
-
-<h3>Rehitung Tagihan (Setelah Import 04)</h3>
-<div class="box danger">
-  <strong>⚠️ WAJIB:</strong> Setelah import <strong>04_DataTagihan</strong>, jalankan <strong>Rehitung Tagihan</strong> dari Apps Script Editor:
-  <ol>
-    <li>Buka Apps Script Editor</li>
-    <li>Pilih fungsi <code>rehitungTagihanOtomatis</code></li>
-    <li>Klik <strong>▶️ Run</strong></li>
-  </ol>
-  Tanpa langkah ini, Tagihan Normal &amp; Program tidak akan sesuai.
-</div>
-
-<hr>
-
-<!-- ============================================ -->
-<!-- 13. ALUR KERJA HARIAN -->
-<!-- ============================================ -->
-<h2 id="alur">📅 13. Alur Kerja Harian</h2>
-
-<h3>Pagi (07:00 - 09:00)</h3>
+<h3>Pagi (07:00 - 09:00) — Persiapan</h3>
 <ol>
   <li>Login ke aplikasi</li>
   <li>Cek <strong>Dashboard</strong> — perhatikan angka hari ini</li>
-  <li>Cek <strong>Pengingat</strong> — ada janji bayar / kunjungan ulang hari ini?</li>
-  <li>Cek <strong>Filter Menunggak</strong> — cari yang perlu dikunjungi</li>
+  <li>Cek <strong>Badge Target</strong> — berapa target hari ini?</li>
+  <li>Cek <strong>Pengingat</strong> — ada janji bayar / kunjungan ulang?</li>
+  <li>Kalau ada target: klik <strong>📥 Unduh Data Offline</strong> (persiapan)</li>
+  <li>Kalau tidak ada target: buka <strong>🎯 Target Penanganan</strong> → tambah target</li>
 </ol>
 
-<h3>Siang (09:00 - 15:00)</h3>
+<h3>Siang (09:00 - 15:00) — Kunjungan</h3>
 <ol>
-  <li>Kunjungi anggota (single/tim/multi)</li>
-  <li>Input status kunjungan di aplikasi (langsung saat di lokasi)</li>
+  <li>Kunjungi anggota sesuai urutan target</li>
+  <li>Setelah kunjungan, simpan di aplikasi</li>
+  <li>Kalau ada target berikutnya, klik <strong>➡️ Lanjut</strong></li>
   <li>Foto bukti + tanda tangan</li>
-  <li>Kirim WA untuk info transfer (kalau ada)</li>
+  <li>Kirim WA untuk info transfer (kalau perlu)</li>
+  <li>Kalau ada yang bayar tunai → catat setoran</li>
 </ol>
 
-<h3>Sore (15:00 - 17:00)</h3>
+<h3>Sore (15:00 - 17:00) — Rekap</h3>
 <ol>
   <li>Cek semua kunjungan sudah ter-input</li>
-  <li>Input setoran (kalau ada bayar tunai)</li>
-  <li>Cetak surat (Surat Tagihan / SP1 / SP2 / SP3) untuk yang perlu</li>
+  <li>Input setoran final</li>
+  <li>Kirim WA massal ke yang belum bayar</li>
+  <li>Cetak surat (Surat Tagihan / SP1 / SP2 / SP3)</li>
+  <li>Cek sisa target hari ini</li>
 </ol>
 
-<h3>Malam (17:00+)</h3>
+<h3>Malam (17:00+) — Evaluasi</h3>
 <ol>
   <li>Cek <strong>Statistik Hari Ini</strong></li>
   <li>Cek <strong>Top Petugas</strong></li>
-  <li>Rencana kunjungan besok</li>
+  <li>Rencana target besok</li>
 </ol>
 
 <hr>
 
 <!-- ============================================ -->
-<!-- 14. TROUBLESHOOTING -->
+<!-- 16. TROUBLESHOOTING -->
 <!-- ============================================ -->
-<h2 id="troubleshooting">🔧 14. Troubleshooting</h2>
+<h2 id="troubleshooting">🔧 16. Troubleshooting</h2>
 
 <h3>Aplikasi Lambat Loading</h3>
 <ul>
@@ -971,6 +975,7 @@
   <li>Cek ukuran foto — max 10 MB</li>
   <li>Kompres dulu dengan aplikasi editor</li>
   <li>Coba ambil ulang dari kamera</li>
+  <li>Cek izin kamera di browser</li>
 </ul>
 
 <h3>GPS Tidak Terdeteksi</h3>
@@ -988,15 +993,44 @@
   <li>Logout &amp; login ulang</li>
 </ul>
 
-<h3>Tagihan Tidak Sesuai</h3>
+<h3>Tombol "Unduh Offline" Tidak Muncul</h3>
+<div class="box warning">
+  <strong>⚠️ Penyebab:</strong> Belum ada target aktif. Tombol unduh offline hanya muncul <strong>kalau Anda punya target</strong>.
+  <br><br>
+  <strong>Solusi:</strong> Buka <strong>🎯 Target Penanganan</strong> → tambah target dulu.
+</div>
+
+<h3>Offline Mode Tidak Bisa Buka Detail</h3>
 <ul>
-  <li>Cek sheet <code>04_DataTagihan</code> — nilai mentah</li>
-  <li>Cek sheet <code>02_DataPinjaman</code> — PokokPinjaman &amp; Tenor</li>
-  <li>Jalankan <strong>Rehitung Tagihan</strong> dari Editor</li>
+  <li>Pastikan sudah <strong>unduh data offline</strong> sebelumnya (saat online)</li>
+  <li>Detail anggota <strong>bukan target</strong> tidak bisa dibuka offline</li>
+  <li>Balik online → buka detail sekali → cache tersimpan</li>
+</ul>
+
+<h3>Kunjungan Offline Tidak Ter-sync</h3>
+<ul>
+  <li>Cek badge pending di header — ada angka?</li>
+  <li>Klik badge pending → <strong>🔄 Sync Sekarang</strong></li>
+  <li>Kalau masih gagal: cek koneksi, coba lagi 5 menit lagi</li>
+</ul>
+
+<h3>WA Bulk Tidak Terkirim</h3>
+<ul>
+  <li>Cek apakah anggota punya No HP valid</li>
+  <li>Mode manual: buka WhatsApp dulu</li>
+  <li>Mode gateway: hubungi admin (mungkin API key belum diisi)</li>
+  <li>Kalau lebih dari 20 anggota: kirim bertahap</li>
+</ul>
+
+<h3>Filter Aktivis Tidak Berfungsi</h3>
+<ul>
+  <li>Pastikan klik <strong>"✓ Terapkan Filter"</strong> setelah centang</li>
+  <li>Cek chip filter muncul di bawah search box</li>
+  <li>Kalau chip muncul tapi data tidak berubah: refresh halaman</li>
 </ul>
 
 <h3>Lupa Password</h3>
-<p>Hubungi admin → admin reset password lewat <strong>Setup Petugas</strong>.</p>
+<p>Hubungi admin → admin reset password lewat Setup Petugas.</p>
 
 <h3>Setoran Pending Terus</h3>
 <p>Setoran menunggu <strong>approval</strong> admin. Hubungi admin untuk approve.</p>
@@ -1004,9 +1038,9 @@
 <hr>
 
 <!-- ============================================ -->
-<!-- 15. GLOSARIUM -->
+<!-- 17. GLOSARIUM -->
 <!-- ============================================ -->
-<h2 id="glosarium">📚 15. Glosarium</h2>
+<h2 id="glosarium">📚 17. Glosarium</h2>
 
 <h3>Istilah Umum</h3>
 <table>
@@ -1017,12 +1051,17 @@
   <tr><td><strong>JT</strong></td><td>Jatuh Tempo (sama dengan JTO)</td></tr>
   <tr><td><strong>KL</strong></td><td>Kredit Lalai — pinjaman bermasalah</td></tr>
   <tr><td><strong>KPKL</strong></td><td>Kartu Penanganan Kredit Lalai</td></tr>
+  <tr><td><strong>PS</strong></td><td>Pembayaran Sementara — dana talangan internal <span class="badge badge-new">BARU</span></td></tr>
   <tr><td><strong>NBA</strong></td><td>Nomor Berkas Anggota</td></tr>
   <tr><td><strong>TP</strong></td><td>Tempat Pelayanan</td></tr>
   <tr><td><strong>PP</strong></td><td>Perjanjian Pinjaman</td></tr>
   <tr><td><strong>SW</strong></td><td>Simpanan Wajib</td></tr>
   <tr><td><strong>SMB</strong></td><td>Simpanan Mana' + Banne</td></tr>
   <tr><td><strong>SP1/SP2/SP3</strong></td><td>Surat Peringatan 1/2/3</td></tr>
+  <tr><td><strong>FAB</strong></td><td>Floating Action Button — tombol bulat mengambang (📱 di beranda)</td></tr>
+  <tr><td><strong>Target</strong></td><td>Daftar anggota yang direncanakan dikunjungi <span class="badge badge-new">BARU</span></td></tr>
+  <tr><td><strong>Queue</strong></td><td>Antrian data offline yang menunggu sync</td></tr>
+  <tr><td><strong>Cache</strong></td><td>Data tersimpan sementara di HP</td></tr>
 </table>
 
 <h3>Kode Jenis Pinjaman</h3>
@@ -1056,9 +1095,9 @@
 <hr>
 
 <!-- ============================================ -->
-<!-- 16. FAQ -->
+<!-- 18. FAQ -->
 <!-- ============================================ -->
-<h2 id="faq">❓ 16. FAQ (Pertanyaan Umum)</h2>
+<h2 id="faq">❓ 18. FAQ (Pertanyaan Umum)</h2>
 
 <h4>Q: Lupa password, bagaimana?</h4>
 <p>A: Hubungi admin. Admin reset password via <strong>Menu Admin → Setup Petugas → Reset Password</strong>.</p>
@@ -1071,6 +1110,33 @@
 
 <h4>Q: Setoran saya pending terus, kenapa?</h4>
 <p>A: Setoran menunggu <strong>approval</strong> dari admin.</p>
+
+<h4>Q: Apa itu Target Penanganan? <span class="badge badge-new">BARU</span></h4>
+<p>A: Target = daftar anggota yang Anda rencanakan untuk dikunjungi. Membantu Anda fokus &amp; mudah navigasi antar anggota. Bisa dibuat sendiri atau ditugaskan manager.</p>
+
+<h4>Q: Bagaimana cara tambah target?</h4>
+<p>A: Menu <strong>🎯 Target Penanganan</strong> → <strong>"➕ TAMBAH TARGET"</strong> → pilih prioritas → cari &amp; pilih anggota → <strong>SIMPAN</strong>.</p>
+
+<h4>Q: Kenapa tombol "Unduh Offline" tidak muncul?</h4>
+<p>A: Tombol ini <strong>hanya muncul kalau Anda punya target aktif</strong>. Tambah target dulu di menu Target Penanganan.</p>
+
+<h4>Q: Bagaimana cara kerja Mode Offline?</h4>
+<p>A: 
+<br>1. Saat online: klik <strong>📥 Unduh Data Offline</strong> untuk cache detail target
+<br>2. Saat offline: beranda otomatis filter hanya target
+<br>3. Buka detail target → data dari cache
+<br>4. Simpan kunjungan → masuk queue
+<br>5. Saat online lagi: auto-sync
+</p>
+
+<h4>Q: Bisa buka detail anggota di luar target saat offline?</h4>
+<p>A: <strong>Tidak bisa</strong>. Hanya detail anggota target yang di-cache. Untuk buka yang lain, harus online dulu.</p>
+
+<h4>Q: Bagaimana cara kirim WA ke banyak anggota?</h4>
+<p>A: Klik tombol <strong>📱 FAB</strong> di beranda → pilih filter (H-3/Hari Ini/Lewat/Semua) → pilih template → <strong>KIRIM WA</strong>. Anggota tanpa No HP valid otomatis di-skip.</p>
+
+<h4>Q: WA Bulk di-skip karena apa?</h4>
+<p>A: Hanya anggota dengan <strong>No HP valid</strong> (format 62xxx, 10-15 digit) yang lolos. No HP kosong / strip / "xxx" otomatis di-skip.</p>
 
 <h4>Q: Bagaimana cara cetak surat ulang?</h4>
 <p>A: Menu <strong>Persuratan → Daftar Surat</strong> → cari surat → klik <strong>🖨️ Cetak Ulang</strong>.</p>
@@ -1087,14 +1153,17 @@
 <h4>Q: Kenapa total tagihan dibulatkan?</h4>
 <p>A: Pembulatan ke 10.000 memudahkan pembayaran. Selisih pembulatan ditambahkan ke Angsuran Pinjaman (khusus di surat).</p>
 
-<h4>Q: Bagaimana cara ubah kota di surat?</h4>
-<p>A: Menu Admin → Setup TP → field <strong>"Kota Header Surat"</strong>. Isi kota baru, simpan. Surat baru akan pakai kota ini.</p>
+<h4>Q: Apa itu PS (Pembayaran Sementara)? <span class="badge badge-new">BARU</span></h4>
+<p>A: PS = dana talangan internal yang ditambahkan ke tagihan anggota. Hanya Staf/Manager/Admin yang bisa lihat nominal PS. Badge <strong>🔒 PS</strong> muncul di kartu anggota kalau ada.</p>
 
-<h4>Q: Bagaimana cara upload kop surat?</h4>
-<p>A: Menu Admin → Persuratan → <strong>Kop Laporan</strong> → upload gambar. Kop akan muncul di semua surat &amp; laporan.</p>
+<h4>Q: Apakah bisa kirim WA otomatis? <span class="badge badge-new">BARU</span></h4>
+<p>A: Ya, kalau admin sudah setup Mode <strong>GATEWAY</strong> dengan API key (Fonnte/Wablas). Kalau masih <strong>MANUAL</strong>, WA akan terbuka satu per satu.</p>
 
 <h4>Q: Apakah data bisa di-backup?</h4>
-<p>A: Ya. Menu Admin → <strong>Backup Database</strong> → Backup Sekarang. File backup tersimpan di Google Drive.</p>
+<p>A: Ya, tapi hanya admin yang bisa. Menu Admin → <strong>Backup Database</strong> → Backup Sekarang.</p>
+
+<h4>Q: Bagaimana kalau HP saya lowbat saat kunjungan offline?</h4>
+<p>A: Data kunjungan yang belum di-save akan hilang. Selalu save kunjungan <strong>langsung setelah kunjungan</strong>, tidak menunggu.</p>
 
 <hr>
 
@@ -1106,9 +1175,9 @@
   Koperasi Credit Union Sauan Sibarrung<br>
   TP Saluampak · Sulawesi Selatan<br>
   <br>
-  <strong>Versi 1.0 · 9 Oktober 2026</strong><br>
+  <strong>Versi 3.4 · 16 Oktober 2026</strong><br>
   <br>
-  <em>Untuk kerja sama atau bantuan lebih lanjut, hubungi Edoard Banne Lembang.</em>
+  <em>Untuk bantuan lebih lanjut, hubungi Edoard Banne Lembang.</em>
 </div>
 
 </body>
