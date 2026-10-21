@@ -3,13 +3,13 @@
   "short_name": "Penagihan CU",
   "icons": [
     {
-      "src": "/web-app-manifest-192x192.png",
+      "src": "https://drive.google.com/file/d/1vuO7M0LR6joRUZcyiNAA4Iu1y8K7qyAq/view?usp=drivesdk",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/web-app-manifest-512x512.png",
+      "src": "https://drive.google.com/file/d/1lub63ly10z2onmiaS4Hgwj6yxa5awCSQ/view?usp=drivesdk",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
