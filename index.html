@@ -64,5 +64,19 @@
             <iframe src="https://script.google.com/macros/s/AKfycbwuc93cu0DXBlncaVtAEO_5SVfJkU24b2Tgpz4LOatTS3xK7ZJcdpKDxQopTqIzkLX5/exec"></iframe>
         </div>
     </div>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      // Daftarkan SW. Path disesuaikan dengan nama repo Anda
+      navigator.serviceWorker.register('/CUFintek/sw.js')
+        .then(function(registration) {
+          console.log('Service Worker berhasil didaftarkan:', registration.scope);
+        })
+        .catch(function(error) {
+          console.log('Service Worker gagal didaftarkan:', error);
+        });
+    });
+  }
+</script>
 </body>
 </html>
