@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cu-penagihan-v4.0.6'; // Ganti versi ini setiap kali update kode
+const CACHE_NAME = 'cu-penagihan-v4.0.7'; // Ganti versi ini setiap kali update kode
 
 self.addEventListener('install', function(event) {
   self.skipWaiting(); // Paksa Service Worker baru langsung aktif
