@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    
-    <!-- Judul aplikasi -->
     <title>Aplikasi Penagihan TP Saluampak</title>
-
-    <!-- ✅ FAVICON (1 file saja) -->
+    
     <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="shortcut icon" href="favicon.ico" />
@@ -15,71 +12,52 @@
     <meta name="apple-mobile-web-app-title" content="Aplikasi Penagihan TP Saluampak" />
     <link rel="manifest" href="site.webmanifest" />
     
-    <!-- Meta tags agar tampil full screen seperti aplikasi native saat di Add to Home Screen -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Penagihan TP Saluampak">
     <meta name="apple-mobile-web-app-title" content="Penagihan TP Saluampak">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#a60000"> <!-- Warna tema (sesuai warna merah aplikasi Anda) -->
+    <meta name="theme-color" content="#a60000">
 
     <style>
         body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            height: 100dvh; 
-            overflow: hidden; 
-            background-color: #f7f7f7; 
+            margin: 0; padding: 0; height: 100%; height: 100dvh;
+            overflow: hidden; background-color: #f7f7f7; 
         }
-
-        .iframe-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .iframe-cutter {
-            position: absolute;
-            width: 100%;
-            height: 100%; 
-            top: -5px; 
-            overflow: hidden; 
-        }
-
-        iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%; 
-            border: none;
-        }
+        .iframe-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
+        .iframe-cutter { position: absolute; width: 100%; height: 100%; top: -5px; overflow: hidden; }
+        iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
     <div class="iframe-container">
         <div class="iframe-cutter">
             <iframe 
-    src="https://script.google.com/macros/s/AKfycbzG5CfMgfngpiWdWCWPdzpVyQFEO2nSmontY2dqDYWTFKNSgpaTr2muoyXt8iHgXWk8vA/exec"
-    allow="geolocation *">
-</iframe>
+                id="appIframe"
+                src="https://script.google.com/macros/s/AKfycbyqgDg7p519_ToaFItipm9F_20W5bNGTKDB8mXS_urYjUw2WBlSDH7KpSjGPyFErwhhww/exec"
+                allow="geolocation *">
+            </iframe>
         </div>
     </div>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      // Daftarkan SW. Path disesuaikan dengan nama repo Anda
-      navigator.serviceWorker.register('/CUFintek/sw.js')
-        .then(function(registration) {
-          console.log('Service Worker berhasil didaftarkan:', registration.scope);
-        })
-        .catch(function(error) {
-          console.log('Service Worker gagal didaftarkan:', error);
+    <script>
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/CUFintek/sw.js')
+                    .then(function(registration) { console.log('SW didaftarkan:', registration.scope); })
+                    .catch(function(error) { console.log('SW gagal:', error); });
+            });
+        }
+
+        // ⭐ MENDENGARKAN PESAN DARI IFRAME (REFRESH BERSIH)
+        window.addEventListener('message', function(event) {
+            // Pastikan pesan berasal dari aplikasi kita
+            if (event.data && event.data.action === 'force_reload_from_iframe') {
+                console.log('Menerima perintah reload dari iframe...');
+                // Reload seluruh halaman GitHub (bukan hanya iframe)
+                window.location.href = window.location.href.split('?')[0] + '?refresh=' + new Date().getTime();
+            }
         });
-    });
-  }
-</script>
+    </script>
 </body>
 </html>
