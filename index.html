@@ -44,50 +44,103 @@
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
             navigator.serviceWorker.register('/CUFintek/sw.js')
-                .then(function(registration) { console.log('SW didaftarkan:', registration.scope); })
-                .catch(function(error) { console.log('SW gagal:', error); });
+                .then(function(reg) { console.log('SW didaftarkan:', reg.scope); })
+                .catch(function(err) { console.log('SW gagal:', err); });
         });
     }
 
-    // ⭐ MENDENGARKAN PESAN DARI IFRAME (REFRESH BERSIH)
+    // ⭐ Loading overlay untuk parent — muncul saat iframe reload
+    var _reloadSudahJalan = false;
+
+    function tampilkanLoadingParent() {
+        if (document.getElementById('parentLoadingOverlay')) return;
+
+        var ov = document.createElement('div');
+        ov.id = 'parentLoadingOverlay';
+        ov.style.cssText = 
+            'position:fixed;top:0;left:0;right:0;bottom:0;' +
+            'background:linear-gradient(135deg,#8B0000,#A31515);' +
+            'z-index:999999;display:flex;flex-direction:column;' +
+            'align-items:center;justify-content:center;' +
+            'color:white;font-family:sans-serif;text-align:center;padding:20px;';
+        ov.innerHTML = 
+            '<div style="width:60px;height:60px;border:5px solid rgba(255,215,0,0.3);' +
+            'border-top-color:#FFD700;border-radius:50%;' +
+            'animation:spin 0.8s linear infinite;margin-bottom:20px;"></div>' +
+            '<div style="font-size:16px;font-weight:bold;margin-bottom:8px;">Memuat Ulang Aplikasi...</div>' +
+            '<div style="font-size:13px;opacity:0.85;max-width:300px;line-height:1.5;">' +
+            'Cache sudah dibersihkan. Mohon tunggu sebentar.</div>';
+
+        // Keyframe spin
+        if (!document.getElementById('spinStyleParent')) {
+            var s = document.createElement('style');
+            s.id = 'spinStyleParent';
+            s.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+            document.head.appendChild(s);
+        }
+
+        document.body.appendChild(ov);
+    }
+
+    function sembunyikanLoadingParent() {
+        var ov = document.getElementById('parentLoadingOverlay');
+        if (ov) ov.remove();
+    }
+
+    // ⭐ LISTENER PESAN DARI IFRAME
     window.addEventListener('message', function(event) {
         if (event.data && event.data.action === 'force_reload_from_iframe') {
-            console.log('📩 Menerima perintah reload dari iframe...');
             
-            // ⭐ CARA 1: Reload iframe langsung (paling cepat & aman)
-            try {
-                var iframe = document.getElementById('appIframe');
-                if (iframe && iframe.contentWindow) {
-                    // Reload konten iframe
-                    iframe.contentWindow.location.reload();
-                    console.log('✅ Reload iframe via contentWindow');
-                }
-            } catch (e) {
-                console.warn('⚠️ Reload iframe gagal (cross-origin):', e.message);
+            // ⭐ Cegah double reload
+            if (_reloadSudahJalan) {
+                console.log('⏭️ Reload sudah jalan, skip');
+                return;
+            }
+            _reloadSudahJalan = true;
+            
+            console.log('📩 Reload iframe dimulai...');
+            
+            // Tampilkan loading
+            tampilkanLoadingParent();
+            
+            var iframe = document.getElementById('appIframe');
+            if (!iframe) {
+                window.location.reload();
+                return;
             }
             
-            // ⭐ CARA 2: Kalau Cara 1 gagal → reload iframe via src (dengan cache-bust)
-            setTimeout(function() {
-                try {
-                    var iframe2 = document.getElementById('appIframe');
-                    if (iframe2) {
-                        var baseSrc = iframe2.src.split('?')[0];
-                        iframe2.src = baseSrc + '?v=' + new Date().getTime();
-                        console.log('✅ Reload iframe via src');
-                    }
-                } catch (e) {
-                    console.warn('⚠️ Reload iframe via src gagal:', e.message);
-                }
-            }, 500);
+            // ⭐ Strategi: ubah src dengan cache-bust
+            var baseSrc = iframe.src.split('?')[0];
+            var newSrc = baseSrc + '?v=' + new Date().getTime();
             
-            // ⭐ CARA 3: Last resort → reload seluruh halaman (kalau iframe masih nyangkut)
+            // Reset flag setelah 30 detik (jaga-jaga kalau load gagal)
             setTimeout(function() {
-                // Cek apakah iframe masih menampilkan overlay maroon
-                // (tidak bisa akses cross-origin, jadi pakai heuristic waktu)
-                console.log('🔄 Fallback: reload seluruh halaman...');
-                window.location.reload();
-            }, 3000);
+                _reloadSudahJalan = false;
+            }, 30000);
+            
+            iframe.src = newSrc;
+            console.log('✅ Iframe reload:', newSrc);
+
+            // ⭐ Sembunyikan loading saat iframe selesai load
+            iframe.addEventListener('load', function onLoad() {
+                console.log('✅ Iframe selesai load');
+                setTimeout(sembunyikanLoadingParent, 300);
+                iframe.removeEventListener('load', onLoad);
+            });
+
+            // ⭐ WATCHDOG: Kalau 15 detik iframe belum load → coba reload halaman
+            setTimeout(function() {
+                if (document.getElementById('parentLoadingOverlay')) {
+                    console.warn('⚠️ Iframe lambat load, fallback reload halaman...');
+                    window.location.reload();
+                }
+            }, 15000);
         }
+    });
+
+    // ⭐ Sembunyikan loading parent saat halaman selesai load pertama kali
+    window.addEventListener('load', function() {
+        setTimeout(sembunyikanLoadingParent, 300);
     });
 </script>
 </body>
