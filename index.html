@@ -34,30 +34,61 @@
         <div class="iframe-cutter">
             <iframe 
                 id="appIframe"
-                src="https://script.google.com/macros/s/AKfycbzsLRJbrqB6HP2hyNF50vcuHB6knOXZnmKNUyy_jO6HgVjJtJ66YPmA3qC61nzV2a9F/exec"
+                src="https://script.google.com/macros/s/AKfycbw-7pCHlZIcmnTqzP2ShVYCI9FotF8NT004sKechbt7LMqbF0O-v-mQOyh5PcD-MtmAXg/exec"
                 allow="geolocation *">
             </iframe>
         </div>
     </div>
-    <script>
-        // Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/CUFintek/sw.js')
-                    .then(function(registration) { console.log('SW didaftarkan:', registration.scope); })
-                    .catch(function(error) { console.log('SW gagal:', error); });
-            });
-        }
-
-        // ⭐ MENDENGARKAN PESAN DARI IFRAME (REFRESH BERSIH)
-        window.addEventListener('message', function(event) {
-            // Pastikan pesan berasal dari aplikasi kita
-            if (event.data && event.data.action === 'force_reload_from_iframe') {
-                console.log('Menerima perintah reload dari iframe...');
-                // Reload seluruh halaman GitHub (bukan hanya iframe)
-                window.location.href = window.location.href.split('?')[0] + '?refresh=' + new Date().getTime();
-            }
+<script>
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/CUFintek/sw.js')
+                .then(function(registration) { console.log('SW didaftarkan:', registration.scope); })
+                .catch(function(error) { console.log('SW gagal:', error); });
         });
-    </script>
+    }
+
+    // ⭐ MENDENGARKAN PESAN DARI IFRAME (REFRESH BERSIH)
+    window.addEventListener('message', function(event) {
+        if (event.data && event.data.action === 'force_reload_from_iframe') {
+            console.log('📩 Menerima perintah reload dari iframe...');
+            
+            // ⭐ CARA 1: Reload iframe langsung (paling cepat & aman)
+            try {
+                var iframe = document.getElementById('appIframe');
+                if (iframe && iframe.contentWindow) {
+                    // Reload konten iframe
+                    iframe.contentWindow.location.reload();
+                    console.log('✅ Reload iframe via contentWindow');
+                }
+            } catch (e) {
+                console.warn('⚠️ Reload iframe gagal (cross-origin):', e.message);
+            }
+            
+            // ⭐ CARA 2: Kalau Cara 1 gagal → reload iframe via src (dengan cache-bust)
+            setTimeout(function() {
+                try {
+                    var iframe2 = document.getElementById('appIframe');
+                    if (iframe2) {
+                        var baseSrc = iframe2.src.split('?')[0];
+                        iframe2.src = baseSrc + '?v=' + new Date().getTime();
+                        console.log('✅ Reload iframe via src');
+                    }
+                } catch (e) {
+                    console.warn('⚠️ Reload iframe via src gagal:', e.message);
+                }
+            }, 500);
+            
+            // ⭐ CARA 3: Last resort → reload seluruh halaman (kalau iframe masih nyangkut)
+            setTimeout(function() {
+                // Cek apakah iframe masih menampilkan overlay maroon
+                // (tidak bisa akses cross-origin, jadi pakai heuristic waktu)
+                console.log('🔄 Fallback: reload seluruh halaman...');
+                window.location.reload();
+            }, 3000);
+        }
+    });
+</script>
 </body>
 </html>
