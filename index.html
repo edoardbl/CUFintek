@@ -34,7 +34,7 @@
         <div class="iframe-cutter">
             <iframe 
                 id="appIframe"
-                src="https://script.google.com/macros/s/AKfycbxDviq3qCfRKbr8k6AmkQjHWKdA3xJx8998mgXHeT4y3HbC-TMhHdJXu-KvTfapqyZlKQ/exec"
+                src="https://script.google.com/macros/s/AKfycbzsxn205zFNUh_2vIiLq93ziwNJ7q0ooc7-PvpWH7pQc3Tepd73uwkTn9gyUJR53VoQ/exec"
                 allow="geolocation *">
             </iframe>
         </div>
@@ -49,9 +49,10 @@
         });
     }
 
-    // ⭐ Loading overlay untuk parent — muncul saat iframe reload
-    var _reloadSudahJalan = false;
+    // ⭐ Variabel domain — sesuaikan kalau domain berubah
+    var GITHUB_WRAPPER_URL = 'https://edoardbl.github.io/CUFintek/';
 
+    // ⭐ Loading overlay untuk parent
     function tampilkanLoadingParent() {
         if (document.getElementById('parentLoadingOverlay')) return;
 
@@ -71,7 +72,6 @@
             '<div style="font-size:13px;opacity:0.85;max-width:300px;line-height:1.5;">' +
             'Cache sudah dibersihkan. Mohon tunggu sebentar.</div>';
 
-        // Keyframe spin
         if (!document.getElementById('spinStyleParent')) {
             var s = document.createElement('style');
             s.id = 'spinStyleParent';
@@ -82,65 +82,30 @@
         document.body.appendChild(ov);
     }
 
-    function sembunyikanLoadingParent() {
-        var ov = document.getElementById('parentLoadingOverlay');
-        if (ov) ov.remove();
-    }
-
     // ⭐ LISTENER PESAN DARI IFRAME
     window.addEventListener('message', function(event) {
-        if (event.data && event.data.action === 'force_reload_from_iframe') {
-            
-            // ⭐ Cegah double reload
-            if (_reloadSudahJalan) {
-                console.log('⏭️ Reload sudah jalan, skip');
-                return;
-            }
-            _reloadSudahJalan = true;
-            
-            console.log('📩 Reload iframe dimulai...');
-            
-            // Tampilkan loading
-            tampilkanLoadingParent();
-            
-            var iframe = document.getElementById('appIframe');
-            if (!iframe) {
-                window.location.reload();
-                return;
-            }
-            
-            // ⭐ Strategi: ubah src dengan cache-bust
-            var baseSrc = iframe.src.split('?')[0];
-            var newSrc = baseSrc + '?v=' + new Date().getTime();
-            
-            // Reset flag setelah 30 detik (jaga-jaga kalau load gagal)
-            setTimeout(function() {
-                _reloadSudahJalan = false;
-            }, 30000);
-            
-            iframe.src = newSrc;
-            console.log('✅ Iframe reload:', newSrc);
-
-            // ⭐ Sembunyikan loading saat iframe selesai load
-            iframe.addEventListener('load', function onLoad() {
-                console.log('✅ Iframe selesai load');
-                setTimeout(sembunyikanLoadingParent, 300);
-                iframe.removeEventListener('load', onLoad);
-            });
-
-            // ⭐ WATCHDOG: Kalau 15 detik iframe belum load → coba reload halaman
-            setTimeout(function() {
-                if (document.getElementById('parentLoadingOverlay')) {
-                    console.warn('⚠️ Iframe lambat load, fallback reload halaman...');
-                    window.location.reload();
-                }
-            }, 15000);
-        }
+        if (!event.data || event.data.action !== 'force_reload_from_iframe') return;
+        
+        console.log('📩 Menerima perintah reload dari iframe...');
+        
+        // Tampilkan loading
+        tampilkanLoadingParent();
+        
+        // ⭐ KUNCI: Reload SELURUH halaman GitHub (bukan cuma iframe)
+        // Ini akan menghancurkan iframe lama dan memuat iframe baru
+        setTimeout(function() {
+            var newUrl = GITHUB_WRAPPER_URL + '?refresh=' + new Date().getTime();
+            console.log('🔄 Reload ke:', newUrl);
+            window.location.href = newUrl;
+        }, 500);
     });
 
-    // ⭐ Sembunyikan loading parent saat halaman selesai load pertama kali
+    // ⭐ Sembunyikan loading saat halaman selesai load
     window.addEventListener('load', function() {
-        setTimeout(sembunyikanLoadingParent, 300);
+        setTimeout(function() {
+            var ov = document.getElementById('parentLoadingOverlay');
+            if (ov) ov.remove();
+        }, 300);
     });
 </script>
 </body>
