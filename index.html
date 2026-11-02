@@ -34,7 +34,7 @@
         <div class="iframe-cutter">
             <iframe 
                 id="appIframe"
-                src="https://script.google.com/macros/s/AKfycbzLV4XH4TWTBt9KAWm5tA4r9XYkn_TMwuamQGAceK-oWgDeoeiQAhyJlG-aOEoDRjV-/exec"
+                src="https://script.google.com/macros/s/AKfycbzSz_zZZV5eWK0CgpwR62z-EU_jFItSmu10Cy6ggnNxLBIS_i4uE3pvMHFLt7bVyc3t/exec"
                 allow="geolocation *">
             </iframe>
         </div>
@@ -107,6 +107,34 @@
             if (ov) ov.remove();
         }, 300);
     });
+
+    // ============================================
+// ⭐ PENANGKAP TOMBOL BACK FISIK HP (Index.html)
+// ============================================
+window.addEventListener('load', function() {
+  // Tambahkan state awal ke history browser
+  history.pushState({ view: 'root' }, '', '');
+
+  window.addEventListener('popstate', function(event) {
+    var iframe = document.querySelector('iframe'); // Ganti selector jika ID iframe Anda berbeda
+    if (iframe && iframe.contentWindow) {
+      // Kirim sinyal ke dalam aplikasi (GAS) untuk kembali
+      iframe.contentWindow.postMessage({ action: 'navigate_back' }, '*');
+      
+      // Tambahkan lagi state agar tombol back bisa ditekan berkali-kali
+      history.pushState({ view: 'internal' }, '', '');
+    }
+  });
+
+  // Dengarkan sinyal dari dalam aplikasi
+  window.addEventListener('message', function(event) {
+    if (event.data && event.data.action === 'close_app') {
+      // Jika aplikasi minta ditutup (sudah di beranda tapi back ditekan)
+      // Hapus history agar bisa keluar dari aplikasi
+      history.back();
+    }
+  });
+});
 </script>
 </body>
 </html>
