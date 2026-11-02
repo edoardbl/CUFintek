@@ -108,33 +108,32 @@
         }, 300);
     });
 
-    // ============================================
-// ⭐ PENANGKAP TOMBOL BACK FISIK HP (Index.html)
-// ============================================
-window.addEventListener('load', function() {
-  // Tambahkan state awal ke history browser
-  history.pushState({ view: 'root' }, '', '');
+  // ⭐ SISTEM JEMBATAN NAVIGASI (GITHUB KE GAS)
+  window.addEventListener('load', function() {
+    // 1. Tambahkan state dummy ke history GitHub agar tombol back bisa ditangkap
+    history.pushState({ view: 'main' }, '', '');
 
-  window.addEventListener('popstate', function(event) {
-    var iframe = document.querySelector('iframe'); // Ganti selector jika ID iframe Anda berbeda
-    if (iframe && iframe.contentWindow) {
-      // Kirim sinyal ke dalam aplikasi (GAS) untuk kembali
-      iframe.contentWindow.postMessage({ action: 'navigate_back' }, '*');
+    // 2. Tangkap tombol Back HP di level GitHub
+    window.onpopstate = function(event) {
+      var iframe = document.querySelector('iframe'); // Pastikan iframe Anda punya tag <iframe>
       
-      // Tambahkan lagi state agar tombol back bisa ditekan berkali-kali
-      history.pushState({ view: 'internal' }, '', '');
-    }
-  });
+      if (iframe && iframe.contentWindow) {
+        // Kirim perintah ke aplikasi di dalam (GAS) untuk mundur
+        iframe.contentWindow.postMessage({ action: 'navigate_back' }, '*');
+        
+        // Tambahkan lagi state agar tombol back berikutnya tetap tertangkap
+        history.pushState({ view: 'main' }, '', '');
+      }
+    };
 
-  // Dengarkan sinyal dari dalam aplikasi
-  window.addEventListener('message', function(event) {
-    if (event.data && event.data.action === 'close_app') {
-      // Jika aplikasi minta ditutup (sudah di beranda tapi back ditekan)
-      // Hapus history agar bisa keluar dari aplikasi
-      history.back();
-    }
+    // 3. Dengarkan sinyal dari GAS kalau aplikasi minta ditutup (sudah di beranda)
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.action === 'request_exit') {
+        // Izinkan browser untuk benar-benar mundur (keluar aplikasi)
+        history.go(-2); // Mundur 2 langkah karena ada dummy state
+      }
+    });
   });
-});
 </script>
 </body>
 </html>
