@@ -100,37 +100,64 @@
         }, 500);
     });
 
-    // ⭐ Sembunyikan loading saat halaman selesai load
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            var ov = document.getElementById('parentLoadingOverlay');
-            if (ov) ov.remove();
-        }, 300);
-    });
+  // ⭐ SISTEM JEMBATAN NAVIGASI (GITHUB ↔ GAS)
+  // Prinsip:
+  //  - Tombol back HP di Android → Android kirim event ke WebView wrapper
+  //  - Wrapper kirim postMessage 'navigate_back' ke iframe GAS
+  //  - GAS handle back (pop stack) → kalau sudah di beranda, kirim 'request_exit'
+  //  - Wrapper terima 'request_exit' → biarkan Android/browser yang mundur
 
-  // ⭐ SISTEM JEMBATAN NAVIGASI (GITHUB KE GAS)
+  function kirimNavigateBackKeIframe() {
+    var iframe = document.getElementById('appIframe');
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.postMessage({ action: 'navigate_back' }, '*');
+      return true;
+    }
+    return false;
+  }
+
+  // 1. Dengarkan pesan dari iframe
+  window.addEventListener('message', function(event) {
+    if (!event.data || typeof event.data !== 'object') return;
+
+    if (event.data.action === 'request_exit') {
+      // GAS sudah di beranda → minta keluar dari aplikasi
+      console.log('🚪 GAS minta exit, mundur keluar aplikasi');
+      try {
+        // Kalau ada history dummy, pop dulu; kalau tidak, langsung back
+        window.history.back();
+      } catch (e) {}
+    }
+
+    if (event.data.action === 'back_handled') {
+      // GAS berhasil handle back (opsional, untuk log)
+      console.log('↩️ GAS handle back');
+    }
+  });
+
+  // 2. Expose fungsi global agar Android bisa panggil via JS interface
+  //    (Android akan panggil: webView.evaluateJavascript("window.AndroidBack()"))
+  window.AndroidBack = function() {
+    var ok = kirimNavigateBackKeIframe();
+    if (!ok) {
+      // Iframe belum siap → langsung back
+      try { window.history.back(); } catch (e) {}
+    }
+  };
+
+  // 3. Fallback: kalau wrapper dibuka di browser biasa (bukan WebView),
+  //    tetap bisa tangkap back via popstate
   window.addEventListener('load', function() {
-    // 1. Tambahkan state dummy ke history GitHub agar tombol back bisa ditangkap
     history.pushState({ view: 'main' }, '', '');
 
-    // 2. Tangkap tombol Back HP di level GitHub
-    window.onpopstate = function(event) {
-      var iframe = document.querySelector('iframe'); // Pastikan iframe Anda punya tag <iframe>
-      
-      if (iframe && iframe.contentWindow) {
-        // Kirim perintah ke aplikasi di dalam (GAS) untuk mundur
-        iframe.contentWindow.postMessage({ action: 'navigate_back' }, '*');
-        
-        // Tambahkan lagi state agar tombol back berikutnya tetap tertangkap
-        history.pushState({ view: 'main' }, '', '');
-      }
-    };
+    window.addEventListener('popstate', function() {
+      var ok = kirimNavigateBackKeIframe();
+      // Selalu push state lagi agar back berikutnya tetap tertangkap
+      history.pushState({ view: 'main' }, '', '');
 
-    // 3. Dengarkan sinyal dari GAS kalau aplikasi minta ditutup (sudah di beranda)
-    window.addEventListener('message', function(event) {
-      if (event.data && event.data.action === 'request_exit') {
-        // Izinkan browser untuk benar-benar mundur (keluar aplikasi)
-        history.go(-2); // Mundur 2 langkah karena ada dummy state
+      if (!ok) {
+        // Iframe belum siap, biarkan browser handle
+        history.back();
       }
     });
   });
