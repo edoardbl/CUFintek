@@ -115,39 +115,101 @@
             _pesanBackEl.parentNode.removeChild(_pesanBackEl);
         }
 
-        var el = document.createElement('div');
-        el.id = 'pesanBackFisik';
-        el.style.cssText = 
-            'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);' +
-            'background:rgba(139,0,0,0.95);color:#FFD700;' +
-            'padding:12px 18px;border-radius:10px;' +
-            'font-family:sans-serif;font-size:13px;font-weight:700;' +
-            'box-shadow:0 4px 16px rgba(0,0,0,0.4);' +
-            'border:2px solid #FFD700;z-index:1000000;' +
-            'text-align:center;max-width:90vw;line-height:1.4;' +
-            'opacity:0;transition:opacity 0.25s ease;pointer-events:none;';
-        el.innerHTML = 
-            '🔒 Gunakan tombol <b>← Kembali</b> di dalam aplikasi.<br>' +
-            '<span style="font-size:11px;font-weight:normal;opacity:0.9;">' +
-            'Tekan back <b>2x</b> cepat untuk keluar.</span>';
+        // ⭐ Overlay full-screen dengan backdrop gelap
+        var overlay = document.createElement('div');
+        overlay.id = 'pesanBackFisik';
+        overlay.style.cssText =
+            'position:fixed;top:0;left:0;right:0;bottom:0;' +
+            'background:rgba(0,0,0,0.65);' +
+            'z-index:1000000;' +
+            'display:flex;align-items:center;justify-content:center;' +
+            'padding:20px;' +
+            'opacity:0;transition:opacity 0.25s ease;';
 
-        document.body.appendChild(el);
-        _pesanBackEl = el;
+        // ⭐ Kotak modal di tengah
+        var box = document.createElement('div');
+        box.style.cssText =
+            'background:linear-gradient(135deg,#8B0000,#A31515);' +
+            'color:white;' +
+            'border:3px solid #FFD700;' +
+            'border-radius:16px;' +
+            'padding:24px 22px;' +
+            'max-width:340px;width:100%;' +
+            'text-align:center;' +
+            'font-family:sans-serif;' +
+            'box-shadow:0 10px 40px rgba(0,0,0,0.5);' +
+            'transform:scale(0.9);transition:transform 0.25s ease;';
 
-        // Fade in
+        box.innerHTML =
+            '<div style="font-size:48px;margin-bottom:12px;line-height:1;">🔒</div>' +
+            '<div style="font-size:17px;font-weight:800;color:#FFD700;margin-bottom:10px;line-height:1.3;">' +
+                'Gunakan Navigasi Aplikasi' +
+            '</div>' +
+            '<div style="font-size:13px;line-height:1.6;opacity:0.95;margin-bottom:18px;">' +
+                'Untuk kembali ke halaman sebelumnya, gunakan tombol ' +
+                '<b style="color:#FFD700;">← Kembali</b> yang ada di dalam aplikasi.<br><br>' +
+                '<span style="font-size:12px;opacity:0.85;">' +
+                'Tombol back HP dinonaktifkan agar Anda tidak keluar aplikasi tanpa sengaja.' +
+                '</span>' +
+            '</div>' +
+            '<button id="btnMengertiBack" style="' +
+                'background:#FFD700;color:#8B0000;border:none;' +
+                'padding:12px 28px;border-radius:10px;' +
+                'font-size:15px;font-weight:800;cursor:pointer;' +
+                'font-family:inherit;width:100%;' +
+                'box-shadow:0 4px 12px rgba(0,0,0,0.3);">' +
+                '✅ MENGERTI' +
+            '</button>' +
+            '<div style="font-size:11px;opacity:0.7;margin-top:12px;">' +
+                '💡 Tekan back <b>2x</b> cepat untuk keluar aplikasi' +
+            '</div>';
+
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+        _pesanBackEl = overlay;
+
+        // Fade in + scale animation
         requestAnimationFrame(function() {
-            el.style.opacity = '1';
+            overlay.style.opacity = '1';
+            box.style.transform = 'scale(1)';
         });
 
-        // Auto-hide setelah 2.5 detik
-        setTimeout(function() {
-            if (el && el.parentNode) {
-                el.style.opacity = '0';
-                setTimeout(function() {
-                    if (el.parentNode) el.parentNode.removeChild(el);
-                }, 300);
+        // Tombol "Mengerti" untuk tutup manual
+        var btnMengerti = document.getElementById('btnMengertiBack');
+        if (btnMengerti) {
+            btnMengerti.onclick = function() {
+                tutupPesanBack();
+            };
+        }
+
+        // Tap backdrop juga menutup
+        overlay.onclick = function(e) {
+            if (e.target === overlay) {
+                tutupPesanBack();
             }
-        }, 2500);
+        };
+
+        // ⭐ Auto-hide setelah 6 detik (cukup untuk membaca)
+        if (window._pesanBackTimer) clearTimeout(window._pesanBackTimer);
+        window._pesanBackTimer = setTimeout(function() {
+            tutupPesanBack();
+        }, 6000);
+    }
+
+    // ⭐ Fungsi bantu untuk menutup modal
+    function tutupPesanBack() {
+        if (window._pesanBackTimer) {
+            clearTimeout(window._pesanBackTimer);
+            window._pesanBackTimer = null;
+        }
+        if (_pesanBackEl && _pesanBackEl.parentNode) {
+            _pesanBackEl.style.opacity = '0';
+            var el = _pesanBackEl;
+            setTimeout(function() {
+                if (el.parentNode) el.parentNode.removeChild(el);
+            }, 250);
+        }
+        _pesanBackEl = null;
     }
 
     function tanganiBackFisik() {
