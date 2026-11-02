@@ -34,7 +34,7 @@
         <div class="iframe-cutter">
             <iframe 
                 id="appIframe"
-                src="https://script.google.com/macros/s/AKfycbw-UTsuDTlu9w7qGSIyAgultYclhLTQnWEUkYiICPSDmPlxamUWWhyZyFhNmgdQayej/exec"
+                src="https://script.google.com/macros/s/AKfycbxYO4-1YXf4J01itDAfIYuUgCUHrvoo_gE4GCM15rgPC92mUuI8neVcT7pjiKC99qg_/exec"
                 allow="geolocation *">
             </iframe>
         </div>
@@ -52,7 +52,7 @@
     // ⭐ Variabel domain — sesuaikan kalau domain berubah
     var GITHUB_WRAPPER_URL = 'https://edoardbl.github.io/CUFintek/';
 
-    // ⭐ Loading overlay untuk parent
+    // ⭐ Loading overlay untuk parent (tidak berubah)
     function tampilkanLoadingParent() {
         if (document.getElementById('parentLoadingOverlay')) return;
 
@@ -82,17 +82,13 @@
         document.body.appendChild(ov);
     }
 
-    // ⭐ LISTENER PESAN DARI IFRAME
+    // ⭐ LISTENER PESAN DARI IFRAME (reload bersih)
     window.addEventListener('message', function(event) {
         if (!event.data || event.data.action !== 'force_reload_from_iframe') return;
         
         console.log('📩 Menerima perintah reload dari iframe...');
-        
-        // Tampilkan loading
         tampilkanLoadingParent();
         
-        // ⭐ KUNCI: Reload SELURUH halaman GitHub (bukan cuma iframe)
-        // Ini akan menghancurkan iframe lama dan memuat iframe baru
         setTimeout(function() {
             var newUrl = GITHUB_WRAPPER_URL + '?refresh=' + new Date().getTime();
             console.log('🔄 Reload ke:', newUrl);
@@ -100,67 +96,106 @@
         }, 500);
     });
 
-  // ⭐ SISTEM JEMBATAN NAVIGASI (GITHUB ↔ GAS)
-  // Prinsip:
-  //  - Tombol back HP di Android → Android kirim event ke WebView wrapper
-  //  - Wrapper kirim postMessage 'navigate_back' ke iframe GAS
-  //  - GAS handle back (pop stack) → kalau sudah di beranda, kirim 'request_exit'
-  //  - Wrapper terima 'request_exit' → biarkan Android/browser yang mundur
+    // ============================================
+    // ⭐ PENAHAN TOMBOL BACK FISIK
+    // ============================================
+    // Strategi:
+    //  - Setiap kali user "mau back", kita push state dummy + tampilkan pesan.
+    //  - Tombol back fisik tidak akan pernah benar-benar keluar aplikasi,
+    //    kecuali user menekan back 2x berturut-turut dalam 2 detik (double-back to exit).
+    //  - Pesan disimpan di overlay kecil di bawah agar tidak mengganggu.
 
-  function kirimNavigateBackKeIframe() {
-    var iframe = document.getElementById('appIframe');
-    if (iframe && iframe.contentWindow) {
-      iframe.contentWindow.postMessage({ action: 'navigate_back' }, '*');
-      return true;
+    var _backExitArmed = false;   // true kalau user sudah tap back sekali
+    var _backExitTimer = null;
+    var _pesanBackEl = null;
+
+    function tampilkanPesanGunakanNavBawaan() {
+        // Hapus pesan lama jika ada
+        if (_pesanBackEl && _pesanBackEl.parentNode) {
+            _pesanBackEl.parentNode.removeChild(_pesanBackEl);
+        }
+
+        var el = document.createElement('div');
+        el.id = 'pesanBackFisik';
+        el.style.cssText = 
+            'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);' +
+            'background:rgba(139,0,0,0.95);color:#FFD700;' +
+            'padding:12px 18px;border-radius:10px;' +
+            'font-family:sans-serif;font-size:13px;font-weight:700;' +
+            'box-shadow:0 4px 16px rgba(0,0,0,0.4);' +
+            'border:2px solid #FFD700;z-index:1000000;' +
+            'text-align:center;max-width:90vw;line-height:1.4;' +
+            'opacity:0;transition:opacity 0.25s ease;pointer-events:none;';
+        el.innerHTML = 
+            '🔒 Gunakan tombol <b>← Kembali</b> di dalam aplikasi.<br>' +
+            '<span style="font-size:11px;font-weight:normal;opacity:0.9;">' +
+            'Tekan back <b>2x</b> cepat untuk keluar.</span>';
+
+        document.body.appendChild(el);
+        _pesanBackEl = el;
+
+        // Fade in
+        requestAnimationFrame(function() {
+            el.style.opacity = '1';
+        });
+
+        // Auto-hide setelah 2.5 detik
+        setTimeout(function() {
+            if (el && el.parentNode) {
+                el.style.opacity = '0';
+                setTimeout(function() {
+                    if (el.parentNode) el.parentNode.removeChild(el);
+                }, 300);
+            }
+        }, 2500);
     }
-    return false;
-  }
 
-  // 1. Dengarkan pesan dari iframe
-  window.addEventListener('message', function(event) {
-    if (!event.data || typeof event.data !== 'object') return;
+    function tanganiBackFisik() {
+        if (_backExitArmed) {
+            // Sudah tap sekali sebelumnya → user memang mau keluar
+            console.log('🚪 Double-back terdeteksi, keluar aplikasi');
+            if (_backExitTimer) clearTimeout(_backExitTimer);
+            _backExitArmed = false;
 
-    if (event.data.action === 'request_exit') {
-      // GAS sudah di beranda → minta keluar dari aplikasi
-      console.log('🚪 GAS minta exit, mundur keluar aplikasi');
-      try {
-        // Kalau ada history dummy, pop dulu; kalau tidak, langsung back
-        window.history.back();
-      } catch (e) {}
+            // Coba keluar. Untuk WebView Android, ini akan menutup Activity.
+            try {
+                // Mundur 2 langkah: 1 untuk state dummy, 1 untuk keluar Activity
+                window.history.go(-2);
+            } catch (e) {
+                window.history.back();
+            }
+            return;
+        }
+
+        // Tap pertama → tampilkan pesan, jangan keluar
+        console.log('🔒 Back diblokir, tampilkan pesan');
+        tampilkanPesanGunakanNavBawaan();
+
+        // Arm double-back
+        _backExitArmed = true;
+        _backExitTimer = setTimeout(function() {
+            _backExitArmed = false;
+            console.log('⏱️ Timer double-back habis, reset');
+        }, 2000);
     }
 
-    if (event.data.action === 'back_handled') {
-      // GAS berhasil handle back (opsional, untuk log)
-      console.log('↩️ GAS handle back');
-    }
-  });
+    // Pasang penahan back:
+    //  - pushState dummy supaya ada history yang bisa di-pop
+    //  - popstate → tangani back, lalu push lagi agar tetap tertahan
+    window.addEventListener('load', function() {
+        history.pushState({ view: 'guard' }, '', '');
 
-  // 2. Expose fungsi global agar Android bisa panggil via JS interface
-  //    (Android akan panggil: webView.evaluateJavascript("window.AndroidBack()"))
-  window.AndroidBack = function() {
-    var ok = kirimNavigateBackKeIframe();
-    if (!ok) {
-      // Iframe belum siap → langsung back
-      try { window.history.back(); } catch (e) {}
-    }
-  };
-
-  // 3. Fallback: kalau wrapper dibuka di browser biasa (bukan WebView),
-  //    tetap bisa tangkap back via popstate
-  window.addEventListener('load', function() {
-    history.pushState({ view: 'main' }, '', '');
-
-    window.addEventListener('popstate', function() {
-      var ok = kirimNavigateBackKeIframe();
-      // Selalu push state lagi agar back berikutnya tetap tertangkap
-      history.pushState({ view: 'main' }, '', '');
-
-      if (!ok) {
-        // Iframe belum siap, biarkan browser handle
-        history.back();
-      }
+        window.addEventListener('popstate', function() {
+            // Selalu push lagi supaya back berikutnya tetap tertangkap
+            history.pushState({ view: 'guard' }, '', '');
+            tanganiBackFisik();
+        });
     });
-  });
+
+    // ⭐ Expose fungsi global kalau nanti Android butuh panggil manual
+    window.AndroidBack = function() {
+        tanganiBackFisik();
+    };
 </script>
 </body>
 </html>
