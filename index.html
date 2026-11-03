@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Aplikasi Penagihan TP Saluampak</title>
-    
+
     <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Aplikasi Penagihan TP Saluampak" />
     <link rel="manifest" href="site.webmanifest" />
-    
+
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Penagihan TP Saluampak">
@@ -22,7 +22,7 @@
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; height: 100dvh;
-            overflow: hidden; background-color: #f7f7f7; 
+            overflow: hidden; background-color: #f7f7f7;
         }
         .iframe-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
         .iframe-cutter { position: absolute; width: 100%; height: 100%; top: -5px; overflow: hidden; }
@@ -32,45 +32,92 @@
 <body>
     <div class="iframe-container">
         <div class="iframe-cutter">
-            <iframe 
+            <iframe
                 id="appIframe"
-                src="https://script.google.com/macros/s/AKfycbzvqV1pohdLI33PJFO7GxBtUMSh_SlGWzB0b8Lx01HExH4w2HuKQh0hxMosaNv6kkuD/exec"
+                src="about:blank"
                 allow="geolocation *">
             </iframe>
         </div>
     </div>
 <script>
-    // Service Worker
+    // ============================================
+    // ⭐ KONFIGURASI
+    // ============================================
+    var GAS_URL = 'https://script.google.com/macros/s/AKfycbzvqV1pohdLI33PJFO7GxBtUMSh_SlGWzB0b8Lx01HExH4w2HuKQh0hxMosaNv6kkuD/exec';
+    var GITHUB_WRAPPER_URL = 'https://edoardbl.github.io/CUFintek/';
+
+    // ⭐ Set true kalau mau auto-cek update tiap X menit (muat ulang iframe diam-diam)
+    var AUTO_REFRESH_ENABLED = true;
+    var AUTO_REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 menit
+
+    // ============================================
+    // ⭐ LOAD IFRAME DENGAN TIMESTAMP (bypass cache)
+    // ============================================
+    function buildFreshGasUrl() {
+        // Tambah parameter unik supaya browser tidak pakai cache lama
+        return GAS_URL + (GAS_URL.indexOf('?') === -1 ? '?' : '&') + 't=' + Date.now();
+    }
+
+    function loadIframeFresh() {
+        var f = document.getElementById('appIframe');
+        if (!f) return;
+        var newSrc = buildFreshGasUrl();
+        console.log('🔄 Load iframe:', newSrc);
+        f.src = newSrc;
+    }
+
+    // Load pertama kali
+    window.addEventListener('DOMContentLoaded', function () {
+        loadIframeFresh();
+    });
+
+    // ⭐ Auto-refresh berkala (opsional)
+    if (AUTO_REFRESH_ENABLED) {
+        setInterval(function () {
+            // Hanya refresh kalau tab sedang aktif & tidak ada aktivitas input
+            if (document.visibilityState === 'visible') {
+                console.log('⏱️ Auto-refresh iframe (cek update)...');
+                loadIframeFresh();
+            }
+        }, AUTO_REFRESH_INTERVAL_MS);
+    }
+
+    // ============================================
+    // ⭐ SERVICE WORKER
+    // ============================================
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             navigator.serviceWorker.register('/CUFintek/sw.js')
-                .then(function(reg) { console.log('SW didaftarkan:', reg.scope); })
-                .catch(function(err) { console.log('SW gagal:', err); });
+                .then(function (reg) {
+                    console.log('SW didaftarkan:', reg.scope);
+                    // Paksa cek update SW setiap kali buka
+                    reg.update();
+                })
+                .catch(function (err) { console.log('SW gagal:', err); });
         });
     }
 
-    // ⭐ Variabel domain — sesuaikan kalau domain berubah
-    var GITHUB_WRAPPER_URL = 'https://edoardbl.github.io/CUFintek/';
-
-    // ⭐ Loading overlay untuk parent (tidak berubah)
-    function tampilkanLoadingParent() {
+    // ============================================
+    // ⭐ LOADING OVERLAY (parent)
+    // ============================================
+    function tampilkanLoadingParent(pesan) {
         if (document.getElementById('parentLoadingOverlay')) return;
 
         var ov = document.createElement('div');
         ov.id = 'parentLoadingOverlay';
-        ov.style.cssText = 
+        ov.style.cssText =
             'position:fixed;top:0;left:0;right:0;bottom:0;' +
             'background:linear-gradient(135deg,#8B0000,#A31515);' +
             'z-index:999999;display:flex;flex-direction:column;' +
             'align-items:center;justify-content:center;' +
             'color:white;font-family:sans-serif;text-align:center;padding:20px;';
-        ov.innerHTML = 
+        ov.innerHTML =
             '<div style="width:60px;height:60px;border:5px solid rgba(255,215,0,0.3);' +
             'border-top-color:#FFD700;border-radius:50%;' +
             'animation:spin 0.8s linear infinite;margin-bottom:20px;"></div>' +
             '<div style="font-size:16px;font-weight:bold;margin-bottom:8px;">Memuat Ulang Aplikasi...</div>' +
             '<div style="font-size:13px;opacity:0.85;max-width:300px;line-height:1.5;">' +
-            'Cache sudah dibersihkan. Mohon tunggu sebentar.</div>';
+            (pesan || 'Cache sudah dibersihkan. Mohon tunggu sebentar.') + '</div>';
 
         if (!document.getElementById('spinStyleParent')) {
             var s = document.createElement('style');
@@ -82,40 +129,49 @@
         document.body.appendChild(ov);
     }
 
+    // ============================================
     // ⭐ LISTENER PESAN DARI IFRAME (reload bersih)
-    window.addEventListener('message', function(event) {
-        if (!event.data || event.data.action !== 'force_reload_from_iframe') return;
-        
-        console.log('📩 Menerima perintah reload dari iframe...');
-        tampilkanLoadingParent();
-        
-        setTimeout(function() {
-            var newUrl = GITHUB_WRAPPER_URL + '?refresh=' + new Date().getTime();
-            console.log('🔄 Reload ke:', newUrl);
-            window.location.href = newUrl;
-        }, 500);
+    // ============================================
+    window.addEventListener('message', function (event) {
+        if (!event.data) return;
+
+        // Perintah reload penuh wrapper
+        if (event.data.action === 'force_reload_from_iframe') {
+            console.log('📩 Perintah reload penuh dari iframe...');
+            tampilkanLoadingParent();
+            setTimeout(function () {
+                var newUrl = GITHUB_WRAPPER_URL + '?refresh=' + new Date().getTime();
+                console.log('🔄 Reload ke:', newUrl);
+                window.location.href = newUrl;
+            }, 500);
+            return;
+        }
+
+        // Perintah reload iframe saja (tanpa reload wrapper)
+        if (event.data.action === 'reload_iframe_only') {
+            console.log('📩 Perintah reload iframe saja...');
+            tampilkanLoadingParent(event.data.message || 'Memuat versi terbaru aplikasi...');
+            setTimeout(function () {
+                var ov = document.getElementById('parentLoadingOverlay');
+                if (ov) ov.remove();
+                loadIframeFresh();
+            }, 600);
+            return;
+        }
     });
 
     // ============================================
     // ⭐ PENAHAN TOMBOL BACK FISIK
     // ============================================
-    // Strategi:
-    //  - Setiap kali user "mau back", kita push state dummy + tampilkan pesan.
-    //  - Tombol back fisik tidak akan pernah benar-benar keluar aplikasi,
-    //    kecuali user menekan back 2x berturut-turut dalam 2 detik (double-back to exit).
-    //  - Pesan disimpan di overlay kecil di bawah agar tidak mengganggu.
-
-    var _backExitArmed = false;   // true kalau user sudah tap back sekali
+    var _backExitArmed = false;
     var _backExitTimer = null;
     var _pesanBackEl = null;
 
     function tampilkanPesanGunakanNavBawaan() {
-        // Hapus pesan lama jika ada
         if (_pesanBackEl && _pesanBackEl.parentNode) {
             _pesanBackEl.parentNode.removeChild(_pesanBackEl);
         }
 
-        // ⭐ Overlay full-screen dengan backdrop gelap
         var overlay = document.createElement('div');
         overlay.id = 'pesanBackFisik';
         overlay.style.cssText =
@@ -126,7 +182,6 @@
             'padding:20px;' +
             'opacity:0;transition:opacity 0.25s ease;';
 
-        // ⭐ Kotak modal di tengah
         var box = document.createElement('div');
         box.style.cssText =
             'background:linear-gradient(135deg,#8B0000,#A31515);' +
@@ -168,35 +223,22 @@
         document.body.appendChild(overlay);
         _pesanBackEl = overlay;
 
-        // Fade in + scale animation
-        requestAnimationFrame(function() {
+        requestAnimationFrame(function () {
             overlay.style.opacity = '1';
             box.style.transform = 'scale(1)';
         });
 
-        // Tombol "Mengerti" untuk tutup manual
         var btnMengerti = document.getElementById('btnMengertiBack');
-        if (btnMengerti) {
-            btnMengerti.onclick = function() {
-                tutupPesanBack();
-            };
-        }
+        if (btnMengerti) btnMengerti.onclick = tutupPesanBack;
 
-        // Tap backdrop juga menutup
-        overlay.onclick = function(e) {
-            if (e.target === overlay) {
-                tutupPesanBack();
-            }
+        overlay.onclick = function (e) {
+            if (e.target === overlay) tutupPesanBack();
         };
 
-        // ⭐ Auto-hide setelah 6 detik (cukup untuk membaca)
         if (window._pesanBackTimer) clearTimeout(window._pesanBackTimer);
-        window._pesanBackTimer = setTimeout(function() {
-            tutupPesanBack();
-        }, 6000);
+        window._pesanBackTimer = setTimeout(tutupPesanBack, 6000);
     }
 
-    // ⭐ Fungsi bantu untuk menutup modal
     function tutupPesanBack() {
         if (window._pesanBackTimer) {
             clearTimeout(window._pesanBackTimer);
@@ -205,7 +247,7 @@
         if (_pesanBackEl && _pesanBackEl.parentNode) {
             _pesanBackEl.style.opacity = '0';
             var el = _pesanBackEl;
-            setTimeout(function() {
+            setTimeout(function () {
                 if (el.parentNode) el.parentNode.removeChild(el);
             }, 250);
         }
@@ -214,14 +256,10 @@
 
     function tanganiBackFisik() {
         if (_backExitArmed) {
-            // Sudah tap sekali sebelumnya → user memang mau keluar
             console.log('🚪 Double-back terdeteksi, keluar aplikasi');
             if (_backExitTimer) clearTimeout(_backExitTimer);
             _backExitArmed = false;
-
-            // Coba keluar. Untuk WebView Android, ini akan menutup Activity.
             try {
-                // Mundur 2 langkah: 1 untuk state dummy, 1 untuk keluar Activity
                 window.history.go(-2);
             } catch (e) {
                 window.history.back();
@@ -229,33 +267,26 @@
             return;
         }
 
-        // Tap pertama → tampilkan pesan, jangan keluar
         console.log('🔒 Back diblokir, tampilkan pesan');
         tampilkanPesanGunakanNavBawaan();
 
-        // Arm double-back
         _backExitArmed = true;
-        _backExitTimer = setTimeout(function() {
+        _backExitTimer = setTimeout(function () {
             _backExitArmed = false;
             console.log('⏱️ Timer double-back habis, reset');
         }, 2000);
     }
 
-    // Pasang penahan back:
-    //  - pushState dummy supaya ada history yang bisa di-pop
-    //  - popstate → tangani back, lalu push lagi agar tetap tertahan
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
         history.pushState({ view: 'guard' }, '', '');
 
-        window.addEventListener('popstate', function() {
-            // Selalu push lagi supaya back berikutnya tetap tertangkap
+        window.addEventListener('popstate', function () {
             history.pushState({ view: 'guard' }, '', '');
             tanganiBackFisik();
         });
     });
 
-    // ⭐ Expose fungsi global kalau nanti Android butuh panggil manual
-    window.AndroidBack = function() {
+    window.AndroidBack = function () {
         tanganiBackFisik();
     };
 </script>
