@@ -1,5 +1,5 @@
 // Ganti versi ini SETIAP KALI kamu ubah index.html wrapper
-const CACHE_NAME = 'cu-penagihan-v4.3.8';
+const CACHE_NAME = 'cu-penagihan-v4.3.9';
 
 self.addEventListener('install', function (event) {
     self.skipWaiting();
