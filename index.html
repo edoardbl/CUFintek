@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Aplikasi Penagihan TP Saluampak</title>
 
     <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
@@ -22,7 +25,7 @@
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; height: 100dvh;
-            overflow: hidden; background-color: #f7f7f7;
+            overflow: hidden; background-color: #8B0000;
         }
         .iframe-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
         .iframe-cutter { position: absolute; width: 100%; height: 100%; top: -5px; overflow: hidden; }
@@ -46,54 +49,63 @@
     var GAS_URL = 'https://script.google.com/macros/s/AKfycbwAVjq1Mihv-FnoieC0nM50QJn2qZJ9uTRQb5fL3X-RrhpcSbqaIcrALGhcGpRhbqhT/exec';
     var GITHUB_WRAPPER_URL = 'https://edoardbl.github.io/CUFintek/';
 
-    // ⭐ Set true kalau mau auto-cek update tiap X menit (muat ulang iframe diam-diam)
-    var AUTO_REFRESH_ENABLED = false;
-    var AUTO_REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 menit
+    // Catat waktu terakhir iframe dimuat
+    var _lastLoadTime = 0;
+    // Jika aplikasi dibiarkan di background > 30 menit lalu dibuka lagi, muat versi terbaru
+    var STALE_TIMEOUT_MS = 30 * 60 * 1000;
 
-    // ============================================
-    // ⭐ LOAD IFRAME DENGAN TIMESTAMP (bypass cache)
-    // ============================================
     function buildFreshGasUrl() {
-        // Tambah parameter unik supaya browser tidak pakai cache lama
         return GAS_URL + (GAS_URL.indexOf('?') === -1 ? '?' : '&') + 't=' + Date.now();
     }
 
     function loadIframeFresh() {
         var f = document.getElementById('appIframe');
         if (!f) return;
+        _lastLoadTime = Date.now();
         var newSrc = buildFreshGasUrl();
         console.log('🔄 Load iframe:', newSrc);
         f.src = newSrc;
     }
 
-    // Load pertama kali
     window.addEventListener('DOMContentLoaded', function () {
         loadIframeFresh();
     });
 
-    // ⭐ Auto-refresh berkala (opsional)
-    if (AUTO_REFRESH_ENABLED) {
-        setInterval(function () {
-            // Hanya refresh kalau tab sedang aktif & tidak ada aktivitas input
-            if (document.visibilityState === 'visible') {
-                console.log('⏱️ Auto-refresh iframe (cek update)...');
-                loadIframeFresh();
+    // ⭐ Otomatis tarik versi terbaru saat aktivis membuka kembali aplikasi yang lama di-minimize
+    document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible' && _lastLoadTime > 0) {
+            var jeda = Date.now() - _lastLoadTime;
+            if (jeda > STALE_TIMEOUT_MS) {
+                console.log('🔄 Aplikasi dibuka setelah idle lama, memuat versi terbaru...');
+                tampilkanLoadingParent('Memperbarui tampilan ke versi terbaru...');
+                setTimeout(function () {
+                    var ov = document.getElementById('parentLoadingOverlay');
+                    if (ov) ov.remove();
+                    loadIframeFresh();
+                }, 500);
             }
-        }, AUTO_REFRESH_INTERVAL_MS);
-    }
+        }
+    });
 
     // ============================================
-    // ⭐ SERVICE WORKER
+    // ⭐ SERVICE WORKER (AUTO-RELOAD SAAT ADA UPDATE)
     // ============================================
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
             navigator.serviceWorker.register('/CUFintek/sw.js')
                 .then(function (reg) {
                     console.log('SW didaftarkan:', reg.scope);
-                    // Paksa cek update SW setiap kali buka
                     reg.update();
                 })
                 .catch(function (err) { console.log('SW gagal:', err); });
+
+            // Begitu sw.js baru aktif mengambil alih, langsung reload wrapper
+            var refreshing = false;
+            navigator.serviceWorker.addEventListener('controllerchange', function () {
+                if (refreshing) return;
+                refreshing = true;
+                window.location.reload();
+            });
         });
     }
 
@@ -135,21 +147,15 @@
     window.addEventListener('message', function (event) {
         if (!event.data) return;
 
-        // Perintah reload penuh wrapper
         if (event.data.action === 'force_reload_from_iframe') {
-            console.log('📩 Perintah reload penuh dari iframe...');
             tampilkanLoadingParent();
             setTimeout(function () {
-                var newUrl = GITHUB_WRAPPER_URL + '?refresh=' + new Date().getTime();
-                console.log('🔄 Reload ke:', newUrl);
-                window.location.href = newUrl;
+                window.location.href = GITHUB_WRAPPER_URL + '?refresh=' + Date.now();
             }, 500);
             return;
         }
 
-        // Perintah reload iframe saja (tanpa reload wrapper)
         if (event.data.action === 'reload_iframe_only') {
-            console.log('📩 Perintah reload iframe saja...');
             tampilkanLoadingParent(event.data.message || 'Memuat versi terbaru aplikasi...');
             setTimeout(function () {
                 var ov = document.getElementById('parentLoadingOverlay');
@@ -176,24 +182,16 @@
         overlay.id = 'pesanBackFisik';
         overlay.style.cssText =
             'position:fixed;top:0;left:0;right:0;bottom:0;' +
-            'background:rgba(0,0,0,0.65);' +
-            'z-index:1000000;' +
+            'background:rgba(0,0,0,0.65);z-index:1000000;' +
             'display:flex;align-items:center;justify-content:center;' +
-            'padding:20px;' +
-            'opacity:0;transition:opacity 0.25s ease;';
+            'padding:20px;opacity:0;transition:opacity 0.25s ease;';
 
         var box = document.createElement('div');
         box.style.cssText =
-            'background:linear-gradient(135deg,#8B0000,#A31515);' +
-            'color:white;' +
-            'border:3px solid #FFD700;' +
-            'border-radius:16px;' +
-            'padding:24px 22px;' +
-            'max-width:340px;width:100%;' +
-            'text-align:center;' +
-            'font-family:sans-serif;' +
-            'box-shadow:0 10px 40px rgba(0,0,0,0.5);' +
-            'transform:scale(0.9);transition:transform 0.25s ease;';
+            'background:linear-gradient(135deg,#8B0000,#A31515);color:white;' +
+            'border:3px solid #FFD700;border-radius:16px;padding:24px 22px;' +
+            'max-width:340px;width:100%;text-align:center;font-family:sans-serif;' +
+            'box-shadow:0 10px 40px rgba(0,0,0,0.5);transform:scale(0.9);transition:transform 0.25s ease;';
 
         box.innerHTML =
             '<div style="font-size:48px;margin-bottom:12px;line-height:1;">🔒</div>' +
@@ -208,10 +206,8 @@
                 '</span>' +
             '</div>' +
             '<button id="btnMengertiBack" style="' +
-                'background:#FFD700;color:#8B0000;border:none;' +
-                'padding:12px 28px;border-radius:10px;' +
-                'font-size:15px;font-weight:800;cursor:pointer;' +
-                'font-family:inherit;width:100%;' +
+                'background:#FFD700;color:#8B0000;border:none;padding:12px 28px;border-radius:10px;' +
+                'font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;width:100%;' +
                 'box-shadow:0 4px 12px rgba(0,0,0,0.3);">' +
                 '✅ MENGERTI' +
             '</button>' +
@@ -256,30 +252,21 @@
 
     function tanganiBackFisik() {
         if (_backExitArmed) {
-            console.log('🚪 Double-back terdeteksi, keluar aplikasi');
             if (_backExitTimer) clearTimeout(_backExitTimer);
             _backExitArmed = false;
-            try {
-                window.history.go(-2);
-            } catch (e) {
-                window.history.back();
-            }
+            try { window.history.go(-2); } catch (e) { window.history.back(); }
             return;
         }
 
-        console.log('🔒 Back diblokir, tampilkan pesan');
         tampilkanPesanGunakanNavBawaan();
-
         _backExitArmed = true;
         _backExitTimer = setTimeout(function () {
             _backExitArmed = false;
-            console.log('⏱️ Timer double-back habis, reset');
         }, 2000);
     }
 
     window.addEventListener('load', function () {
         history.pushState({ view: 'guard' }, '', '');
-
         window.addEventListener('popstate', function () {
             history.pushState({ view: 'guard' }, '', '');
             tanganiBackFisik();
