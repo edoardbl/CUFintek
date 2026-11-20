@@ -46,7 +46,7 @@
     // ============================================
     // ⭐ KONFIGURASI
     // ============================================
-    var GAS_URL = 'https://script.google.com/macros/s/AKfycbzerILxYUZPBF1NosCdeO8zkIQ1c2FeyDLZgAa_wY17T6u3I8tzQ8jeBFHvomBbqJKi/exec';
+    var GAS_URL = 'https://script.google.com/macros/s/AKfycbywUI4qd2dB4dZt52EEsMdMF_QTAthBzHSPNrwPYhmOmFWnXcF306SAxLKEkazgON6t/exec';
     var GITHUB_WRAPPER_URL = 'https://edoardbl.github.io/CUFintek/';
 
     // Catat waktu terakhir iframe dimuat
@@ -144,27 +144,44 @@
     // ============================================
     // ⭐ LISTENER PESAN DARI IFRAME (reload bersih)
     // ============================================
-    window.addEventListener('message', function (event) {
-        if (!event.data) return;
+    window.addEventListener('message', async (event) => {
+  const data = event.data || {};
+  if (data.action !== 'pick_contact_hp') return;
 
-        if (event.data.action === 'force_reload_from_iframe') {
-            tampilkanLoadingParent();
-            setTimeout(function () {
-                window.location.href = GITHUB_WRAPPER_URL + '?refresh=' + Date.now();
-            }, 500);
-            return;
-        }
+  const iframe = document.querySelector('iframe');
+  if (!iframe || !iframe.contentWindow) return;
 
-        if (event.data.action === 'reload_iframe_only') {
-            tampilkanLoadingParent(event.data.message || 'Memuat versi terbaru aplikasi...');
-            setTimeout(function () {
-                var ov = document.getElementById('parentLoadingOverlay');
-                if (ov) ov.remove();
-                loadIframeFresh();
-            }, 600);
-            return;
-        }
-    });
+  if (!('contacts' in navigator && 'ContactsManager' in window)) {
+    iframe.contentWindow.postMessage({
+      action: 'contact_picked_result',
+      sukses: false,
+      reason: 'unsupported'
+    }, '*');
+    return;
+  }
+
+  try {
+    const contacts = await navigator.contacts.select(['name', 'tel'], { multiple: false });
+    if (!contacts || contacts.length === 0) return;
+
+    const c = contacts[0];
+    const tel = (Array.isArray(c.tel) && c.tel[0]) ? c.tel[0] : '';
+    const nama = (Array.isArray(c.name) && c.name[0]) ? c.name[0] : '';
+
+    iframe.contentWindow.postMessage({
+      action: 'contact_picked_result',
+      sukses: true,
+      tel: tel,
+      nama: nama
+    }, '*');
+  } catch (err) {
+    iframe.contentWindow.postMessage({
+      action: 'contact_picked_result',
+      sukses: false,
+      reason: err.name || 'error'
+    }, '*');
+  }
+});
 
     // ============================================
     // ⭐ PENAHAN TOMBOL BACK FISIK
