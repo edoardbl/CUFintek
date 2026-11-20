@@ -44,46 +44,84 @@
     </div>
 <script>
     // ============================================
-    // ⭐ KONFIGURASI
+    // ⭐ KONFIGURASI DINAMIS (ANTI-GANTI URL & AUTO-UPDATE)
     // ============================================
-    var GAS_URL = 'https://script.google.com/macros/s/AKfycbywUI4qd2dB4dZt52EEsMdMF_QTAthBzHSPNrwPYhmOmFWnXcF306SAxLKEkazgON6t/exec';
-    var GITHUB_WRAPPER_URL = 'https://edoardbl.github.io/CUFintek/';
-
-    // Catat waktu terakhir iframe dimuat
+    var DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbyJm6SqUWD6A6_xaqM7bf6a-FH-9RQiT1Rp7V6F10wvvhKxXi69-g48uTJ_9P98qWlG/exec';
+    var ACTIVE_GAS_URL = DEFAULT_GAS_URL;
+    var CURRENT_APP_VERSION = localStorage.getItem('CUF_APP_VERSION') || '';
     var _lastLoadTime = 0;
-    // Jika aplikasi dibiarkan di background > 30 menit lalu dibuka lagi, muat versi terbaru
     var STALE_TIMEOUT_MS = 30 * 60 * 1000;
 
-    function buildFreshGasUrl() {
-        return GAS_URL + (GAS_URL.indexOf('?') === -1 ? '?' : '&') + 't=' + Date.now();
+    function buildFreshGasUrl(baseUrl) {
+        var u = baseUrl || ACTIVE_GAS_URL || DEFAULT_GAS_URL;
+        return u + (u.indexOf('?') === -1 ? '?' : '&') + 't=' + Date.now();
     }
 
-    function loadIframeFresh() {
+    function loadIframeFresh(baseUrl) {
         var f = document.getElementById('appIframe');
         if (!f) return;
         _lastLoadTime = Date.now();
-        var newSrc = buildFreshGasUrl();
-        console.log('🔄 Load iframe:', newSrc);
-        f.src = newSrc;
+        f.src = buildFreshGasUrl(baseUrl);
     }
 
-    window.addEventListener('DOMContentLoaded', function () {
-        loadIframeFresh();
-    });
+    // Ambil config.json terbaru dari GitHub tanpa cache
+    async function fetchRemoteConfig() {
+        try {
+            var res = await fetch('config.json?nocache=' + Date.now(), { cache: 'no-store' });
+            if (!res.ok) return null;
+            return await res.json();
+        } catch (e) {
+            return null;
+        }
+    }
 
-    // ⭐ Otomatis tarik versi terbaru saat aktivis membuka kembali aplikasi yang lama di-minimize
-    document.addEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'visible' && _lastLoadTime > 0) {
-            var jeda = Date.now() - _lastLoadTime;
-            if (jeda > STALE_TIMEOUT_MS) {
-                console.log('🔄 Aplikasi dibuka setelah idle lama, memuat versi terbaru...');
-                tampilkanLoadingParent('Memperbarui tampilan ke versi terbaru...');
+    async function initAppWithConfig(isResumeCheck) {
+        var cfg = await fetchRemoteConfig();
+        if (cfg && cfg.gasUrl) {
+            var urlBerubah = (ACTIVE_GAS_URL !== cfg.gasUrl);
+            var versiBerubah = (cfg.appVersion && CURRENT_APP_VERSION && CURRENT_APP_VERSION !== cfg.appVersion);
+
+            ACTIVE_GAS_URL = cfg.gasUrl;
+            if (cfg.appVersion) {
+                CURRENT_APP_VERSION = cfg.appVersion;
+                localStorage.setItem('CUF_APP_VERSION', cfg.appVersion);
+            }
+
+            if (isResumeCheck && (urlBerubah || versiBerubah)) {
+                tampilkanLoadingParent('Memperbarui ke versi ' + (cfg.appVersion || 'terbaru') + '...');
                 setTimeout(function () {
                     var ov = document.getElementById('parentLoadingOverlay');
                     if (ov) ov.remove();
-                    loadIframeFresh();
-                }, 500);
+                    loadIframeFresh(ACTIVE_GAS_URL);
+                }, 600);
+                return;
             }
+        }
+
+        if (!isResumeCheck) {
+            loadIframeFresh(ACTIVE_GAS_URL);
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+        initAppWithConfig(false);
+    });
+
+    // Cek pembaruan otomatis setiap kali aktivis membuka kembali aplikasi dari background
+    document.addEventListener('visibilitychange', async function () {
+        if (document.visibilityState !== 'visible') return;
+
+        // 1. Cek apakah ada versi / GAS_URL baru di config.json
+        await initAppWithConfig(true);
+
+        // 2. Jika sudah idle > 30 menit, muat ulang agar sesi GAS tetap segar
+        if (_lastLoadTime > 0 && (Date.now() - _lastLoadTime) > STALE_TIMEOUT_MS) {
+            tampilkanLoadingParent('Menyegarkan sesi aplikasi...');
+            setTimeout(function () {
+                var ov = document.getElementById('parentLoadingOverlay');
+                if (ov) ov.remove();
+                loadIframeFresh(ACTIVE_GAS_URL);
+            }, 500);
         }
     });
 
@@ -217,13 +255,22 @@
                 _backConfirmTimer = null;
             }
             prosesKeluarAplikasi();
-        } else if (d.action === 'reload_iframe_only') {
-            tampilkanLoadingParent('Memuat ulang tampilan...');
-            setTimeout(function () {
-                var ov = document.getElementById('parentLoadingOverlay');
-                if (ov) ov.remove();
-                loadIframeFresh();
-            }, 400);
+        } else if (d.action === 'reload_iframe_only' || d.action === 'check_update_manual') {
+            tampilkanLoadingParent('Mengecek & memuat versi terbaru aplikasi...');
+            fetchRemoteConfig().then(function (cfg) {
+                if (cfg && cfg.gasUrl) {
+                    ACTIVE_GAS_URL = cfg.gasUrl;
+                    if (cfg.appVersion) {
+                        CURRENT_APP_VERSION = cfg.appVersion;
+                        localStorage.setItem('CUF_APP_VERSION', cfg.appVersion);
+                    }
+                }
+                setTimeout(function () {
+                    var ov = document.getElementById('parentLoadingOverlay');
+                    if (ov) ov.remove();
+                    loadIframeFresh(ACTIVE_GAS_URL);
+                }, 500);
+            });
         }
     });
 
