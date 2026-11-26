@@ -25,82 +25,11 @@
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; height: 100dvh;
-            overflow: hidden; background-color: #8B0000; font-family: sans-serif;
+            overflow: hidden; background-color: #8B0000;
         }
         .iframe-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
         .iframe-cutter { position: absolute; width: 100%; height: 100%; top: -5px; overflow: hidden; }
         iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-
-        #offlineFallbackScreen {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 999990;
-            background: linear-gradient(160deg, #5C0000 0%, #2a1616 100%);
-            color: #f9fafb;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 24px;
-            box-sizing: border-box;
-        }
-        .offline-card {
-            width: 100%;
-            max-width: 380px;
-            background: rgba(30, 22, 22, 0.94);
-            border: 1.5px solid #D4AF37;
-            border-radius: 16px;
-            padding: 22px 18px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
-        }
-        .offline-badge {
-            display: inline-block;
-            background: rgba(255, 215, 0, 0.14);
-            color: #FFD700;
-            border: 1px solid rgba(255, 215, 0, 0.45);
-            border-radius: 999px;
-            padding: 4px 12px;
-            font-size: 11.5px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .offline-title {
-            font-size: 17px;
-            font-weight: 800;
-            color: #FFD700;
-            margin: 0 0 8px 0;
-        }
-        .offline-desc {
-            font-size: 13px;
-            line-height: 1.5;
-            color: #e5e7eb;
-            margin: 0 0 14px 0;
-        }
-        .offline-meta {
-            font-size: 11.5px;
-            color: #cbd5e1;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 10px 12px;
-            margin-bottom: 16px;
-            text-align: left;
-            line-height: 1.5;
-        }
-        .offline-btn-retry {
-            width: 100%;
-            background: #8B0000;
-            color: #FFD700;
-            border: 1.5px solid #FFD700;
-            border-radius: 10px;
-            padding: 11px 16px;
-            font-size: 13.5px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-        .offline-btn-retry:active {
-            transform: scale(0.98);
-        }
     </style>
 </head>
 <body>
@@ -113,56 +42,16 @@
             </iframe>
         </div>
     </div>
-
-    <div id="offlineFallbackScreen">
-        <div class="offline-card">
-            <div class="offline-badge">📡 Tidak Ada Sinyal / Mode Offline</div>
-            <h3 class="offline-title">Koneksi ke Server Tertunda</h3>
-            <p class="offline-desc">
-                Aplikasi utama Google Apps Script memerlukan akses internet untuk memuat sesi baru.
-                Data tagihan &amp; kunjungan yang sudah tersimpan di perangkat tetap aman dan akan otomatis disinkronkan saat sinyal kembali.
-            </p>
-            <div class="offline-meta" id="offlineMetaInfo">
-                <div><b>Versi Aplikasi:</b> <span id="metaAppVersion">-</span></div>
-                <div><b>Status Sinyal:</b> <span id="metaNetStatus">Offline</span></div>
-            </div>
-            <button type="button" class="offline-btn-retry" onclick="cobaSambungkanUlang()">
-                🔄 Cek Sinyal &amp; Muat Ulang
-            </button>
-        </div>
-    </div>
-
 <script>
     // ============================================
     // ⭐ KONFIGURASI DINAMIS (ANTI-GANTI URL & AUTO-UPDATE)
     // ============================================
-    var DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbyJm6SqUWD6A6_xaqM7bf6a-FH-9RQiT1Rp7V6F10wvvhKxXi69-g48uTJ_9P98qWlG/exec';
+    var DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbz4g5AqGHcJ2-u0Tq3zPyG91e28zgWAilcVj6jYq-J-EPdsjApRN3E_35H-NCKWTmtB/exec';
     var ACTIVE_GAS_URL = localStorage.getItem('CUF_LAST_GAS_URL') || DEFAULT_GAS_URL;
     var CURRENT_APP_VERSION = localStorage.getItem('CUF_APP_VERSION') || '';
     var _lastLoadTime = 0;
     var _iframeLoadTimer = null;
     var STALE_TIMEOUT_MS = 30 * 60 * 1000;
-
-    function perbaruiInfoOffline() {
-        var verEl = document.getElementById('metaAppVersion');
-        var netEl = document.getElementById('metaNetStatus');
-        if (verEl) verEl.textContent = CURRENT_APP_VERSION || '2026.11.21.20';
-        if (netEl) netEl.textContent = navigator.onLine ? 'Online (Menunggu respon server)' : 'Offline (Tidak ada sinyal)';
-    }
-
-    function tampilkanFallbackOffline() {
-        clearTimeout(_iframeLoadTimer);
-        var ov = document.getElementById('parentLoadingOverlay');
-        if (ov) ov.remove();
-        perbaruiInfoOffline();
-        var scr = document.getElementById('offlineFallbackScreen');
-        if (scr) scr.style.display = 'flex';
-    }
-
-    function sembunyikanFallbackOffline() {
-        var scr = document.getElementById('offlineFallbackScreen');
-        if (scr) scr.style.display = 'none';
-    }
 
     function buildFreshGasUrl(baseUrl) {
         var u = baseUrl || ACTIVE_GAS_URL || DEFAULT_GAS_URL;
@@ -172,50 +61,12 @@
     function loadIframeFresh(baseUrl) {
         var f = document.getElementById('appIframe');
         if (!f) return;
-
-        if (!navigator.onLine) {
-            tampilkanFallbackOffline();
-            return;
-        }
-
-        sembunyikanFallbackOffline();
         _lastLoadTime = Date.now();
-        clearTimeout(_iframeLoadTimer);
-
-        // Jika dalam 12 detik iframe belum berhasil memuat halaman (misal sinyal drop di tengah jalan)
-        _iframeLoadTimer = setTimeout(function () {
-            if (!navigator.onLine) {
-                tampilkanFallbackOffline();
-            }
-        }, 12000);
-
-        f.onload = function () {
-            clearTimeout(_iframeLoadTimer);
-            sembunyikanFallbackOffline();
-        };
-        f.onerror = function () {
-            tampilkanFallbackOffline();
-        };
-
         f.src = buildFreshGasUrl(baseUrl);
-    }
-
-    function cobaSambungkanUlang() {
-        perbaruiInfoOffline();
-        if (!navigator.onLine) {
-            tampilkanFallbackOffline();
-            return;
-        }
-        tampilkanLoadingParent('Menghubungkan ke server...');
-        initAppWithConfig(false).then(function () {
-            var ov = document.getElementById('parentLoadingOverlay');
-            if (ov) ov.remove();
-        });
     }
 
     // Ambil config.json terbaru dari GitHub tanpa cache
     async function fetchRemoteConfig() {
-        if (!navigator.onLine) return null;
         try {
             var res = await fetch('config.json?nocache=' + Date.now(), { cache: 'no-store' });
             if (!res.ok) return null;
@@ -226,20 +77,12 @@
     }
 
     async function initAppWithConfig(isResumeCheck) {
-        if (!navigator.onLine) {
-            if (!isResumeCheck) {
-                tampilkanFallbackOffline();
-            }
-            return;
-        }
-
         var cfg = await fetchRemoteConfig();
         if (cfg && cfg.gasUrl) {
             var urlBerubah = (ACTIVE_GAS_URL !== cfg.gasUrl);
             var versiBerubah = (cfg.appVersion && CURRENT_APP_VERSION && CURRENT_APP_VERSION !== cfg.appVersion);
 
             ACTIVE_GAS_URL = cfg.gasUrl;
-            localStorage.setItem('CUF_LAST_GAS_URL', cfg.gasUrl);
             if (cfg.appVersion) {
                 CURRENT_APP_VERSION = cfg.appVersion;
                 localStorage.setItem('CUF_APP_VERSION', cfg.appVersion);
@@ -262,36 +105,12 @@
     }
 
     window.addEventListener('DOMContentLoaded', function () {
-        perbaruiInfoOffline();
         initAppWithConfig(false);
-    });
-
-    window.addEventListener('online', function () {
-        perbaruiInfoOffline();
-        var scr = document.getElementById('offlineFallbackScreen');
-        var sedangFallback = scr && scr.style.display === 'flex';
-        if (sedangFallback || !_lastLoadTime) {
-            cobaSambungkanUlang();
-        } else {
-            initAppWithConfig(true);
-        }
-    });
-
-    window.addEventListener('offline', function () {
-        perbaruiInfoOffline();
-        var f = document.getElementById('appIframe');
-        var srcNow = f ? (f.getAttribute('src') || '') : '';
-        if (!srcNow || srcNow === 'about:blank') {
-            tampilkanFallbackOffline();
-        }
     });
 
     // Cek pembaruan otomatis setiap kali aktivis membuka kembali aplikasi dari background
     document.addEventListener('visibilitychange', async function () {
         if (document.visibilityState !== 'visible') return;
-        perbaruiInfoOffline();
-
-        if (!navigator.onLine) return;
 
         // 1. Cek apakah ada versi / GAS_URL baru di config.json
         await initAppWithConfig(true);
@@ -312,13 +131,14 @@
     // ============================================
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
-            navigator.serviceWorker.register('./sw.js')
+            navigator.serviceWorker.register('/CUFintek/sw.js')
                 .then(function (reg) {
                     console.log('SW didaftarkan:', reg.scope);
-                    if (navigator.onLine) reg.update();
+                    reg.update();
                 })
                 .catch(function (err) { console.log('SW gagal:', err); });
 
+            // Begitu sw.js baru aktif mengambil alih, langsung reload wrapper
             var refreshing = false;
             navigator.serviceWorker.addEventListener('controllerchange', function () {
                 if (refreshing) return;
@@ -441,7 +261,6 @@
             fetchRemoteConfig().then(function (cfg) {
                 if (cfg && cfg.gasUrl) {
                     ACTIVE_GAS_URL = cfg.gasUrl;
-                    localStorage.setItem('CUF_LAST_GAS_URL', cfg.gasUrl);
                     if (cfg.appVersion) {
                         CURRENT_APP_VERSION = cfg.appVersion;
                         localStorage.setItem('CUF_APP_VERSION', cfg.appVersion);
@@ -459,8 +278,10 @@
     function tanganiBackFisik() {
         var f = document.getElementById('appIframe');
         if (f && f.contentWindow) {
+            // Kirim sinyal ke dalam GAS agar menutup modal / detail / kembali ke menu sebelumnya
             f.contentWindow.postMessage({ action: 'cuf_android_back' }, '*');
 
+            // Fallback jika iframe sedang loading / belum merespons dalam 250ms
             if (_backConfirmTimer) clearTimeout(_backConfirmTimer);
             _backConfirmTimer = setTimeout(function () {
                 prosesKeluarAplikasi();
