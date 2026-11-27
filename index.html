@@ -32,7 +32,7 @@
         .iframe-cutter { position: absolute; width: 100%; height: 100%; top: -5px; overflow: hidden; }
         iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* Banner status koneksi tipis di atas */
+        /* [OFFLINE_MODE_DISABLED] Style top menu & panel mode offline dinonaktifkan sementara
         #offlineStatusBar {
             display: none;
             position: fixed;
@@ -77,7 +77,6 @@
             border: 1px solid rgba(255, 215, 0, 0.45);
         }
 
-        /* Fallback layar saat mati sinyal & GAS tidak bisa diakses */
         #offlineFallbackPanel {
             display: none;
             position: fixed;
@@ -159,9 +158,11 @@
             color: rgba(255,255,255,0.72);
             line-height: 1.45;
         }
+        */
     </style>
 </head>
 <body>
+    <!-- [OFFLINE_MODE_DISABLED] Top menu mode offline dihilangkan sementara
     <div id="offlineStatusBar">
         <span id="offlineStatusText">Mode Offline — Menggunakan data lokal</span>
         <div class="status-bar-actions">
@@ -170,6 +171,7 @@
             <button type="button" id="btnRetryBar">Coba Online</button>
         </div>
     </div>
+    -->
 
     <div class="iframe-container">
         <div class="iframe-cutter">
@@ -182,6 +184,7 @@
         </div>
     </div>
 
+    <!-- [OFFLINE_MODE_DISABLED] Panel pesan mode offline dihilangkan sementara
     <div id="offlineFallbackPanel">
         <div class="offline-card">
             <div class="offline-badge">TIDAK ADA SINYAL / OFFLINE</div>
@@ -200,6 +203,7 @@
             <div class="offline-meta" id="offlineCacheInfo"></div>
         </div>
     </div>
+    -->
 
 <script>
     // ============================================
@@ -207,8 +211,9 @@
     // ============================================
     var DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbz4g5AqGHcJ2-u0Tq3zPyG91e28zgWAilcVj6jYq-J-EPdsjApRN3E_35H-NCKWTmtB/exec';
     var CONFIG_CACHE_KEY = 'CUF_CONFIG_CACHE';
-    var OFFLINE_MODE_KEY = 'CUF_OFFLINE_ACTIVE';
-    var LAST_OFFLINE_VIEW_KEY = 'CUF_LAST_OFFLINE_VIEW';
+    // [OFFLINE_MODE_DISABLED] Key penyimpanan mode offline
+    // var OFFLINE_MODE_KEY = 'CUF_OFFLINE_ACTIVE';
+    // var LAST_OFFLINE_VIEW_KEY = 'CUF_LAST_OFFLINE_VIEW';
 
     var savedConfig = null;
     try {
@@ -220,10 +225,11 @@
     var CURRENT_APP_VERSION = localStorage.getItem('CUF_APP_VERSION') || (savedConfig && savedConfig.appVersion) || '';
     var _lastLoadTime = 0;
     var _iframeLoadTimer = null;
-    var _retryTimer = null;
+    // [OFFLINE_MODE_DISABLED] Variabel status & timer mode offline
+    // var _retryTimer = null;
     var _iframeLoadedOk = false;
-    var _isOfflineFallbackShown = false;
-    var _currentLocalView = '';
+    // var _isOfflineFallbackShown = false;
+    // var _currentLocalView = '';
     var STALE_TIMEOUT_MS = 30 * 60 * 1000;
     var IFRAME_TIMEOUT_MS = 7000;
 
@@ -231,18 +237,10 @@
         return typeof navigator !== 'undefined' && navigator.onLine !== false;
     }
 
+    // [OFFLINE_MODE_DISABLED] Indikator top bar mode offline
     function updateOfflineIndicator() {
-        var bar = document.getElementById('offlineStatusBar');
-        var info = document.getElementById('offlineCacheInfo');
-        if (!isBrowserOnline() || _isOfflineFallbackShown || _currentLocalView) {
-            if (bar) bar.style.display = 'flex';
-        } else {
-            if (bar) bar.style.display = 'none';
-        }
-        if (info) {
-            var verText = CURRENT_APP_VERSION ? ('Versi tersimpan: ' + CURRENT_APP_VERSION) : 'Versi lokal tersimpan';
-            info.textContent = verText + ' • Data antrean/lokal tetap aman di perangkat';
-        }
+        // var bar = document.getElementById('offlineStatusBar');
+        // if (bar) bar.style.display = 'none';
     }
 
     function removeParentLoading() {
@@ -250,49 +248,24 @@
         if (ov && ov.parentNode) ov.parentNode.removeChild(ov);
     }
 
-    function showOfflineFallback(reasonText) {
-        if (_retryTimer) {
-            clearTimeout(_retryTimer);
-            _retryTimer = null;
-        }
-        _isOfflineFallbackShown = true;
-        try { localStorage.setItem(OFFLINE_MODE_KEY, '1'); } catch (e) {}
+    // [OFFLINE_MODE_DISABLED] Tampilkan panel fallback offline
+    function showOfflineFallback(/* reasonText */) {
         removeParentLoading();
-
-        var panel = document.getElementById('offlineFallbackPanel');
-        var statusText = document.getElementById('offlineStatusText');
-        if (statusText && reasonText) {
-            statusText.textContent = reasonText;
-        }
-        if (panel) {
-            panel.style.display = 'flex';
-        }
-        updateOfflineIndicator();
+        // var panel = document.getElementById('offlineFallbackPanel');
+        // if (panel) panel.style.display = 'none';
     }
 
+    // [OFFLINE_MODE_DISABLED] Sembunyikan panel fallback offline
     function hideOfflineFallback() {
-        _isOfflineFallbackShown = false;
-        try { localStorage.removeItem(OFFLINE_MODE_KEY); } catch (e) {}
-        var panel = document.getElementById('offlineFallbackPanel');
-        if (panel) {
-            panel.style.display = 'none';
-        }
-        updateOfflineIndicator();
+        // var panel = document.getElementById('offlineFallbackPanel');
+        // if (panel) panel.style.display = 'none';
     }
 
-    function openLocalView(viewFile) {
-        var f = document.getElementById('appIframe');
-        if (!f) return;
-        _currentLocalView = viewFile;
-        try { localStorage.setItem(LAST_OFFLINE_VIEW_KEY, viewFile); } catch (e) {}
-        hideOfflineFallback();
-        _iframeLoadedOk = true;
-        f.src = './' + viewFile;
-        var statusText = document.getElementById('offlineStatusText');
-        if (statusText) {
-            statusText.textContent = 'Offline: ' + viewFile.replace('.html', '').replace('_', ' ');
-        }
-        updateOfflineIndicator();
+    // [OFFLINE_MODE_DISABLED] Buka halaman lokal Tagihan / Kunjungan
+    function openLocalView(/* viewFile */) {
+        // var f = document.getElementById('appIframe');
+        // if (!f) return;
+        // f.src = './' + viewFile;
     }
 
     function buildFreshGasUrl(baseUrl) {
@@ -300,7 +273,7 @@
         return u + (u.indexOf('?') === -1 ? '?' : '&') + 't=' + Date.now();
     }
 
-    function loadIframeFresh(baseUrl, forceOfflineIfFail) {
+    function loadIframeFresh(baseUrl /*, forceOfflineIfFail */) {
         var f = document.getElementById('appIframe');
         if (!f) return;
 
@@ -309,20 +282,18 @@
             _iframeLoadTimer = null;
         }
 
-        if (!isBrowserOnline() && (forceOfflineIfFail || !_iframeLoadedOk)) {
-            showOfflineFallback('Tidak ada sinyal — Mode Offline aktif');
-            return;
-        }
+        // [OFFLINE_MODE_DISABLED] Lewati pengalihan ke panel mode offline saat offline
+        // if (!isBrowserOnline() && (forceOfflineIfFail || !_iframeLoadedOk)) {
+        //     showOfflineFallback('Tidak ada sinyal — Mode Offline aktif');
+        //     return;
+        // }
 
-        _currentLocalView = '';
         _lastLoadTime = Date.now();
         _iframeLoadedOk = false;
         f.src = buildFreshGasUrl(baseUrl);
 
         _iframeLoadTimer = setTimeout(function () {
-            if (!_iframeLoadedOk && (!isBrowserOnline() || forceOfflineIfFail)) {
-                showOfflineFallback('Koneksi lambat / terputus — Mode Offline siap');
-            }
+            removeParentLoading();
         }, IFRAME_TIMEOUT_MS);
     }
 
@@ -387,7 +358,7 @@
         }
 
         if (!isResumeCheck) {
-            loadIframeFresh(ACTIVE_GAS_URL, true);
+            loadIframeFresh(ACTIVE_GAS_URL, false);
         }
     }
 
@@ -401,74 +372,70 @@
                         _iframeLoadTimer = null;
                     }
                     _iframeLoadedOk = true;
-                    if (!_currentLocalView) {
-                        hideOfflineFallback();
-                    }
+                    removeParentLoading();
+                    hideOfflineFallback();
                 }
             });
             iframeEl.addEventListener('error', function () {
-                if (!isBrowserOnline()) {
-                    showOfflineFallback('Gagal memuat server — Mode Offline aktif');
+                removeParentLoading();
+            });
+        }
+
+        /* [OFFLINE_MODE_DISABLED] Event listener tombol-tombol menu offline
+        var elOpenTagihan = document.getElementById('btnOpenTagihan');
+        if (elOpenTagihan) elOpenTagihan.addEventListener('click', function () { openLocalView('View_Tagihan.html'); });
+
+        var elOpenKunjungan = document.getElementById('btnOpenKunjungan');
+        if (elOpenKunjungan) elOpenKunjungan.addEventListener('click', function () { openLocalView('View_Kunjungan.html'); });
+
+        var elBarTagihan = document.getElementById('btnBarTagihan');
+        if (elBarTagihan) elBarTagihan.addEventListener('click', function () { openLocalView('View_Tagihan.html'); });
+
+        var elBarKunjungan = document.getElementById('btnBarKunjungan');
+        if (elBarKunjungan) elBarKunjungan.addEventListener('click', function () { openLocalView('View_Kunjungan.html'); });
+
+        var elOpenOfflineMode = document.getElementById('btnOpenOfflineMode');
+        if (elOpenOfflineMode) {
+            elOpenOfflineMode.addEventListener('click', function () {
+                var lastView = '';
+                try { lastView = localStorage.getItem(LAST_OFFLINE_VIEW_KEY) || ''; } catch (e) {}
+                openLocalView(lastView || 'View_Tagihan.html');
+                var f = document.getElementById('appIframe');
+                if (f && f.contentWindow) {
+                    f.contentWindow.postMessage({ action: 'cuf_enter_offline_mode' }, '*');
                 }
             });
         }
 
-        document.getElementById('btnOpenTagihan').addEventListener('click', function () {
-            openLocalView('View_Tagihan.html');
-        });
-
-        document.getElementById('btnOpenKunjungan').addEventListener('click', function () {
-            openLocalView('View_Kunjungan.html');
-        });
-
-        document.getElementById('btnBarTagihan').addEventListener('click', function () {
-            openLocalView('View_Tagihan.html');
-        });
-
-        document.getElementById('btnBarKunjungan').addEventListener('click', function () {
-            openLocalView('View_Kunjungan.html');
-        });
-
-        document.getElementById('btnOpenOfflineMode').addEventListener('click', function () {
-            var lastView = '';
-            try { lastView = localStorage.getItem(LAST_OFFLINE_VIEW_KEY) || ''; } catch (e) {}
-            openLocalView(lastView || 'View_Tagihan.html');
-            var f = document.getElementById('appIframe');
-            if (f && f.contentWindow) {
-                f.contentWindow.postMessage({ action: 'cuf_enter_offline_mode' }, '*');
-            }
-        });
-
         function retryConnectionAction() {
-            if (!isBrowserOnline()) {
-                showOfflineFallback('Tidak ada sinyal — Tetap di Mode Offline');
-                return;
-            }
+            if (!isBrowserOnline()) return;
             hideOfflineFallback();
             tampilkanLoadingParent('Mencoba menghubungkan ke server...');
             initAppWithConfig(false).finally(function () {
                 if (_retryTimer) clearTimeout(_retryTimer);
                 _retryTimer = setTimeout(function () {
                     removeParentLoading();
-                    if (!isBrowserOnline() || (!_iframeLoadedOk && !_currentLocalView)) {
-                        showOfflineFallback('Sinyal belum tersedia — Tetap di Mode Offline');
-                    }
                 }, 1500);
             });
         }
 
-        document.getElementById('btnRetryConnect').addEventListener('click', retryConnectionAction);
-        document.getElementById('btnRetryBar').addEventListener('click', retryConnectionAction);
+        var elRetryConnect = document.getElementById('btnRetryConnect');
+        if (elRetryConnect) elRetryConnect.addEventListener('click', retryConnectionAction);
+
+        var elRetryBar = document.getElementById('btnRetryBar');
+        if (elRetryBar) elRetryBar.addEventListener('click', retryConnectionAction);
+        */
 
         window.addEventListener('offline', function () {
             updateOfflineIndicator();
-            var f = document.getElementById('appIframe');
-            if (f && f.contentWindow) {
-                f.contentWindow.postMessage({ action: 'cuf_network_status', online: false }, '*');
-            }
-            if (!_iframeLoadedOk && !_currentLocalView) {
-                showOfflineFallback('Koneksi terputus — Mode Offline aktif');
-            }
+            // [OFFLINE_MODE_DISABLED] Kirim status offline ke iframe & tampilkan panel offline
+            // var f = document.getElementById('appIframe');
+            // if (f && f.contentWindow) {
+            //     f.contentWindow.postMessage({ action: 'cuf_network_status', online: false }, '*');
+            // }
+            // if (!_iframeLoadedOk) {
+            //     showOfflineFallback('Koneksi terputus — Mode Offline aktif');
+            // }
         });
 
         window.addEventListener('online', function () {
@@ -477,8 +444,8 @@
             if (f && f.contentWindow) {
                 f.contentWindow.postMessage({ action: 'cuf_network_status', online: true }, '*');
             }
-            if (_isOfflineFallbackShown || (!_iframeLoadedOk && !_currentLocalView)) {
-                retryConnectionAction();
+            if (!_iframeLoadedOk) {
+                loadIframeFresh(ACTIVE_GAS_URL, false);
             }
         });
 
@@ -495,7 +462,7 @@
 
         await initAppWithConfig(true);
 
-        if (!_currentLocalView && _lastLoadTime > 0 && (Date.now() - _lastLoadTime) > STALE_TIMEOUT_MS) {
+        if (_lastLoadTime > 0 && (Date.now() - _lastLoadTime) > STALE_TIMEOUT_MS) {
             tampilkanLoadingParent('Menyegarkan sesi aplikasi...');
             setTimeout(function () {
                 removeParentLoading();
@@ -636,7 +603,7 @@
             prosesKeluarAplikasi();
         } else if (d.action === 'reload_iframe_only' || d.action === 'check_update_manual') {
             if (!isBrowserOnline()) {
-                showOfflineFallback('Tidak ada koneksi internet untuk cek pembaruan');
+                // [OFFLINE_MODE_DISABLED] showOfflineFallback('Tidak ada koneksi internet untuk cek pembaruan');
                 return;
             }
             tampilkanLoadingParent('Mengecek & memuat versi terbaru aplikasi...');
@@ -660,7 +627,7 @@
 
     function tanganiBackFisik() {
         var f = document.getElementById('appIframe');
-        if (f && f.contentWindow && _iframeLoadedOk && !_isOfflineFallbackShown && !_currentLocalView) {
+        if (f && f.contentWindow && _iframeLoadedOk) {
             f.contentWindow.postMessage({ action: 'cuf_android_back' }, '*');
 
             if (_backConfirmTimer) clearTimeout(_backConfirmTimer);
