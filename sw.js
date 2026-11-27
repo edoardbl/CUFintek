@@ -1,92 +1,120 @@
-// Ganti versi ini SETIAP KALI kamu ubah wrapper / aset statis
-const CACHE_NAME = 'cu-penagihan-v4.5.4';
-const CORE_ASSETS = [
+const CACHE_VERSION = 'cufintek-shell-v1';
+const STATIC_CACHE = `${CACHE_VERSION}-static`;
+const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
+
+// Sesuaikan daftar aset inti dengan nama file aktual di project kamu
+const APP_SHELL_ASSETS = [
   './',
-  './index.html'
+  './index.html',
+  './config.json',
+  './manifest.json'
+  // Tambahkan file CSS, JS utama, dan HTML view menu offline kamu di sini, contoh:
+  // './styles.css',
+  './app.js',
+  './View_Tagihan.html',
+  './View_Kunjungan.html'
 ];
 
-self.addEventListener('install', function (event) {
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
-      return cache.addAll(CORE_ASSETS).catch(function () {
-        // Jangan gagalkan install jika salah satu aset gagal saat awal
-        return Promise.resolve();
-      });
-    }).then(function () {
-      return self.skipWaiting();
-    })
+    caches.open(STATIC_CACHE)
+      .then((cache) => cache.addAll(APP_SHELL_ASSETS))
+      .then(() => self.skipWaiting())
   );
 });
 
-self.addEventListener('activate', function (event) {
+self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then(function (cacheNames) {
-      return Promise.all(
-        cacheNames.map(function (cacheName) {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-          return Promise.resolve();
-        })
-      );
-    }).then(function () {
-      return self.clients.claim();
-    })
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys
+          .filter((key) => key !== STATIC_CACHE && key !== RUNTIME_CACHE)
+          .map((key) => caches.delete(key))
+      )
+    ).then(() => self.clients.claim())
   );
 });
 
-self.addEventListener('fetch', function (event) {
-  const req = event.request;
-  if (req.method !== 'GET') return;
+async function networkFirstWithCacheFallback(request, cacheName, timeoutMs = 4000) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
 
-  const url = new URL(req.url);
-  // Hanya tangani request satu origin dengan wrapper GitHub Pages
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const networkResponse = await fetch(request, { signal: controller.signal });
+    clearTimeout(timer);
+    if (networkResponse && networkResponse.ok) {
+      cache.put(request, networkResponse.clone());
+    }
+    return networkResponse;
+  } catch (err) {
+    clearTimeout(timer);
+    if (cached) return cached;
+    throw err;
+  }
+}
+
+async function cacheFirstWithBackgroundUpdate(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+
+  const fetchPromise = fetch(request)
+    .then((response) => {
+      if (response && response.ok) {
+        cache.put(request, response.clone());
+      }
+      return response;
+    })
+    .catch(() => null);
+
+  if (cached) {
+    return cached;
+  }
+
+  const networkResponse = await fetchPromise;
+  if (networkResponse) return networkResponse;
+
+  return new Response('Offline - aset belum tersedia di cache.', {
+    status: 503,
+    statusText: 'Service Unavailable'
+  });
+}
+
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
+
+  // Hanya tangani origin sendiri agar panggilan API eksternal tidak terganggu
   if (url.origin !== self.location.origin) return;
 
-  event.respondWith(
-    fetch(req)
-      .then(function (networkRes) {
-        if (networkRes && networkRes.status === 200) {
-          const copy = networkRes.clone();
-          caches.open(CACHE_NAME).then(function (cache) {
-            cache.put(req, copy);
-          });
-        }
-        return networkRes;
-      })
-      .catch(function () {
-        return caches.match(req).then(function (cachedRes) {
-          if (cachedRes) return cachedRes;
-          if (req.mode === 'navigate') {
-            return caches.match('./index.html').then(function (indexRes) {
-              return indexRes || caches.match('./') || new Response(
-                '<!doctype html><html><body style="font-family:sans-serif;background:#1e1616;color:#f9fafb;padding:20px;"><h3>Mode Offline</h3><p>Halaman wrapper belum sempat tersimpan di cache. Hubungkan ke internet sebentar lalu buka ulang.</p></body></html>',
-                { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
-              );
-            });
-          }
-          return new Response('', { status: 503, statusText: 'Offline' });
-        });
-      })
-  );
-});
-
-self.addEventListener('message', function (event) {
-  if (!event.data) return;
-
-  if (event.data.action === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-
-  if (event.data.action === 'CLEAR_CACHE') {
-    event.waitUntil(
-      caches.keys().then(function (names) {
-        return Promise.all(names.map(function (n) { return caches.delete(n); }));
-      }).then(function () {
-        if (event.source && event.source.postMessage) {
-          event.source.postMessage({ action: 'CACHE_CLEARED' });
-        }
+  // 1. Navigasi halaman -> coba jaringan cepat, jika gagal buka index.html dari cache
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(async () => {
+        const cachedIndex =
+          (await caches.match('./index.html')) || (await caches.match('./'));
+        return (
+          cachedIndex ||
+          new Response('Offline - halaman belum tersimpan.', {
+            status: 503,
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+          })
+        );
       })
     );
+    return;
   }
+
+  // 2. config.json -> utamakan data terbaru saat online, tetapi selalu fallback ke cache
+  if (url.pathname.endsWith('/config.json')) {
+    event.respondWith(networkFirstWithCacheFallback(request, RUNTIME_CACHE, 3500));
+    return;
+  }
+
+  // 3. App shell & aset statis -> cache-first agar instan & aman saat mati sinyal
+  event.respondWith(cacheFirstWithBackgroundUpdate(request, STATIC_CACHE));
 });
