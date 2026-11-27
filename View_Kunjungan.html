@@ -69,8 +69,8 @@
     <div class="standalone-topbar">
       <span><strong>CUFintek</strong> • Tagihan Offline</span>
       <div style="display:flex; gap:6px;">
-        <a href="./View_Kunjungan.html">📍 Kunjungan</a>
-        <a href="./index.html">🏠 Beranda</a>
+        <button type="button" onclick="cufNavigateTo('./View_Kunjungan.html')">📍 Kunjungan</button>
+        <button type="button" onclick="cufNavigateTo('./index.html')">🏠 Beranda</button>
       </div>
     </div>
     <div id="app-content"></div>
@@ -78,48 +78,29 @@
   <div id="cufToastStandalone"></div>
 
   <script>
-    (function ensureStandaloneGlobals() {
-      if (!window.AppUI) {
-        window.AppUI = {
-          toast: function (msg) {
-            var el = document.getElementById('cufToastStandalone');
-            if (!el) return;
-            el.textContent = String(msg || '');
-            el.style.display = 'block';
-            clearTimeout(window.__cufToastTimer);
-            window.__cufToastTimer = setTimeout(function () {
-              el.style.display = 'none';
-            }, 2800);
-          }
-        };
+  function cufNavigateTo(targetUrl) {
+  try {
+    if (window.top && window.top !== window) {
+        window.top.location.href = targetUrl;
+        return;
       }
-      if (!window.AppCore) {
-        window.AppCore = {
-          getUser: function () {
-            try {
-              var keys = Object.keys(localStorage);
-              for (var i = 0; i < keys.length; i++) {
-                if (keys[i].toLowerCase().indexOf('user') !== -1) {
-                  var parsed = JSON.parse(localStorage.getItem(keys[i]) || 'null');
-                  if (parsed && (parsed.nama || parsed.username)) {
-                    return parsed;
-                  }
-                }
-              }
-            } catch (e) {}
-            return { username: '', nama: '', level: '' };
-          }
-        };
-      }
-      if (!window.AppAPI) {
-        window.AppAPI = {
-          call: async function () {
-            throw new Error('Mode offline: server belum dapat dihubungi');
-          }
-        };
-      }
-    })();
-  </script>
+    } catch (e) {}
+    window.location.href = targetUrl;
+  }
+  function bootStandaloneTagihan() {
+    var el = document.getElementById('app-content');
+    if (el && typeof ViewTagihan !== 'undefined' && typeof ViewTagihan.render === 'function') {
+      ViewTagihan.render('app-content');
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootStandaloneTagihan);
+  } else {
+    bootStandaloneTagihan();
+  }
+</script>
+</body>
+</html>
 
   <!-- Tempelkan blok <style> ... </style> dan <script>const ViewTagihan = ... </script> asli milikmu di bawah ini -->
   <style>
