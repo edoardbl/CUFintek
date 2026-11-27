@@ -1,0 +1,2166 @@
+<style>
+  :root {
+    --tg-card-bg: #ffffff;
+    --tg-surface-bg: #f9fafb;
+    --tg-soft-gold-bg: #fffdf7;
+    --tg-soft-cream-bg: #fff8dc;
+    --tg-soft-purple-bg: #f5f3ff;
+    --tg-border: #e5e7eb;
+    --tg-border-strong: #d1d5db;
+    --tg-text-main: #111827;
+    --tg-text-sub: #374151;
+    --tg-text-muted: #6b7280;
+    --tg-maroon: #8B0000;
+    --tg-maroon-dark: #5C0000;
+    --tg-gold-text: #92400E;
+    --tg-green-text: #065F46;
+    --tg-purple-text: #5B21B6;
+    --tg-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    --tg-wa-bg: #DCFCE7;
+    --tg-wa-text: #166534;
+    --tg-tel-bg: #DBEAFE;
+    --tg-tel-text: #1E40AF;
+  }
+
+  body.dark-mode,
+  html.dark,
+  [data-theme="dark"],
+  [data-bs-theme="dark"] {
+    --tg-card-bg: #1e1616;
+    --tg-surface-bg: #2a1f1f;
+    --tg-soft-gold-bg: #291f1a;
+    --tg-soft-cream-bg: #332519;
+    --tg-soft-purple-bg: #261e35;
+    --tg-border: #443232;
+    --tg-border-strong: #5c4343;
+    --tg-text-main: #f9fafb;
+    --tg-text-sub: #e5e7eb;
+    --tg-text-muted: #b8a9a9;
+    --tg-maroon: #fca5a5;
+    --tg-maroon-dark: #FFD700;
+    --tg-gold-text: #FFD700;
+    --tg-green-text: #6ee7b7;
+    --tg-purple-text: #c4b5fd;
+    --tg-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    --tg-wa-bg: rgba(16, 185, 129, 0.22);
+    --tg-wa-text: #6ee7b7;
+    --tg-tel-bg: rgba(59, 130, 246, 0.22);
+    --tg-tel-text: #93c5fd;
+  }
+
+  .tg-card {
+    background: var(--tg-card-bg);
+    color: var(--tg-text-main);
+    border: 1px solid var(--tg-border);
+    border-radius: 12px;
+    box-shadow: var(--tg-shadow);
+  }
+  .tg-input, .tg-select {
+    background: var(--tg-surface-bg);
+    color: var(--tg-text-main);
+    border: 1px solid var(--tg-border-strong);
+    border-radius: 8px;
+    outline: none;
+  }
+  .tg-cream-box {
+    background: var(--tg-soft-cream-bg);
+    color: var(--tg-text-main);
+    border: 1px solid #d97706;
+    border-radius: 9px;
+  }
+  .tg-purple-box {
+    background: var(--tg-soft-purple-bg);
+    color: var(--tg-text-main);
+    border: 1px solid #8b5cf6;
+    border-radius: 9px;
+  }
+  .tg-divider {
+    border-bottom: 1px solid var(--tg-border);
+  }
+  .tg-divider-dashed {
+    border-top: 1px dashed var(--tg-border-strong);
+  }
+  .tg-btn-back {
+    margin-bottom: 12px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1.5px solid #8B0000;
+    background: var(--tg-card-bg);
+    color: var(--tg-maroon);
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .tg-riwayat-chip {
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid var(--tg-border-strong);
+    background: var(--tg-surface-bg);
+    color: var(--tg-text-sub);
+  }
+  .tg-riwayat-chip.active {
+    background: #8B0000;
+    color: #FFD700;
+    border-color: #8B0000;
+  }
+
+  /* Sticky Cluster (Tab Pinjaman/SW/KLPK + SubFilter + Ringkasan Total) menempel rapat ke top menu */
+  .tg-sticky-cluster {
+    position: sticky;
+    top: 0px;
+    z-index: 45;
+    background: var(--tg-card-bg);
+    padding: 6px 8px 8px 8px;
+    margin-bottom: 10px;
+    border-radius: 0 0 12px 12px;
+    border: 1px solid transparent;
+    border-top: none;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease, border-radius 0.15s ease, background-color 0.15s ease;
+  }
+  .tg-sticky-cluster.is-stuck {
+    background: var(--tg-card-bg);
+    border-color: var(--tg-border-strong);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+  }
+  body.dark-mode .tg-sticky-cluster.is-stuck,
+  html.dark .tg-sticky-cluster.is-stuck,
+  [data-theme="dark"] .tg-sticky-cluster.is-stuck,
+  [data-bs-theme="dark"] .tg-sticky-cluster.is-stuck {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  }
+  .tg-offline-banner {
+    display: none;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid #d97706;
+    background: var(--tg-soft-cream-bg);
+    color: var(--tg-text-main);
+    font-size: 11.5px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tg-btn-queue-sync {
+    background: #8B0000;
+    color: #FFD700;
+    border: 1px solid #D4AF37;
+    border-radius: 7px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+</style>
+
+<script>
+const ViewTagihan = (() => {
+  let state = {
+    allData: [],
+    filteredData: [],
+    daftarAktivis: [],
+    daftarDesa: [],
+    tabAktif: 'PINJAMAN',
+    subFilterPinjaman: 'SEMUA',
+    filterJenisPinjaman: 'SEMUA',
+    sortBy: 'NAMA_ASC',
+    filterQ: '',
+    selectedAktivis: [],
+    tempSelectedAktivis: [],
+    filterDesa: 'SEMUA',
+    pageSize: 40,
+    currentLimit: 40,
+    activeDetail: null,
+    riwayatDetailList: [],
+    filterRiwayatJenis: 'SEMUA',
+    lastContainer: null
+  };
+
+  let _stickyScrollHandler = null;
+  let _stickyResizeHandler = null;
+  let _stickySentinelEl = null;
+
+  const rp = (num) => 'Rp ' + (Number(num) || 0).toLocaleString('id-ID');
+
+  const OFFLINE_CACHE_PREFIX = 'cufintek_tagihan_cache_v1_';
+  const OFFLINE_QUEUE_KEY = 'cufintek_tagihan_queue_v1';
+  let _syncQueueRunning = false;
+  let _offlineOnlineListenerAttached = false;
+
+  const IDB_NAME = 'cufintek_tagihan_idb_v1';
+  const IDB_STORE = 'snapshots';
+  let _idbPromise = null;
+  let _prefetchCancelToken = 0;
+
+  const openTagihanIDB = () => {
+    if (_idbPromise) return _idbPromise;
+    if (typeof indexedDB === 'undefined') {
+      return Promise.resolve(null);
+    }
+    _idbPromise = new Promise((resolve) => {
+      try {
+        const req = indexedDB.open(IDB_NAME, 1);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(IDB_STORE)) {
+            db.createObjectStore(IDB_STORE, { keyPath: 'key' });
+          }
+        };
+        req.onsuccess = (e) => resolve(e.target.result);
+        req.onerror = () => resolve(null);
+      } catch (err) {
+        resolve(null);
+      }
+    });
+    return _idbPromise;
+  };
+
+  const saveIdbSnapshot = async (key, payload) => {
+    try {
+      const db = await openTagihanIDB();
+      if (!db) return;
+      await new Promise((resolve) => {
+        const tx = db.transaction(IDB_STORE, 'readwrite');
+        tx.objectStore(IDB_STORE).put({
+          key: key,
+          savedAt: Date.now(),
+          payload: payload
+        });
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => resolve(false);
+      });
+    } catch (e) {}
+  };
+
+  const readIdbSnapshot = async (key) => {
+    try {
+      const db = await openTagihanIDB();
+      if (!db) return null;
+      return await new Promise((resolve) => {
+        const tx = db.transaction(IDB_STORE, 'readonly');
+        const req = tx.objectStore(IDB_STORE).get(key);
+        req.onsuccess = () => {
+          const val = req.result;
+          resolve(val && val.payload ? val : null);
+        };
+        req.onerror = () => resolve(null);
+      });
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const getAllIdbKeys = async () => {
+    try {
+      const db = await openTagihanIDB();
+      if (!db) return new Set();
+      return await new Promise((resolve) => {
+        const tx = db.transaction(IDB_STORE, 'readonly');
+        const req = tx.objectStore(IDB_STORE).getAllKeys();
+        req.onsuccess = () => resolve(new Set(req.result || []));
+        req.onerror = () => resolve(new Set());
+      });
+    } catch (e) {
+      return new Set();
+    }
+  };
+
+  const saveSnapshotHybrid = (key, payload) => {
+    saveLocalSnapshot(key, payload);
+    saveIdbSnapshot(key, payload);
+  };
+
+  const readSnapshotHybrid = async (key) => {
+    const local = readLocalSnapshot(key);
+    if (local) return local;
+    return await readIdbSnapshot(key);
+  };
+
+  const prefetchDetailDanRiwayatOtomatis = async (listData) => {
+    if (!Array.isArray(listData) || listData.length === 0) return;
+    if (!navigator.onLine) return;
+
+    const token = ++_prefetchCancelToken;
+    const user = getUserInfo();
+    const existingKeys = await getAllIdbKeys();
+
+    // Prioritaskan Pinjaman menunggak dulu, lalu Pinjaman lainnya, SW, dan KLPK
+    const urutPrioritas = listData.slice().sort((a, b) => {
+      const skor = (x) => {
+        if (x.kategori === 'PINJAMAN' && x.statusTagihan !== 'Lancar') return 1;
+        if (x.kategori === 'PINJAMAN') return 2;
+        if (x.kategori === 'SW') return 3;
+        return 4;
+      };
+      return skor(a) - skor(b);
+    });
+
+    // Batasi maksimal 250 item per sesi agar aman untuk eksekusi GAS & hemat kuota
+    const targetList = urutPrioritas.slice(0, 250);
+    const MAX_AGE_MS = 6 * 60 * 60 * 1000; // Refresh cache detail jika > 6 jam
+
+    for (let i = 0; i < targetList.length; i++) {
+      if (token !== _prefetchCancelToken || !navigator.onLine) break;
+      const item = targetList[i];
+      const cif = item.cif || '';
+      const kat = item.kategori || 'PINJAMAN';
+      const noRek = item.noRek || '';
+      if (!cif) continue;
+
+      const dKey = getCacheKeyDetail(cif, kat, noRek);
+      const rKey = getCacheKeyRiwayat(cif, kat, noRek);
+
+      const sudahAdaDetail = existingKeys.has(dKey) || Boolean(readLocalSnapshot(dKey));
+      if (sudahAdaDetail) {
+        const snapLama = await readSnapshotHybrid(dKey);
+        if (snapLama && snapLama.savedAt && (Date.now() - Number(snapLama.savedAt)) < MAX_AGE_MS) {
+          continue;
+        }
+      }
+
+      try {
+        const resDet = await AppAPI.call('getDetailAnggotaKontekstual', {
+          cif: cif,
+          kategori: kat,
+          noRek: noRek,
+          level: user.level
+        });
+        if (token !== _prefetchCancelToken) break;
+        if (resDet && resDet.sukses) {
+          saveIdbSnapshot(dKey, resDet);
+        }
+
+        const resRiw = await AppAPI.call('getRiwayatPenangananAnggota', {
+          cif: cif,
+          noRek: noRek,
+          kategori: kat
+        });
+        if (token !== _prefetchCancelToken) break;
+        if (resRiw && resRiw.sukses) {
+          saveIdbSnapshot(rKey, resRiw.list || []);
+        }
+      } catch (err) {
+        if (!navigator.onLine || isNetworkLikeError(err)) break;
+      }
+
+      // Jeda 350ms antar anggota supaya tidak membebani server GAS & tetap ringan di HP
+      await new Promise((r) => setTimeout(r, 350));
+    }
+  };
+
+  const isNetworkLikeError = (err) => {
+    const msg = String((err && err.message) || err || '').toLowerCase();
+    if (!navigator.onLine) return true;
+    return (
+      msg.includes('network') ||
+      msg.includes('failed to fetch') ||
+      msg.includes('timeout') ||
+      msg.includes('timed out') ||
+      msg.includes('offline') ||
+      msg.includes('load failed') ||
+      msg.includes('disconnect') ||
+      msg.includes('internet') ||
+      msg.includes('aborted') ||
+      msg.includes('unreachable')
+    );
+  };
+
+  const getCacheKeyDaftar = (user) => {
+    const u = String(user?.username || 'guest').trim().toLowerCase();
+    const n = String(user?.namaPetugas || '').trim().toLowerCase();
+    const l = String(user?.level || '').trim().toLowerCase();
+    return `${OFFLINE_CACHE_PREFIX}daftar_${l}_${u}_${n}`;
+  };
+
+  const getCacheKeyDetail = (cif, kategori, noRek) => {
+    return `${OFFLINE_CACHE_PREFIX}detail_${cif || ''}_${kategori || 'PINJAMAN'}_${noRek || '-'}`;
+  };
+
+  const getCacheKeyRiwayat = (cif, kategori, noRek) => {
+    return `${OFFLINE_CACHE_PREFIX}riwayat_${cif || ''}_${kategori || 'PINJAMAN'}_${noRek || '-'}`;
+  };
+
+  const saveLocalSnapshot = (key, payload) => {
+    try {
+      const record = {
+        savedAt: Date.now(),
+        payload: payload
+      };
+      localStorage.setItem(key, JSON.stringify(record));
+    } catch (e) {
+      // Abaikan jika kuota localStorage penuh
+    }
+  };
+
+  const readLocalSnapshot = (key) => {
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed || !parsed.payload) return null;
+      return parsed;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const formatWaktuCache = (ts) => {
+    if (!ts) return '-';
+    try {
+      const d = new Date(Number(ts));
+      if (isNaN(d.getTime())) return '-';
+      return d.toLocaleString('id-ID', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (e) {
+      return '-';
+    }
+  };
+
+  const readQueue = () => {
+    try {
+      const raw = localStorage.getItem(OFFLINE_QUEUE_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) {
+      return [];
+    }
+  };
+
+  const writeQueue = (arr) => {
+    try {
+      localStorage.setItem(OFFLINE_QUEUE_KEY, JSON.stringify(Array.isArray(arr) ? arr : []));
+    } catch (e) {}
+    updateOfflineBannerUI();
+  };
+
+  const enqueueAction = (action, params) => {
+    const q = readQueue();
+    const clientId = 'hp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    const enrichedParams = Object.assign({}, params || {}, {
+      clientId: clientId,
+      queuedAt: new Date().toISOString()
+    });
+    q.push({
+      id: clientId,
+      action: action,
+      params: enrichedParams,
+      createdAt: Date.now(),
+      attempts: 0,
+      lastError: ''
+    });
+    writeQueue(q);
+    return clientId;
+  };
+
+  const updateOfflineBannerUI = (opts = {}) => {
+    const banner = document.getElementById('offlineStatusBannerTerpadu');
+    const infoEl = document.getElementById('offlineStatusTextTerpadu');
+    const btnEl = document.getElementById('btnSinkronAntreanHp');
+    if (!banner || !infoEl) return;
+
+    const q = readQueue();
+    const user = getUserInfo();
+    const snap = readLocalSnapshot(getCacheKeyDaftar(user));
+    const isOfflineMode = Boolean(opts.fromCache) || !navigator.onLine;
+
+    if (!isOfflineMode && q.length === 0) {
+      banner.style.display = 'none';
+      return;
+    }
+
+    banner.style.display = 'flex';
+    const parts = [];
+    if (isOfflineMode) {
+      const waktuLabel = snap && snap.savedAt ? formatWaktuCache(snap.savedAt) : 'tersimpan';
+      parts.push(`📡 Mode Offline / Sinyal Lemah • Data lokal (${waktuLabel})`);
+    }
+    if (q.length > 0) {
+      parts.push(`⏳ ${q.length} update No. HP menunggu sinkronisasi`);
+    }
+
+    infoEl.textContent = parts.join(' • ');
+    if (btnEl) {
+      btnEl.style.display = q.length > 0 ? 'inline-flex' : 'none';
+      btnEl.disabled = _syncQueueRunning || !navigator.onLine;
+      btnEl.textContent = _syncQueueRunning ? 'Menyinkronkan...' : `🔄 Kirim Antrean (${q.length})`;
+    }
+  };
+
+  const flushOfflineQueue = async (silent = false) => {
+    if (_syncQueueRunning) return;
+    if (!navigator.onLine) {
+      if (!silent && typeof AppUI !== 'undefined' && AppUI.toast) {
+        AppUI.toast('Masih belum ada sinyal internet untuk menyinkronkan antrean.', 'warning');
+      }
+      updateOfflineBannerUI();
+      return;
+    }
+
+    const q = readQueue();
+    if (q.length === 0) {
+      updateOfflineBannerUI();
+      return;
+    }
+
+    _syncQueueRunning = true;
+    updateOfflineBannerUI();
+
+    let berhasil = 0;
+    const sisa = [];
+
+    for (let i = 0; i < q.length; i++) {
+      const item = q[i];
+      try {
+        const res = await AppAPI.call(item.action, item.params);
+        if (res && res.sukses !== false) {
+          berhasil++;
+          if (item.action === 'simpanUpdateNoHPTerpadu' && item.params) {
+            const hpFinal = res.noHpBaru || item.params.noHpBaru;
+            state.allData.forEach(x => {
+              if (String(x.cif) === String(item.params.cif)) x.noHp = hpFinal;
+            });
+            const u = getUserInfo();
+            const curSnap = readLocalSnapshot(getCacheKeyDaftar(u));
+            if (curSnap && curSnap.payload && Array.isArray(curSnap.payload.list)) {
+              curSnap.payload.list.forEach(x => {
+                if (String(x.cif) === String(item.params.cif)) x.noHp = hpFinal;
+              });
+              saveLocalSnapshot(getCacheKeyDaftar(u), curSnap.payload);
+            }
+          }
+        } else {
+          item.attempts = (Number(item.attempts) || 0) + 1;
+          item.lastError = (res && res.error) || 'Gagal diproses server';
+          sisa.push(item);
+        }
+      } catch (err) {
+        item.attempts = (Number(item.attempts) || 0) + 1;
+        item.lastError = err.message || 'Gangguan jaringan';
+        sisa.push(item);
+        if (!navigator.onLine || isNetworkLikeError(err)) {
+          sisa.push(...q.slice(i + 1));
+          break;
+        }
+      }
+    }
+
+    writeQueue(sisa);
+    _syncQueueRunning = false;
+    updateOfflineBannerUI();
+
+    if (berhasil > 0) {
+      renderCards();
+      if (!silent && typeof AppUI !== 'undefined' && AppUI.toast) {
+        AppUI.toast(`✅ ${berhasil} update Nomor HP berhasil disinkronkan ke server.`, 'success');
+      }
+    }
+  };
+
+  const attachOfflineListeners = () => {
+    if (_offlineOnlineListenerAttached) return;
+    _offlineOnlineListenerAttached = true;
+    window.addEventListener('online', () => {
+      updateOfflineBannerUI({ fromCache: false });
+      flushOfflineQueue(true);
+    });
+    window.addEventListener('offline', () => {
+      updateOfflineBannerUI({ fromCache: true });
+    });
+  };
+
+
+  const hitungTopStickyTabBar = () => {
+    let topOffset = 0;
+    const allEls = Array.from(document.querySelectorAll('header, nav, div, section'));
+    const wrap = document.getElementById('stickyClusterTerpadu');
+
+    for (let i = 0; i < allEls.length; i++) {
+      const el = allEls[i];
+      if (!el || el === wrap || (wrap && wrap.contains(el))) continue;
+      const rect = el.getBoundingClientRect();
+      const cs = window.getComputedStyle(el);
+      const isTopDocked = (cs.position === 'fixed' || cs.position === 'sticky') &&
+                          rect.height > 28 && rect.height < 150 &&
+                          rect.top >= -2 && rect.top <= 24 &&
+                          rect.width >= window.innerWidth * 0.7;
+      if (isTopDocked) {
+        const bottomEdge = Math.max(0, Math.round(rect.bottom));
+        if (bottomEdge > topOffset) topOffset = bottomEdge;
+      }
+    }
+
+    if (wrap) {
+      wrap.style.top = (topOffset + (-25)) + 'px';
+    }
+  };
+
+  const initStickyTabBar = () => {
+    const wrap = document.getElementById('stickyClusterTerpadu');
+    if (!wrap) return;
+
+    if (_stickyScrollHandler) {
+      window.removeEventListener('scroll', _stickyScrollHandler, true);
+      document.removeEventListener('scroll', _stickyScrollHandler, true);
+    }
+    if (_stickyResizeHandler) {
+      window.removeEventListener('resize', _stickyResizeHandler);
+    }
+
+    if (!_stickySentinelEl || !_stickySentinelEl.parentNode) {
+      _stickySentinelEl = document.createElement('div');
+      _stickySentinelEl.style.cssText = 'height:1px; width:100%; margin:0; padding:0; pointer-events:none;';
+      wrap.parentNode.insertBefore(_stickySentinelEl, wrap);
+    } else if (_stickySentinelEl.nextSibling !== wrap) {
+      wrap.parentNode.insertBefore(_stickySentinelEl, wrap);
+    }
+
+    const updateStuckState = () => {
+      const currentWrap = document.getElementById('stickyClusterTerpadu');
+      const detailView = document.getElementById('viewDetailTerpadu');
+      if (!currentWrap || !_stickySentinelEl) return;
+
+      if (detailView && detailView.style.display !== 'none') {
+        currentWrap.classList.remove('is-stuck');
+        return;
+      }
+
+      const topVal = parseFloat(window.getComputedStyle(currentWrap).top) || 0;
+      const sentRect = _stickySentinelEl.getBoundingClientRect();
+      const stuck = sentRect.top <= topVal + 1;
+      currentWrap.classList.toggle('is-stuck', stuck);
+    };
+
+    _stickyScrollHandler = () => {
+      hitungTopStickyTabBar();
+      updateStuckState();
+    };
+    _stickyResizeHandler = () => {
+      hitungTopStickyTabBar();
+      updateStuckState();
+    };
+
+    window.addEventListener('scroll', _stickyScrollHandler, { passive: true, capture: true });
+    document.addEventListener('scroll', _stickyScrollHandler, { passive: true, capture: true });
+    window.addEventListener('resize', _stickyResizeHandler, { passive: true });
+
+    hitungTopStickyTabBar();
+    requestAnimationFrame(() => {
+      hitungTopStickyTabBar();
+      updateStuckState();
+    });
+  };
+
+  const getJenisPinjaman = (item) => {
+    if (item.jenisPinjaman && String(item.jenisPinjaman).trim() !== '' && String(item.jenisPinjaman).trim() !== '-') {
+      return String(item.jenisPinjaman).trim();
+    }
+    if (item.subBadge) {
+      return String(item.subBadge).replace(/^Pinjaman:\s*/i, '').trim();
+    }
+    return '';
+  };
+
+  const getUserInfo = () => {
+    const u = (typeof AppCore !== 'undefined' && AppCore.getUser) ? AppCore.getUser() : {};
+    return {
+      username: String(u.username || '').trim(),
+      namaPetugas: String(u.nama || document.getElementById('display-nama')?.textContent || '').trim(),
+      level: String(u.level || document.getElementById('display-level')?.textContent || '').trim()
+    };
+  };
+
+  const formatNamaProdukSimpanan = (rawProduk) => {
+    let nama = String(rawProduk || '').trim();
+    nama = nama.replace(/^Saldo/i, '').trim();
+    nama = nama.replace(/([a-z])([A-Z])/g, '$1 $2').trim();
+    if (!/^Simpanan\b/i.test(nama)) {
+      nama = 'Simpanan ' + nama;
+    }
+    return nama;
+  };
+
+  const render = async (targetContainer, forceRefresh = false) => {
+    const container = (typeof targetContainer === 'string')
+      ? document.getElementById(targetContainer)
+      : (targetContainer || document.getElementById('app-content'));
+    if (!container) return;
+
+    state.lastContainer = container;
+
+    container.innerHTML = `
+      <div id="viewDaftarTerpadu">
+        <div style="background:linear-gradient(135deg,#8B0000,#5C0000); color:#fff; padding:16px; border-radius:12px; margin-bottom:12px; box-shadow:0 4px 10px rgba(139,0,0,0.2);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <h2 style="margin:0; font-size:17px; color:#FFD700; font-weight:700;">Data Anggota & Tagihan</h2>
+              <div style="font-size:11px; opacity:0.9; margin-top:2px;">Pinjaman (Per Rekening) • Simpanan Wajib • KLPK</div>
+            </div>
+            <button type="button" onclick="ViewTagihan.refreshData()" style="background:rgba(255,215,0,0.18); border:1px solid #FFD700; color:#FFD700; padding:6px 10px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer;">
+              <i class="ph ph-arrows-clockwise"></i> Sync
+            </button>
+          </div>
+        </div>
+
+        <div class="tg-card" style="padding:12px; margin-bottom:12px;">
+          <div style="position:relative; margin-bottom:8px;">
+            <input type="text" id="inputCariTerpadu" class="tg-input" placeholder="🔍 Cari nama, panggilan, CIF, No. Rek, atau desa..."
+              value="${state.filterQ}" oninput="ViewTagihan.onSearch(this.value)"
+              style="width:100%; box-sizing:border-box; padding:10px 36px 10px 12px; border:2px solid #FFD700; border-radius:8px; font-size:13px; margin:0;">
+            <button type="button" id="btnClearCariTerpadu" onclick="ViewTagihan.clearSearch()" title="Hapus pencarian"
+              style="display:${state.filterQ ? 'flex' : 'none'}; position:absolute; right:8px; top:50%; transform:translateY(-50%); width:22px; height:22px; border-radius:50%; border:none; background:rgba(239,68,68,0.25); color:var(--tg-maroon); font-size:12px; font-weight:800; align-items:center; justify-content:center; cursor:pointer; padding:0;">
+              ✕
+            </button>
+          </div>
+          
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <button type="button" id="btnFilterAktivisTerpadu" onclick="ViewTagihan.bukaModalAktivis()"
+              style="display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border:1.5px solid #8B0000; border-radius:8px; font-size:12px; font-weight:700; color:var(--tg-maroon); background:var(--tg-soft-gold-bg); cursor:pointer; text-align:left;">
+              <span id="labelBtnAktivisTerpadu" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">📍 Semua Aktivis</span>
+              <span style="font-size:10px; margin-left:4px;">▼</span>
+            </button>
+            <select id="filterDesaTerpadu" class="tg-select" onchange="ViewTagihan.onFilterChange()"
+              style="padding:8px; font-size:12px; font-weight:600;">
+              <option value="SEMUA">🏘️ Semua Desa</option>
+            </select>
+          </div>
+
+          <div id="activeAktivisChipsBar" class="tg-divider-dashed" style="display:none; flex-wrap:wrap; gap:6px; margin-top:8px; padding-top:8px;"></div>
+        </div>
+
+        <div id="offlineStatusBannerTerpadu" class="tg-offline-banner">
+          <span id="offlineStatusTextTerpadu" style="font-weight:700;"></span>
+          <button type="button" id="btnSinkronAntreanHp" class="tg-btn-queue-sync" onclick="ViewTagihan.flushOfflineQueue(false)" style="display:none;">
+            🔄 Kirim Antrean
+          </button>
+        </div>
+
+        <div id="stickyClusterTerpadu" class="tg-sticky-cluster">
+          <div id="tabBarTerpadu" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin-bottom:8px;"></div>
+          <div id="subFilterBarTerpadu" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:6px; margin-bottom:8px;"></div>
+          <div id="ringkasanBarTerpadu" class="tg-cream-box" style="padding:9px 12px; display:flex; justify-content:space-between; align-items:center; font-size:12px;">
+            <span style="color:var(--tg-maroon); font-weight:600;">Memuat data...</span>
+          </div>
+        </div>
+
+        <div id="listContainerTerpadu">
+          <div style="text-align:center; padding:30px; color:var(--tg-text-muted);">
+            <i class="ph ph-spinner ph-spin" style="font-size:24px; color:#8B0000;"></i>
+            <div style="margin-top:6px; font-size:13px;">Memuat data anggota & tagihan...</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="viewDetailTerpadu" style="display:none;"></div>
+    `;
+
+    initStickyTabBar();
+    await loadData(forceRefresh);
+    initStickyTabBar();
+  };
+
+  const loadData = async (forceRefresh = false) => {
+    attachOfflineListeners();
+    const user = getUserInfo();
+    const cacheKey = getCacheKeyDaftar(user);
+    const cachedSnap = await readSnapshotHybrid(cacheKey);
+
+    try {
+      const res = await AppAPI.call('getDataAnggotaDanTagihanTerpadu', {
+        username: user.username,
+        namaPetugas: user.namaPetugas,
+        level: user.level,
+        forceRefresh: forceRefresh
+      });
+
+      if (!res || !res.sukses) {
+        if (cachedSnap && cachedSnap.payload) {
+          state.allData = cachedSnap.payload.list || [];
+          state.daftarAktivis = cachedSnap.payload.daftarAktivis || [];
+          state.daftarDesa = cachedSnap.payload.daftarDesa || [];
+          populateDropdowns(user);
+          applyFilterAndRender();
+          updateOfflineBannerUI({ fromCache: true });
+          return;
+        }
+        document.getElementById('listContainerTerpadu').innerHTML =
+          `<div style="padding:20px; text-align:center; color:#ef4444;">❌ ${res ? res.error : 'Gagal memuat data.'}</div>`;
+        return;
+      }
+
+      state.allData = res.list || [];
+      state.daftarAktivis = res.daftarAktivis || [];
+      state.daftarDesa = res.daftarDesa || [];
+
+      saveSnapshotHybrid(cacheKey, {
+        list: state.allData,
+        daftarAktivis: state.daftarAktivis,
+        daftarDesa: state.daftarDesa
+      });
+
+      populateDropdowns(user);
+      applyFilterAndRender();
+      updateOfflineBannerUI({ fromCache: false });
+      if (navigator.onLine && readQueue().length > 0) {
+        flushOfflineQueue(true);
+      }
+      if (navigator.onLine) {
+        setTimeout(() => prefetchDetailDanRiwayatOtomatis(state.allData), 1200);
+      }
+    } catch (e) {
+      if (cachedSnap && cachedSnap.payload) {
+        state.allData = cachedSnap.payload.list || [];
+        state.daftarAktivis = cachedSnap.payload.daftarAktivis || [];
+        state.daftarDesa = cachedSnap.payload.daftarDesa || [];
+        populateDropdowns(user);
+        applyFilterAndRender();
+        updateOfflineBannerUI({ fromCache: true });
+        if (typeof AppUI !== 'undefined' && AppUI.toast) {
+          AppUI.toast('Sinyal terbatas: menampilkan data tagihan tersimpan di perangkat.', 'info');
+        }
+        return;
+      }
+      document.getElementById('listContainerTerpadu').innerHTML =
+        `<div style="padding:20px; text-align:center; color:#ef4444;">❌ Error: ${e.message}</div>`;
+    }
+  };
+
+  const refreshData = () => {
+    AppUI.toast("Menyinkronkan data terbaru...", "info");
+    render(state.lastContainer || document.getElementById('app-content'), true);
+  };
+
+  const populateDropdowns = (user) => {
+    const btnAkt = document.getElementById('btnFilterAktivisTerpadu');
+    const lblAkt = document.getElementById('labelBtnAktivisTerpadu');
+    const selDesa = document.getElementById('filterDesaTerpadu');
+
+    if (btnAkt && lblAkt) {
+      const isAktivisTunggal = (
+        String(user.level || '').trim().toLowerCase() === 'aktivis' &&
+        (!state.daftarAktivis || state.daftarAktivis.length <= 1)
+      );
+
+      if (isAktivisTunggal) {
+        state.selectedAktivis = [];
+        const namaWilayah = (state.daftarAktivis && state.daftarAktivis.length > 0)
+          ? state.daftarAktivis[0]
+          : (user.namaPetugas || 'Wilayah Binaan');
+        lblAkt.textContent = `🔒 Wilayah: ${namaWilayah}`;
+        btnAkt.disabled = true;
+        btnAkt.style.opacity = '0.85';
+        btnAkt.style.cursor = 'not-allowed';
+      } else {
+        btnAkt.disabled = false;
+        btnAkt.style.opacity = '1';
+        btnAkt.style.cursor = 'pointer';
+        updateTampilanKapsulAktivis();
+      }
+    }
+
+    if (selDesa) {
+      selDesa.innerHTML = `<option value="SEMUA">🏘️ Semua Desa</option>` +
+        state.daftarDesa.map(d => `<option value="${d}" ${state.filterDesa === d ? 'selected' : ''}>${d}</option>`).join('');
+    }
+  };
+
+  const updateTampilanKapsulAktivis = () => {
+    const lblAkt = document.getElementById('labelBtnAktivisTerpadu');
+    const chipsBar = document.getElementById('activeAktivisChipsBar');
+    if (!lblAkt || !chipsBar) return;
+
+    const jumlah = state.selectedAktivis.length;
+    if (jumlah === 0) {
+      lblAkt.textContent = '📍 Semua Aktivis';
+      chipsBar.style.display = 'none';
+      chipsBar.innerHTML = '';
+    } else {
+      lblAkt.textContent = jumlah === 1 ? `📍 ${state.selectedAktivis[0]}` : `📍 ${jumlah} Aktivis Dipilih`;
+      chipsBar.style.display = 'flex';
+      chipsBar.innerHTML = state.selectedAktivis.map(nama => `
+        <span style="display:inline-flex; align-items:center; gap:5px; background:#8B0000; color:#FFD700; padding:4px 10px; border-radius:999px; font-size:11px; font-weight:700;">
+          ${nama}
+          <span onclick="ViewTagihan.hapusSatuAktivis('${nama.replace(/'/g, "\\'")}')" style="cursor:pointer; font-weight:900; padding-left:2px;">✕</span>
+        </span>
+      `).join('') + `
+        <button type="button" onclick="ViewTagihan.resetAktivis()"
+          style="background:var(--tg-soft-cream-bg); color:var(--tg-maroon); border:1px solid #8B0000; padding:3px 9px; border-radius:999px; font-size:11px; font-weight:700; cursor:pointer;">
+          Reset
+        </button>
+      `;
+    }
+  };
+
+  const hapusSatuAktivis = (nama) => {
+    state.selectedAktivis = state.selectedAktivis.filter(x => x !== nama);
+    state.currentLimit = state.pageSize;
+    updateTampilanKapsulAktivis();
+    applyFilterAndRender();
+  };
+
+  const resetAktivis = () => {
+    state.selectedAktivis = [];
+    state.currentLimit = state.pageSize;
+    updateTampilanKapsulAktivis();
+    applyFilterAndRender();
+  };
+
+  const bukaModalAktivis = () => {
+    const btnAkt = document.getElementById('btnFilterAktivisTerpadu');
+    if (btnAkt && btnAkt.disabled) return;
+    if (!state.daftarAktivis || state.daftarAktivis.length <= 1) return;
+
+    const lama = document.getElementById('modalKapsulAktivisTerpadu');
+    if (lama) lama.remove();
+
+    state.tempSelectedAktivis = state.selectedAktivis.slice();
+
+    const modal = document.createElement('div');
+    modal.id = 'modalKapsulAktivisTerpadu';
+    modal.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; display:flex; align-items:center; justify-content:center; padding:16px;';
+    modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+
+    modal.innerHTML = `
+      <div onclick="event.stopPropagation()" class="tg-card" style="width:100%; max-width:420px; border-radius:14px; overflow:hidden; display:flex; flex-direction:column; max-height:85vh;">
+        <div style="background:linear-gradient(135deg,#8B0000,#5C0000); color:#fff; padding:14px 16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-weight:800; color:#FFD700; font-size:15px;">Pilih Aktivis (Bisa Beberapa)</div>
+            <div style="font-size:11px; opacity:0.9;">Ketuk kapsul nama aktivis untuk memilih</div>
+          </div>
+          <button type="button" onclick="document.getElementById('modalKapsulAktivisTerpadu').remove()"
+            style="background:none; border:none; color:#FFD700; font-size:18px; font-weight:700; cursor:pointer;">✕</button>
+        </div>
+
+        <div class="tg-divider" style="padding:10px;">
+          <input type="text" id="searchModalAktivisTerpadu" class="tg-input" placeholder="🔍 Ketik nama aktivis..."
+            oninput="ViewTagihan.renderListKapsulModal(this.value)"
+            style="width:100%; box-sizing:border-box; padding:9px 12px; border:2px solid #FFD700; border-radius:8px; font-size:13px;">
+        </div>
+
+        <div class="tg-divider" style="display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:8px 10px; background:var(--tg-surface-bg);">
+          <button type="button" onclick="ViewTagihan.pilihSemuaAktivisModal()"
+            style="background:#8B0000; color:#FFD700; border:none; padding:8px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">
+            ✓ Pilih Semua
+          </button>
+          <button type="button" onclick="ViewTagihan.kosongkanAktivisModal()"
+            style="background:var(--tg-soft-cream-bg); color:var(--tg-maroon); border:1px solid #8B0000; padding:8px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">
+            ✗ Kosongkan (Semua)
+          </button>
+        </div>
+
+        <div id="wadahChipsModalAktivis" style="display:flex; flex-wrap:wrap; gap:8px; padding:14px; overflow-y:auto; flex:1; align-content:flex-start;"></div>
+
+        <div style="padding:12px; border-top:1px solid var(--tg-border); background:var(--tg-soft-cream-bg); display:flex; gap:8px;">
+          <button type="button" onclick="ViewTagihan.terapkanFilterAktivis()"
+            style="flex:1; background:#8B0000; color:#FFD700; border:none; padding:11px; border-radius:10px; font-size:13px; font-weight:800; cursor:pointer;">
+            Terapkan Filter
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+    renderListKapsulModal('');
+  };
+
+  const renderListKapsulModal = (keyword = '') => {
+    const wadah = document.getElementById('wadahChipsModalAktivis');
+    if (!wadah) return;
+
+    const q = keyword.toLowerCase().trim();
+    const list = state.daftarAktivis.filter(a => !q || a.toLowerCase().includes(q));
+
+    if (list.length === 0) {
+      wadah.innerHTML = `<div style="font-size:12px; color:var(--tg-text-muted); width:100%; text-align:center; padding:16px;">Nama aktivis tidak ditemukan.</div>`;
+      return;
+    }
+
+    wadah.innerHTML = list.map(nama => {
+      const terpilih = state.tempSelectedAktivis.includes(nama);
+      return `
+        <button type="button" onclick="ViewTagihan.toggleKapsulAktivis('${nama.replace(/'/g, "\\'")}')"
+          style="padding:7px 12px; border-radius:999px; font-size:12px; font-weight:700; cursor:pointer; transition:0.15s;
+          border:1.5px solid ${terpilih ? '#8B0000' : 'var(--tg-border-strong)'};
+          background:${terpilih ? '#8B0000' : 'var(--tg-surface-bg)'};
+          color:${terpilih ? '#FFD700' : 'var(--tg-text-sub)'};">
+          ${terpilih ? '✓ ' : '+ '}${nama}
+        </button>
+      `;
+    }).join('');
+  };
+
+  const toggleKapsulAktivis = (nama) => {
+    const idx = state.tempSelectedAktivis.indexOf(nama);
+    if (idx >= 0) state.tempSelectedAktivis.splice(idx, 1);
+    else state.tempSelectedAktivis.push(nama);
+
+    const q = document.getElementById('searchModalAktivisTerpadu')?.value || '';
+    renderListKapsulModal(q);
+  };
+
+  const pilihSemuaAktivisModal = () => {
+    state.tempSelectedAktivis = state.daftarAktivis.slice();
+    const q = document.getElementById('searchModalAktivisTerpadu')?.value || '';
+    renderListKapsulModal(q);
+  };
+
+  const kosongkanAktivisModal = () => {
+    state.tempSelectedAktivis = [];
+    const q = document.getElementById('searchModalAktivisTerpadu')?.value || '';
+    renderListKapsulModal(q);
+  };
+
+  const terapkanFilterAktivis = () => {
+    state.selectedAktivis = state.tempSelectedAktivis.slice();
+    state.currentLimit = state.pageSize;
+    const modal = document.getElementById('modalKapsulAktivisTerpadu');
+    if (modal) modal.remove();
+
+    updateTampilanKapsulAktivis();
+    applyFilterAndRender();
+  };
+
+  const setTab = (tabName) => {
+    state.tabAktif = tabName;
+    state.currentLimit = state.pageSize;
+    applyFilterAndRender();
+  };
+
+  const setSubFilter = (val) => {
+    state.subFilterPinjaman = val;
+    state.currentLimit = state.pageSize;
+    applyFilterAndRender();
+  };
+
+  const setJenisPinjaman = (val) => {
+    state.filterJenisPinjaman = val;
+    state.currentLimit = state.pageSize;
+    applyFilterAndRender();
+  };
+
+  const setSortBy = (val) => {
+    state.sortBy = val;
+    state.currentLimit = state.pageSize;
+    applyFilterAndRender();
+  };
+
+  const onSearch = (val) => {
+    state.filterQ = val.toLowerCase().trim();
+    state.currentLimit = state.pageSize;
+    const btnClear = document.getElementById('btnClearCariTerpadu');
+    if (btnClear) btnClear.style.display = val.length > 0 ? 'flex' : 'none';
+    applyFilterAndRender();
+  };
+
+  const clearSearch = () => {
+    const inp = document.getElementById('inputCariTerpadu');
+    if (inp) {
+      inp.value = '';
+      inp.focus();
+    }
+    state.filterQ = '';
+    state.currentLimit = state.pageSize;
+    const btnClear = document.getElementById('btnClearCariTerpadu');
+    if (btnClear) btnClear.style.display = 'none';
+    applyFilterAndRender();
+  };
+
+  const onFilterChange = () => {
+    const selDesa = document.getElementById('filterDesaTerpadu');
+    if (selDesa) state.filterDesa = selDesa.value;
+    state.currentLimit = state.pageSize;
+    applyFilterAndRender();
+  };
+
+  const loadMore = () => {
+    state.currentLimit += state.pageSize;
+    renderCards();
+  };
+
+  const applyFilterAndRender = () => {
+    const selectedAktUpper = state.selectedAktivis.map(a => String(a || '').trim().toUpperCase());
+
+    const baseFiltered = state.allData.filter(item => {
+      if (selectedAktUpper.length > 0 && !selectedAktUpper.includes(String(item.aktivis || '').trim().toUpperCase())) return false;
+      if (state.filterDesa !== 'SEMUA' && item.desa !== state.filterDesa) return false;
+      if (state.filterQ) {
+        const hay = `${item.nama} ${item.panggilan} ${item.cif} ${item.noRek} ${item.desa} ${item.alamat}`.toLowerCase();
+        if (!hay.includes(state.filterQ)) return false;
+      }
+      return true;
+    });
+
+    const cntPinj = baseFiltered.filter(x => x.kategori === 'PINJAMAN').length;
+    const cntSW   = baseFiltered.filter(x => x.kategori === 'SW').length;
+    const cntKLPK = baseFiltered.filter(x => x.kategori === 'KLPK').length;
+
+    const tabs = [
+      { id: 'PINJAMAN', label: `Pinjaman (${cntPinj})` },
+      { id: 'SW', label: `SW (${cntSW})` },
+      { id: 'KLPK', label: `KLPK (${cntKLPK})` }
+    ];
+
+    const tabBar = document.getElementById('tabBarTerpadu');
+    if (tabBar) {
+      tabBar.innerHTML = tabs.map(t => {
+        const active = state.tabAktif === t.id;
+        return `
+          <button type="button" onclick="ViewTagihan.setTab('${t.id}')"
+            style="padding:9px 4px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; border:1.5px solid #8B0000; text-align:center;
+            background:${active ? '#8B0000' : 'var(--tg-card-bg)'}; color:${active ? '#FFD700' : 'var(--tg-maroon)'};">
+            ${t.label}
+          </button>
+        `;
+      }).join('');
+    }
+
+    const subBar = document.getElementById('subFilterBarTerpadu');
+    if (subBar) {
+      let leftPills = '';
+      let jenisDropdownHtml = '';
+
+      if (state.tabAktif === 'PINJAMAN') {
+        const subOpts = [
+          { id: 'SEMUA', label: 'Semua' },
+          { id: 'MENUNGGAK', label: 'Menunggak' },
+          { id: 'LANCAR', label: 'Lancar' }
+        ];
+        leftPills = `<div style="display:flex; gap:4px;">` + subOpts.map(s => {
+          const isAct = state.subFilterPinjaman === s.id;
+          return `<button type="button" onclick="ViewTagihan.setSubFilter('${s.id}')"
+            style="padding:4px 7px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; border:1px solid ${isAct ? '#8B0000' : 'var(--tg-border-strong)'};
+            background:${isAct ? '#8B0000' : 'var(--tg-card-bg)'}; color:${isAct ? '#FFD700' : 'var(--tg-text-sub)'};">
+            ${s.label}
+          </button>`;
+        }).join('') + `</div>`;
+
+        const jenisSet = new Set();
+        baseFiltered.forEach(x => {
+          if (x.kategori === 'PINJAMAN') {
+            const j = getJenisPinjaman(x);
+            if (j) jenisSet.add(j);
+          }
+        });
+        if (state.filterJenisPinjaman !== 'SEMUA') {
+          jenisSet.add(state.filterJenisPinjaman);
+        }
+        const daftarJenis = Array.from(jenisSet).sort();
+
+        jenisDropdownHtml = `
+          <select class="tg-select" onchange="ViewTagihan.setJenisPinjaman(this.value)"
+            style="padding:4px 6px; font-size:11px; font-weight:600;">
+            <option value="SEMUA" ${state.filterJenisPinjaman === 'SEMUA' ? 'selected' : ''}>Semua Jenis</option>
+            ${daftarJenis.map(j => `<option value="${j}" ${state.filterJenisPinjaman === j ? 'selected' : ''}>${j}</option>`).join('')}
+          </select>
+        `;
+      } else {
+        leftPills = `<span style="font-size:11px; color:var(--tg-text-muted); font-weight:600;">Urutan Daftar:</span>`;
+      }
+
+      subBar.innerHTML = `
+        ${leftPills}
+        <div style="display:flex; align-items:center; gap:4px; margin-left:auto;">
+          ${jenisDropdownHtml}
+          <select class="tg-select" onchange="ViewTagihan.setSortBy(this.value)"
+            style="padding:4px 6px; font-size:11px; font-weight:600;">
+            <option value="NAMA_ASC" ${state.sortBy === 'NAMA_ASC' ? 'selected' : ''}>Nama A–Z</option>
+            <option value="NOMINAL_DESC" ${state.sortBy === 'NOMINAL_DESC' ? 'selected' : ''}>Tagihan Terbesar</option>
+          </select>
+        </div>
+      `;
+    }
+
+    state.filteredData = baseFiltered.filter(item => {
+      if (state.tabAktif === 'PINJAMAN') {
+        if (item.kategori !== 'PINJAMAN') return false;
+        if (state.subFilterPinjaman === 'MENUNGGAK' && item.statusTagihan === 'Lancar') return false;
+        if (state.subFilterPinjaman === 'LANCAR' && item.statusTagihan !== 'Lancar') return false;
+        if (state.filterJenisPinjaman !== 'SEMUA' && getJenisPinjaman(item) !== state.filterJenisPinjaman) return false;
+        return true;
+      }
+      if (state.tabAktif === 'SW') return item.kategori === 'SW';
+      if (state.tabAktif === 'KLPK') return item.kategori === 'KLPK';
+      return false;
+    });
+
+    if (state.sortBy === 'NOMINAL_DESC') {
+      state.filteredData.sort((a, b) => (Number(b.nominalUtama) || 0) - (Number(a.nominalUtama) || 0));
+    } else {
+      state.filteredData.sort((a, b) => a.nama.localeCompare(b.nama) || String(a.noRek || '').localeCompare(String(b.noRek || '')));
+    }
+
+    const totalNominal = state.filteredData.reduce((acc, cur) => acc + (Number(cur.nominalUtama) || 0), 0);
+    const ringkasanEl = document.getElementById('ringkasanBarTerpadu');
+    if (ringkasanEl) {
+      const satuanLabel = state.tabAktif === 'PINJAMAN' ? 'Pinjaman' : 'Anggota';
+      ringkasanEl.innerHTML = `
+        <span style="color:var(--tg-maroon); font-weight:700;">Total: ${state.filteredData.length} ${satuanLabel}</span>
+        <span style="color:var(--tg-maroon-dark); font-weight:800;">${rp(totalNominal)}</span>
+      `;
+    }
+
+    renderCards();
+    initStickyTabBar();
+  };
+
+  const renderCards = () => {
+    const listEl = document.getElementById('listContainerTerpadu');
+    if (!listEl) return;
+
+    if (state.filteredData.length === 0) {
+      listEl.innerHTML = `
+        <div class="tg-card" style="padding:28px; text-align:center; color:var(--tg-text-muted); border-style:dashed;">
+          Tidak ada data yang sesuai dengan filter saat ini.
+        </div>
+      `;
+      return;
+    }
+
+    const uInfo = getUserInfo();
+    const lvlLow = uInfo.level.toLowerCase();
+    const isStafAtauManager = (lvlLow === 'staf' || lvlLow === 'manager' || uInfo.username.toLowerCase() === 'edoardbl');
+
+    const slice = state.filteredData.slice(0, state.currentLimit);
+    let html = slice.map(item => {
+      let badgeBg = 'rgba(156,163,175,0.2)', badgeColor = 'var(--tg-text-sub)';
+      if (item.kategori === 'PINJAMAN') { badgeBg = 'rgba(239,68,68,0.2)'; badgeColor = '#FCA5A5'; }
+      else if (item.kategori === 'SW') { badgeBg = 'rgba(245,158,11,0.2)'; badgeColor = '#FBBF24'; }
+      else if (item.kategori === 'KLPK') { badgeBg = 'rgba(139,92,246,0.2)'; badgeColor = '#C4B5FD'; }
+
+      const punyaPS = (isStafAtauManager && item.kategori === 'PINJAMAN' && Number(item.nominalPS) > 0);
+      const badgePSHeader = punyaPS
+        ? `<span title="Pembayaran Sementara: ${rp(item.nominalPS)} (${item.tanggalPS || '-'})"
+             style="background:rgba(245,158,11,0.2); color:#FCD34D; border:1px solid #F59E0B; padding:3px 7px; border-radius:6px; font-size:10px; font-weight:800; white-space:nowrap;">
+             ⏳ PS: ${rp(item.nominalPS)}
+           </span>`
+        : '';
+
+      let infoBaris = '';
+      if (item.kategori === 'PINJAMAN') {
+        infoBaris = `
+          <div class="tg-divider-dashed" style="display:flex; justify-content:space-between; font-size:12px; margin-top:8px; padding-top:8px;">
+            <div>
+              <div style="color:var(--tg-text-muted); font-size:11px;">Tagihan Normal</div>
+              <div style="font-weight:800; color:var(--tg-maroon); font-size:13px;">${rp(item.nominalUtama)}</div>
+            </div>
+            <div>
+              <div style="color:var(--tg-text-muted); font-size:11px;">Tagihan Program</div>
+              <div style="font-weight:700; color:var(--tg-text-main);">${rp(item.nominalProgram)}</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="color:var(--tg-text-muted); font-size:11px;">JTO / Status</div>
+              <div style="font-weight:700; color:${item.statusTagihan !== 'Lancar' ? '#ef4444' : '#10b981'};">${item.jto} (${item.statusTagihan})</div>
+            </div>
+          </div>
+        `;
+      } else if (item.kategori === 'SW') {
+        infoBaris = `
+          <div class="tg-divider-dashed" style="display:flex; justify-content:space-between; font-size:12px; margin-top:8px; padding-top:8px;">
+            <div>
+              <div style="color:var(--tg-text-muted); font-size:11px;">Tagihan SW Bulan Ini</div>
+              <div style="font-weight:800; color:var(--tg-gold-text); font-size:13px;">${rp(item.nominalUtama)}</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="color:var(--tg-text-muted); font-size:11px;">No. Rek SW</div>
+              <div style="font-weight:600; color:var(--tg-text-sub);">${item.noRek}</div>
+            </div>
+          </div>
+        `;
+      } else if (item.kategori === 'KLPK') {
+        infoBaris = `
+          <div class="tg-divider-dashed" style="display:flex; justify-content:space-between; font-size:12px; margin-top:8px; padding-top:8px;">
+            <div>
+              <div style="color:var(--tg-text-muted); font-size:11px;">Total Sisa Kewajiban</div>
+              <div style="font-weight:800; color:var(--tg-purple-text); font-size:13px;">${rp(item.nominalUtama)}</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="color:var(--tg-text-muted); font-size:11px;">Sisa Pokok CO</div>
+              <div style="font-weight:700; color:var(--tg-text-main);">${rp(item.nominalProgram)}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      const waBtn = item.noHp
+        ? `<button type="button"
+             onclick="event.stopPropagation(); ViewTagihan.kirimWA('${item.cif}', '${item.noRek}', '${item.kategori}')"
+             style="border:1px solid rgba(16,185,129,0.4); background:var(--tg-wa-bg); color:var(--tg-wa-text); padding:6px 9px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;">
+             💬 WA
+           </button>`
+        : '';
+
+      const telBtn = item.noHp
+        ? `<button type="button"
+             onclick="event.stopPropagation(); ViewTagihan.teleponAnggota('${item.cif}', '${item.noRek}', '${item.kategori}')"
+             style="border:1px solid rgba(59,130,246,0.4); background:var(--tg-tel-bg); color:var(--tg-tel-text); padding:6px 9px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;">
+             📞 Telp
+           </button>`
+        : '';
+
+      const safeNama = (item.nama || '').replace(/'/g, "\\'");
+      const safeHp = String(item.noHp || '').replace(/'/g, "\\'");
+      const adaHp = item.noHp && String(item.noHp).replace(/[^0-9]/g, '').length >= 9;
+
+      const btnKunjungan = `
+        <button type="button"
+          onclick="event.stopPropagation(); ViewTagihan.bukaKunjungan('${item.cif}', '${item.noRek}', '${safeNama}', '${item.kategori}', ${Number(item.nominalUtama) || 0})"
+          style="background:#8B0000; color:#FFD700; border:none; padding:6px 9px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:3px;">
+          📍 Kunjungan
+        </button>
+      `;
+
+      const btnEditHp = `
+        <button type="button"
+          onclick="event.stopPropagation(); ViewTagihan.bukaModalNoHp('${item.cif}', '${item.noRek}', '${safeNama}', '${safeHp}', '${item.kategori}', false)"
+          style="background:${adaHp ? 'var(--tg-soft-gold-bg)' : 'rgba(239,68,68,0.2)'}; color:${adaHp ? 'var(--tg-maroon)' : '#FCA5A5'}; border:1px solid ${adaHp ? '#D4AF37' : '#DC2626'}; padding:6px 8px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:2px;">
+          ${adaHp ? '✏️ HP' : '➕ No. HP'}
+        </button>
+      `;
+
+      const infoRek = (item.kategori === 'PINJAMAN' && item.noRek && item.noRek !== '-')
+        ? `<strong>Rek: ${item.noRek}</strong> • `
+        : '';
+
+      return `
+        <div onclick="ViewTagihan.bukaDetail('${item.cif}', '${item.kategori}', '${item.noRek}')"
+          class="tg-card"
+          style="padding:12px 14px; margin-bottom:10px; border-left:4px solid #8B0000; cursor:pointer;">
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:5px; margin-bottom:6px;">
+            <span style="background:${badgeBg}; color:${badgeColor}; border:1px solid ${badgeColor}; padding:2px 8px; border-radius:6px; font-size:10px; font-weight:800; line-height:1.3;">
+              ${item.subBadge}
+            </span>
+            ${badgePSHeader}
+          </div>
+          <div>
+            <div style="font-weight:800; color:var(--tg-text-main); font-size:14px; line-height:1.3;">
+              ${item.nama} ${item.panggilan ? `<span style="font-weight:600; color:var(--tg-maroon);">(${item.panggilan})</span>` : ''}
+            </div>
+            <div style="font-size:11px; color:var(--tg-text-muted); margin-top:3px; line-height:1.4;">
+              ${infoRek}CIF: ${item.cif}${item.desa ? ` • ${item.desa}` : ''}${item.aktivis ? ` • Akt: ${item.aktivis}` : ''}
+            </div>
+          </div>
+          ${infoBaris}
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding-top:8px; border-top:1px solid var(--tg-border);">
+            <div style="display:flex; flex-wrap:wrap; gap:5px; align-items:center;">
+              ${waBtn}
+              ${telBtn}
+              ${btnKunjungan}
+              ${btnEditHp}
+            </div>
+            <span style="font-size:11px; font-weight:700; color:var(--tg-maroon); white-space:nowrap;">Detail →</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    if (state.filteredData.length > state.currentLimit) {
+      html += `
+        <button type="button" onclick="ViewTagihan.loadMore()"
+          style="width:100%; padding:12px; background:var(--tg-soft-cream-bg); color:var(--tg-maroon); border:1.5px solid #8B0000; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; margin-top:4px;">
+          Muat Lebih Banyak (${state.filteredData.length - state.currentLimit} tersisa)
+        </button>
+      `;
+    }
+
+    listEl.innerHTML = html;
+  };
+
+  const bukaDetail = async (cif, kategori, noRek = '') => {
+    const daftarEl = document.getElementById('viewDaftarTerpadu');
+    const detailEl = document.getElementById('viewDetailTerpadu');
+    if (!daftarEl || !detailEl) return;
+
+    document.getElementById('stickyClusterTerpadu')?.classList.remove('is-stuck');
+    daftarEl.style.display = 'none';
+    detailEl.style.display = 'block';
+    detailEl.innerHTML = `
+      <div style="padding:40px; text-align:center;">
+        <i class="ph ph-spinner ph-spin" style="font-size:28px; color:#8B0000;"></i>
+        <div style="margin-top:8px; font-size:13px; color:var(--tg-text-muted);">Memuat rincian anggota...</div>
+      </div>
+    `;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const detailCacheKey = getCacheKeyDetail(cif, kategori, noRek);
+    const cachedDetail = await readSnapshotHybrid(detailCacheKey);
+
+    try {
+      const user = getUserInfo();
+      const res = await AppAPI.call('getDetailAnggotaKontekstual', {
+        cif: cif,
+        kategori: kategori,
+        noRek: noRek,
+        level: user.level
+      });
+      if (!res || !res.sukses) {
+        if (cachedDetail && cachedDetail.payload) {
+          state.activeDetail = cachedDetail.payload;
+          state.filterRiwayatJenis = 'SEMUA';
+          renderKontenDetail(cachedDetail.payload);
+          muatRiwayatPenangananDetail(cif, noRek, kategori);
+          return;
+        }
+        detailEl.innerHTML = `
+          <button type="button" onclick="ViewTagihan.tutupDetail()" class="tg-btn-back">← Kembali</button>
+          <div style="padding:20px; background:rgba(239,68,68,0.2); color:#FCA5A5; border-radius:10px;">❌ ${res ? res.error : 'Gagal memuat detail.'}</div>
+        `;
+        return;
+      }
+
+      saveSnapshotHybrid(detailCacheKey, res);
+      state.activeDetail = res;
+      state.filterRiwayatJenis = 'SEMUA';
+      renderKontenDetail(res);
+      muatRiwayatPenangananDetail(cif, noRek, kategori);
+    } catch (e) {
+      if (cachedDetail && cachedDetail.payload) {
+        state.activeDetail = cachedDetail.payload;
+        state.filterRiwayatJenis = 'SEMUA';
+        renderKontenDetail(cachedDetail.payload);
+        muatRiwayatPenangananDetail(cif, noRek, kategori);
+        if (typeof AppUI !== 'undefined' && AppUI.toast) {
+          AppUI.toast('Menampilkan rincian anggota dari cache lokal.', 'info');
+        }
+        return;
+      }
+      detailEl.innerHTML = `<div style="padding:20px; color:#ef4444;">Error: ${e.message}</div>`;
+    }
+  };
+
+  const tutupDetail = () => {
+    document.getElementById('viewDetailTerpadu').style.display = 'none';
+    document.getElementById('viewDaftarTerpadu').style.display = 'block';
+    initStickyTabBar();
+  };
+
+  const renderKontenDetail = (data) => {
+    const detailEl = document.getElementById('viewDetailTerpadu');
+    const p = data.profil || { cif: data.cif, nama: 'Anggota', noHp: '', alamat: '-', desa: '-', aktivis: '-' };
+    const uInfo = getUserInfo();
+    const lvlLow = uInfo.level.toLowerCase();
+    const unameLow = uInfo.username.toLowerCase();
+
+    const isStafAtauManager = (lvlLow === 'staf' || lvlLow === 'manager' || unameLow === 'edoardbl');
+    const isAktivis = (lvlLow === 'aktivis');
+
+    let blokUtamaHtml = '';
+
+    if (data.kategori === 'PINJAMAN' && data.pinjaman) {
+      const pj = data.pinjaman;
+      let kotakKuningHtml = '';
+
+      if (!isStafAtauManager) {
+        kotakKuningHtml = `
+          <div class="tg-cream-box" style="padding:12px; font-size:13px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-weight:700; color:var(--tg-maroon);">TAGIHAN NORMAL:</span>
+              <strong style="color:var(--tg-maroon); font-size:14px;">${rp(pj.tagihanNormal)}</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding-top:6px; border-top:1px dashed #D97706;">
+              <span style="font-weight:700; color:var(--tg-text-main);">TAGIHAN PROGRAM:</span>
+              <strong style="color:var(--tg-text-main); font-size:14px;">${rp(pj.tagihanProgram)}</strong>
+            </div>
+          </div>
+        `;
+      } else {
+        const nomPS = Number(pj.nominalPS) || 0;
+        const tagAsliNorm = Number(pj.tagihanAsli) || 0;
+        const tagAsliProg = Number(pj.tagihanProgramAsli !== undefined ? pj.tagihanProgramAsli : pj.tagihanAsli) || 0;
+        const subNorm = tagAsliNorm + nomPS;
+        const subProg = tagAsliProg + nomPS;
+        const selisihBulatNorm = Math.max(0, (Number(pj.tagihanNormal) || 0) - subNorm);
+        const selisihBulatProg = Math.max(0, (Number(pj.tagihanProgram) || 0) - subProg);
+        const totTunggakan = (Number(pj.tunggakanPokok) || 0) + (Number(pj.tunggakanBunga) || 0) + (Number(pj.tunggakanDenda) || 0);
+
+        let labelPS = '';
+        if (pj.keteranganPS) {
+          const namaBagian = String(pj.keteranganPS).split(/[·,]/)[0].trim();
+          const tglBagian = (pj.tanggalPS && pj.tanggalPS !== '-') ? pj.tanggalPS : '';
+          labelPS = (namaBagian && tglBagian && !namaBagian.includes(tglBagian))
+            ? `${namaBagian}, ${tglBagian}`
+            : (namaBagian || tglBagian);
+        } else if (pj.tanggalPS && pj.tanggalPS !== '-') {
+          labelPS = pj.tanggalPS;
+        }
+
+        const barisPSDetail = nomPS > 0
+          ? `<div style="display:flex; justify-content:space-between; gap:8px; margin-bottom:4px; color:var(--tg-gold-text);">
+               <span>+ Pembayaran Sementara${labelPS ? ' (' + labelPS + ')' : ''}:</span>
+               <strong style="white-space:nowrap;">+ ${rp(nomPS)}</strong>
+             </div>`
+          : `<div style="display:flex; justify-content:space-between; margin-bottom:4px; color:var(--tg-text-muted);">
+               <span>Pembayaran Sementara (PS):</span>
+               <span>Rp 0</span>
+             </div>`;
+
+        const barisBulatNorm = selisihBulatNorm > 0
+          ? `<div style="display:flex; justify-content:space-between; margin-bottom:4px; color:var(--tg-text-muted); font-size:11px;">
+               <span>+ Pembulatan ke Atas (${rp(pj.pembulatan || 10000)}):</span>
+               <span>+ ${rp(selisihBulatNorm)}</span>
+             </div>`
+          : '';
+
+        const barisBulatProg = selisihBulatProg > 0
+          ? `<div style="display:flex; justify-content:space-between; margin-bottom:4px; color:var(--tg-text-muted); font-size:11px;">
+               <span>+ Pembulatan Program (${rp(pj.pembulatan || 10000)}):</span>
+               <span>+ ${rp(selisihBulatProg)}</span>
+             </div>`
+          : '';
+
+        kotakKuningHtml = `
+          <div class="tg-cream-box" style="padding:11px; font-size:12px;">
+            <div style="font-weight:800; color:var(--tg-gold-text); font-size:11px; text-transform:uppercase; letter-spacing:0.3px; margin-bottom:6px;">
+              Rincian Komponen & Perhitungan Tagihan
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px; color:var(--tg-text-sub);"><span>Angsuran Normal / Bulan:</span><strong style="color:var(--tg-text-main);">${rp(pj.nilaiAngsuran)}</strong></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px; color:var(--tg-text-sub);"><span>Pokok JT / Bunga JT:</span><strong style="color:var(--tg-text-main);">${rp(pj.pokokJT)} / ${rp(pj.bungaJT)}</strong></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px; color:var(--tg-text-sub);"><span>Tunggakan (Pokok + Bunga + Denda):</span><strong style="color:#ef4444;">${rp(totTunggakan)} (${pj.lamaMenunggak})</strong></div>
+            <div style="border-top:1px dotted #D97706; margin:6px 0; padding-top:6px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:3px; color:var(--tg-text-sub);"><span>1. Tagihan Dasar Sistem (Normal):</span><strong style="color:var(--tg-text-main);">${rp(tagAsliNorm)}</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:4px; color:var(--tg-text-sub);"><span>2. Tagihan Dasar Sistem (Program):</span><strong style="color:var(--tg-text-main);">${rp(tagAsliProg)}</strong></div>
+              ${barisPSDetail}
+              <div style="display:flex; justify-content:space-between; margin-bottom:3px; color:var(--tg-text-sub);"><span>Subtotal Sebelum Pembulatan (Normal):</span><strong style="color:var(--tg-text-main);">${rp(subNorm)}</strong></div>
+              ${barisBulatNorm}
+              <div style="display:flex; justify-content:space-between; margin-bottom:3px; color:var(--tg-text-sub);"><span>Subtotal Sebelum Pembulatan (Program):</span><strong style="color:var(--tg-text-main);">${rp(subProg)}</strong></div>
+              ${barisBulatProg}
+            </div>
+            <div style="border-top:1.5px dashed #D97706; padding-top:6px; display:flex; justify-content:space-between; font-size:13px;">
+              <span style="font-weight:800; color:var(--tg-maroon);">TAGIHAN NORMAL AKHIR:</span>
+              <strong style="color:var(--tg-maroon);">${rp(pj.tagihanNormal)}</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:13px; margin-top:3px;">
+              <span style="font-weight:800; color:var(--tg-text-main);">TAGIHAN PROGRAM AKHIR:</span>
+              <strong style="color:var(--tg-text-main);">${rp(pj.tagihanProgram)}</strong>
+            </div>
+          </div>
+        `;
+      }
+
+      blokUtamaHtml = `
+        <div class="tg-card" style="padding:14px; margin-bottom:12px;">
+          <div class="tg-divider" style="font-weight:800; color:var(--tg-maroon); font-size:14px; margin-bottom:10px; padding-bottom:6px;">
+            💳 Rincian Tagihan Pinjaman (${pj.jenisPinjaman})
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px; margin-bottom:10px;">
+            <div><span style="color:var(--tg-text-muted);">No. Rekening:</span><br><strong style="color:var(--tg-text-main);">${pj.noRek}</strong></div>
+            <div><span style="color:var(--tg-text-muted);">Jatuh Tempo:</span><br><strong style="color:var(--tg-text-main);">${pj.tglJatuhTempo}</strong></div>
+            <div><span style="color:var(--tg-text-muted);">Plafon / Tenor:</span><br><strong style="color:var(--tg-text-main);">${rp(pj.pokokPinjaman)} (${pj.tenor})</strong></div>
+            <div><span style="color:var(--tg-text-muted);">Sisa Pokok Pinjaman:</span><br><strong style="color:var(--tg-text-main);">${rp(pj.saldoPinjaman)}</strong></div>
+          </div>
+          ${kotakKuningHtml}
+        </div>
+      `;
+    } else if (data.kategori === 'KLPK' && data.klpkDetail) {
+      const kl = data.klpkDetail;
+      const riwayatHtml = (kl.riwayatBayar && kl.riwayatBayar.length > 0)
+        ? kl.riwayatBayar.slice(0, 15).map(r => `
+            <div class="tg-divider" style="display:flex; justify-content:space-between; padding:6px 0; font-size:12px;">
+              <span>${r.tanggal} <span style="font-size:10px; background:rgba(139,92,246,0.25); color:#C4B5FD; padding:1px 5px; border-radius:4px;">${r.kategori}</span></span>
+              <strong>${rp(r.nominal)}</strong>
+            </div>
+          `).join('')
+        : '<div style="font-size:12px; color:var(--tg-text-muted);">Belum ada riwayat setoran tercatat.</div>';
+
+      blokUtamaHtml = `
+        <div class="tg-card" style="padding:14px; margin-bottom:12px;">
+          <div class="tg-divider" style="font-weight:800; color:var(--tg-purple-text); font-size:14px; margin-bottom:10px; padding-bottom:6px;">
+            ⚠️ Posisi Kredit Lalai Penanganan Khusus (KLPK)
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px; margin-bottom:10px;">
+            <div><span style="color:var(--tg-text-muted);">Tanggal CO:</span><br><strong>${kl.tglCO}</strong></div>
+            <div><span style="color:var(--tg-text-muted);">Status:</span><br><strong>${kl.status}</strong></div>
+            <div><span style="color:var(--tg-text-muted);">Saldo Pokok Awal:</span><br><strong>${rp(kl.saldoPokokAwal)}</strong></div>
+            <div><span style="color:var(--tg-text-muted);">Bunga & Denda Awal:</span><br><strong>${rp(kl.bungaDendaAwal)}</strong></div>
+            <div><span style="color:var(--tg-text-muted);">Sudah Bayar Pokok:</span><br><strong style="color:#10b981;">${rp(kl.totalDibayarPokok)}</strong></div>
+            <div><span style="color:var(--tg-text-muted);">Sudah Bayar B/D:</span><br><strong style="color:#10b981;">${rp(kl.totalDibayarBungaDenda)}</strong></div>
+          </div>
+          <div class="tg-purple-box" style="padding:10px; font-size:12px; margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between;"><span>Sisa Pokok CO:</span><strong>${rp(kl.sisaPokok)}</strong></div>
+            <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>Sisa Bunga & Denda:</span><strong>${rp(kl.sisaBungaDenda)}</strong></div>
+            <div style="border-top:1px dashed #8B5CF6; margin-top:6px; padding-top:6px; display:flex; justify-content:space-between; font-size:13px; color:var(--tg-purple-text);">
+              <strong>TOTAL SISA KEWAJIBAN:</strong>
+              <strong>${rp(kl.sisaKewajiban)}</strong>
+            </div>
+          </div>
+          <div style="font-weight:700; font-size:12px; color:var(--tg-text-sub); margin-bottom:4px;">Riwayat Pembayaran Terakhir:</div>
+          ${riwayatHtml}
+        </div>
+      `;
+    }
+
+    let blokSWHtml = '';
+    if (data.swMatriks && data.swMatriks.bulanList) {
+      const gridBulan = data.swMatriks.bulanList.map(b => {
+        const isSudah = b.status.toLowerCase() === 'sudah';
+        const isBelum = b.status.toLowerCase() === 'belum';
+        const bg = isSudah ? 'rgba(16,185,129,0.22)' : (isBelum ? 'rgba(239,68,68,0.22)' : 'var(--tg-surface-bg)');
+        const col = isSudah ? '#6EE7B7' : (isBelum ? '#FCA5A5' : 'var(--tg-text-muted)');
+        const icon = isSudah ? '✅' : (isBelum ? '❌' : '—');
+        return `
+          <div style="background:${bg}; color:${col}; padding:8px 4px; border-radius:8px; text-align:center; font-size:11px; font-weight:700;">
+            <div>${b.label}</div>
+            <div style="margin-top:2px;">${icon} ${b.status}</div>
+          </div>
+        `;
+      }).join('');
+
+      blokSWHtml = `
+        <div class="tg-card" style="padding:14px; margin-bottom:12px;">
+          <div style="font-weight:800; color:var(--tg-maroon); font-size:14px; margin-bottom:10px;">
+            📅 Status Simpanan Wajib Tahun ${data.swMatriks.tahun} (Rek: ${data.swMatriks.noRek})
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px;">
+            ${gridBulan}
+          </div>
+        </div>
+      `;
+    }
+
+    let blokSimpananHtml = '';
+    if (data.simpanan && data.simpanan.rincian && data.simpanan.rincian.length > 0) {
+      const listSimpTampil = isAktivis
+        ? data.simpanan.rincian.filter(s => {
+            const pLow = String(s.produk || '').toLowerCase();
+            return pLow.includes('sepu') || pLow.includes('pasallo');
+          })
+        : data.simpanan.rincian;
+
+      const totalSimpTampil = isAktivis
+        ? listSimpTampil.reduce((acc, cur) => acc + (Number(cur.saldo) || 0), 0)
+        : Number(data.simpanan.total || 0);
+
+      if (listSimpTampil.length > 0) {
+        const rowsSimp = listSimpTampil.map(s => `
+          <div class="tg-divider" style="display:flex; justify-content:space-between; padding:6px 0; font-size:12px;">
+            <span style="color:var(--tg-text-sub);"><strong>${formatNamaProdukSimpanan(s.produk)}</strong></span>
+            <strong style="color:var(--tg-text-main);">${rp(s.saldo)}</strong>
+          </div>
+        `).join('');
+
+        blokSimpananHtml = `
+          <div class="tg-card" style="padding:14px; margin-bottom:12px;">
+            <div style="font-weight:800; color:var(--tg-green-text); font-size:14px; margin-bottom:8px;">
+              💰 Saldo Simpanan Anggota
+            </div>
+            ${rowsSimp}
+            <div style="display:flex; justify-content:space-between; padding-top:8px; font-size:13px; color:var(--tg-green-text);">
+              <strong>${isAktivis ? 'TOTAL SIMPANAN (SEPU & PASALLO)' : 'TOTAL SIMPANAN'}</strong>
+              <strong>${rp(totalSimpTampil)}</strong>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    const rekAktif = data.pinjaman?.noRek || data.swMatriks?.noRek || p.cif;
+    const nomAktif = Number(data.pinjaman?.tagihanNormal || data.klpkDetail?.sisaKewajiban || 20000);
+    const safeNamaDetail = (p.nama || '').replace(/'/g, "\\'");
+    const safeHpDetail = String(p.noHp || '').replace(/'/g, "\\'");
+
+    detailEl.innerHTML = `
+      <button type="button" onclick="ViewTagihan.tutupDetail()" class="tg-btn-back">
+        ← Kembali ke Daftar
+      </button>
+
+      <div style="background:linear-gradient(135deg,#8B0000,#5C0000); color:#fff; border-radius:12px; padding:16px; margin-bottom:12px;">
+        <div style="font-size:16px; font-weight:800; color:#FFD700;">
+          ${p.nama} ${p.panggilan ? `(${p.panggilan})` : ''}
+        </div>
+        <div style="font-size:12px; opacity:0.95; margin-top:4px; display:flex; flex-wrap:wrap; align-items:center; gap:6px;">
+          <span>CIF: ${p.cif} • HP: <strong id="detailProfilNoHp">${p.noHp || '-'}</strong></span>
+          <button type="button"
+            onclick="ViewTagihan.bukaModalNoHp('${p.cif}', '${rekAktif}', '${safeNamaDetail}', '${safeHpDetail}', '${data.kategori}', true)"
+            style="background:rgba(255,215,0,0.2); color:#FFD700; border:1px solid #FFD700; padding:2px 8px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;">
+            ✏️ ${p.noHp ? 'Ubah HP' : 'Tambah HP'}
+          </button>
+        </div>
+        <div style="font-size:12px; opacity:0.9; margin-top:4px;">
+          Alamat: ${p.alamat} ${p.desa ? `(${p.desa})` : ''}
+        </div>
+        <div style="font-size:11px; color:#FDE68A; margin-top:4px;">
+          Aktivis: ${p.aktivis || '-'} • Staf: ${p.staf || '-'}
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+          ${p.noHp ? `
+            <button type="button"
+              onclick="ViewTagihan.kirimWA('${p.cif}', '${rekAktif}', '${data.kategori}', true)"
+              style="background:#25D366; color:#fff; border:none; padding:7px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">
+              💬 Hubungi WA
+            </button>
+            <button type="button"
+              onclick="ViewTagihan.teleponAnggota('${p.cif}', '${rekAktif}', '${data.kategori}', true)"
+              style="background:#2563EB; color:#fff; border:none; padding:7px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">
+              📞 Telepon
+            </button>
+          ` : ''}
+          <button type="button"
+            onclick="ViewTagihan.bukaKunjungan('${p.cif}', '${rekAktif}', '${safeNamaDetail}', '${data.kategori}', ${nomAktif})"
+            style="background:#FFD700; color:#5C0000; border:none; padding:7px 12px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer;">
+            📍 Catat Kunjungan (${data.kategori})
+          </button>
+        </div>
+      </div>
+
+      ${blokUtamaHtml}
+      ${blokSWHtml}
+      ${blokSimpananHtml}
+
+      <div class="tg-card" style="padding:14px; margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
+          <div style="font-weight:800; color:var(--tg-maroon); font-size:14px;">
+            📋 Riwayat Penanganan Anggota
+          </div>
+          <button type="button" onclick="ViewTagihan.muatRiwayatPenangananDetail('${p.cif}', '${rekAktif}', '${data.kategori}')"
+            style="background:var(--tg-soft-cream-bg); color:var(--tg-maroon); border:1px solid #d97706; padding:4px 9px; border-radius:7px; font-size:11px; font-weight:700; cursor:pointer;">
+            🔄 Muat Ulang
+          </button>
+        </div>
+
+        <div id="filterChipsRiwayatAnggota" style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px;">
+          <button type="button" class="tg-riwayat-chip active" data-rjenis="SEMUA" onclick="ViewTagihan.setFilterRiwayat('SEMUA')">Semua</button>
+          <button type="button" class="tg-riwayat-chip" data-rjenis="KUNJUNGAN" onclick="ViewTagihan.setFilterRiwayat('KUNJUNGAN')">📍 Kunjungan</button>
+          <button type="button" class="tg-riwayat-chip" data-rjenis="WA" onclick="ViewTagihan.setFilterRiwayat('WA')">💬 WA</button>
+          <button type="button" class="tg-riwayat-chip" data-rjenis="TELEPON" onclick="ViewTagihan.setFilterRiwayat('TELEPON')">📞 Telepon</button>
+          <button type="button" class="tg-riwayat-chip" data-rjenis="UPDATE_HP" onclick="ViewTagihan.setFilterRiwayat('UPDATE_HP')">📱 Update HP</button>
+        </div>
+
+        <div id="wadahRiwayatPenangananAnggota">
+          <div style="text-align:center; padding:16px; font-size:12px; color:var(--tg-text-muted);">
+            <i class="ph ph-spinner ph-spin"></i> Memuat riwayat kunjungan, WA, telepon & update HP...
+          </div>
+        </div>
+      </div>
+    `;
+  };
+
+  const muatRiwayatPenangananDetail = async (cif, noRek = '', kategori = 'PINJAMAN') => {
+    const wadah = document.getElementById('wadahRiwayatPenangananAnggota');
+    if (!wadah) return;
+
+    const rKey = getCacheKeyRiwayat(cif, kategori, noRek);
+    const cachedR = await readSnapshotHybrid(rKey);
+
+    wadah.innerHTML = `
+      <div style="text-align:center; padding:16px; font-size:12px; color:var(--tg-text-muted);">
+        <i class="ph ph-spinner ph-spin"></i> Memuat riwayat penanganan...
+      </div>
+    `;
+
+    try {
+      const res = await AppAPI.call('getRiwayatPenangananAnggota', {
+        cif: cif,
+        noRek: noRek,
+        kategori: kategori
+      });
+
+      if (!res || !res.sukses) {
+        if (cachedR && Array.isArray(cachedR.payload)) {
+          state.riwayatDetailList = cachedR.payload;
+          renderListRiwayatPenanganan();
+          return;
+        }
+        wadah.innerHTML = `<div style="font-size:12px; color:var(--tg-text-muted); padding:8px 0;">Riwayat penanganan belum tersedia.</div>`;
+        return;
+      }
+
+      state.riwayatDetailList = res.list || [];
+      saveSnapshotHybrid(rKey, state.riwayatDetailList);
+      renderListRiwayatPenanganan();
+    } catch (e) {
+      if (cachedR && Array.isArray(cachedR.payload)) {
+        state.riwayatDetailList = cachedR.payload;
+        renderListRiwayatPenanganan();
+        return;
+      }
+      wadah.innerHTML = `<div style="font-size:12px; color:var(--tg-text-muted); padding:8px 0;">Belum ada riwayat penanganan tercatat.</div>`;
+    }
+  };
+
+  const setFilterRiwayat = (jenis) => {
+    state.filterRiwayatJenis = jenis;
+    document.querySelectorAll('#filterChipsRiwayatAnggota .tg-riwayat-chip').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-rjenis') === jenis);
+    });
+    renderListRiwayatPenanganan();
+  };
+
+  const renderListRiwayatPenanganan = () => {
+    const wadah = document.getElementById('wadahRiwayatPenangananAnggota');
+    if (!wadah) return;
+
+    const list = (state.riwayatDetailList || []).filter(item => {
+      if (state.filterRiwayatJenis === 'SEMUA') return true;
+      return String(item.tipe || '').toUpperCase() === state.filterRiwayatJenis;
+    });
+
+    if (list.length === 0) {
+      wadah.innerHTML = `
+        <div style="text-align:center; padding:16px; border:1px dashed var(--tg-border-strong); border-radius:9px; font-size:12px; color:var(--tg-text-muted);">
+          Belum ada catatan aktivitas untuk kategori ini.
+        </div>
+      `;
+      return;
+    }
+
+    const badgeStyleMap = {
+      KUNJUNGAN: { icon: '📍', label: 'Kunjungan', bg: 'rgba(239,68,68,0.22)', col: '#FCA5A5' },
+      WA:        { icon: '💬', label: 'WhatsApp',  bg: 'rgba(16,185,129,0.22)', col: '#6EE7B7' },
+      TELEPON:   { icon: '📞', label: 'Telepon',   bg: 'rgba(59,130,246,0.22)', col: '#93C5FD' },
+      UPDATE_HP: { icon: '📱', label: 'Update HP', bg: 'rgba(245,158,11,0.22)', col: '#FCD34D' }
+    };
+
+    wadah.innerHTML = list.slice(0, 30).map(item => {
+      const tipe = String(item.tipe || 'KUNJUNGAN').toUpperCase();
+      const st = badgeStyleMap[tipe] || { icon: '📝', label: tipe, bg: 'rgba(156,163,175,0.2)', col: 'var(--tg-text-sub)' };
+      const nominalInfo = (Number(item.nominal) > 0)
+        ? `<span style="font-weight:800; color:var(--tg-gold-text);"> • ${rp(item.nominal)}</span>`
+        : '';
+      const janjiInfo = item.tanggalJanji
+        ? `<div style="font-size:11px; color:var(--tg-gold-text); font-weight:700; margin-top:2px;">🗓️ Janji/Jadwal: ${item.tanggalJanji}</div>`
+        : '';
+
+      const lampiranLinks = [];
+      if (item.fotoUrl) {
+        lampiranLinks.push(`<a href="${item.fotoUrl}" target="_blank" rel="noopener" style="color:var(--tg-maroon); font-weight:700; text-decoration:underline;">📷 Foto Bukti</a>`);
+      }
+      if (item.ttdUrl) {
+        lampiranLinks.push(`<a href="${item.ttdUrl}" target="_blank" rel="noopener" style="color:var(--tg-maroon); font-weight:700; text-decoration:underline;">✍️ TTD Anggota</a>`);
+      }
+      const barisLampiran = lampiranLinks.length > 0
+        ? `<div style="display:flex; gap:10px; font-size:11px; margin-top:4px;">${lampiranLinks.join('')}</div>`
+        : '';
+
+      return `
+        <div class="tg-divider" style="padding:9px 0; font-size:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:4px;">
+            <span style="background:${st.bg}; color:${st.col}; padding:2px 8px; border-radius:999px; font-size:10.5px; font-weight:800;">
+              ${st.icon} ${st.label}${item.kategori ? ' • ' + item.kategori : ''}
+            </span>
+            <span style="font-size:11px; color:var(--tg-text-muted);">${item.tanggal || '-'}</span>
+          </div>
+          <div style="font-weight:700; color:var(--tg-text-main);">
+            ${item.hasil || '-'}${nominalInfo}
+          </div>
+          ${item.catatan ? `<div style="font-size:11.5px; color:var(--tg-text-sub); margin-top:2px; line-height:1.35;">${item.catatan}</div>` : ''}
+          ${janjiInfo}
+          ${barisLampiran}
+          <div style="font-size:10.5px; color:var(--tg-text-muted); margin-top:3px;">
+            Petugas: <strong>${item.petugas || '-'}</strong>
+          </div>
+        </div>
+      `;
+    }).join('');
+  };
+
+  const kirimWA = (cif, noRek, kategori, refreshDetailSetelah = false) => {
+    const found = (noRek && noRek !== '-' ? state.allData.find(x => x.noRek === noRek && x.kategori === kategori) : null)
+      || state.allData.find(x => x.cif === cif && x.kategori === kategori)
+      || state.allData.find(x => x.cif === cif)
+      || {};
+
+    const idTarget = (kategori === 'PINJAMAN' && noRek && noRek !== '-') ? noRek : cif;
+    const jenisPesan = kategori === 'SW' ? 'sw' : (kategori === 'KLPK' ? 'klpk' : 'tagihan');
+
+    if (typeof bukaModalWA_Universal === 'function') {
+      bukaModalWA_Universal(
+        idTarget,
+        jenisPesan,
+        null,
+        () => {
+          applyFilterAndRender();
+          if (refreshDetailSetelah) muatRiwayatPenangananDetail(cif, noRek, kategori);
+        },
+        false,
+        found
+      );
+    } else {
+      AppUI.toast('Modul WA_Engine belum termuat.', 'error');
+    }
+  };
+
+  const teleponAnggota = (cif, noRek, kategori, refreshDetailSetelah = false) => {
+    const found = (noRek && noRek !== '-' ? state.allData.find(x => x.noRek === noRek && x.kategori === kategori) : null)
+      || state.allData.find(x => x.cif === cif && x.kategori === kategori)
+      || state.allData.find(x => x.cif === cif)
+      || {};
+
+    const kegiatanLabel = found.subBadge
+      ? `Penagihan ${found.subBadge} (${rp(found.nominalUtama)})`
+      : `Penagihan ${kategori}`;
+
+    if (typeof bukaModalTelepon_Universal === 'function') {
+      bukaModalTelepon_Universal({
+        noRek: (noRek && noRek !== '-') ? noRek : (found.noRek || cif),
+        cif: cif || found.cif,
+        nama: found.nama || 'Anggota',
+        noHp: found.noHp || '',
+        kategori: kategori || found.kategori || 'PINJAMAN',
+        kegiatan: kegiatanLabel,
+        onSuccess: () => {
+          if (refreshDetailSetelah) muatRiwayatPenangananDetail(cif, noRek, kategori);
+        }
+      });
+    } else {
+      AppUI.toast('Modul Telepon_Engine belum termuat.', 'error');
+    }
+  };
+
+  const bukaKunjungan = (cif, noRek, nama, kategori, nominalDefault = 0) => {
+    const found = (noRek && noRek !== '-' ? state.allData.find(x => x.noRek === noRek && x.kategori === kategori) : null)
+      || state.allData.find(x => x.cif === cif && x.kategori === kategori)
+      || state.allData.find(x => x.cif === cif)
+      || {};
+
+    const prefill = {
+      fromTagihan: true,
+      cif: cif || found.cif || '',
+      noRek: (noRek && noRek !== '-') ? noRek : (found.noRek && found.noRek !== '-' ? found.noRek : cif),
+      nama: nama || found.nama || '',
+      panggilan: found.panggilan || '',
+      noHp: found.noHp || '',
+      desa: found.desa || '',
+      aktivis: found.aktivis || '',
+      kategori: kategori || found.kategori || 'PINJAMAN',
+      subBadge: found.subBadge || kategori || 'PINJAMAN',
+      nominalUtama: Number(nominalDefault || found.nominalUtama || 0),
+      nominalProgram: Number(found.nominalProgram || 0),
+      jto: found.jto || '-',
+      statusTagihan: found.statusTagihan || '-'
+    };
+
+    window.__KUNJUNGAN_PREFILL__ = prefill;
+
+    const navBtn = document.querySelector('.nav-item[data-target="kunjungan"]');
+    if (navBtn) {
+      navBtn.click();
+    } else if (typeof loadPage === 'function') {
+      loadPage('kunjungan', prefill);
+    } else if (typeof ViewKunjungan !== 'undefined') {
+      ViewKunjungan.render(document.getElementById('app-content'), prefill);
+    }
+  };
+
+  let _refreshDetailSetelahHp = false;
+
+  const bukaModalNoHp = (cif, noRek, nama, noHpSaatIni, kategori, refreshDetail = false) => {
+    _refreshDetailSetelahHp = Boolean(refreshDetail);
+
+    const lama = document.getElementById('modalEditNoHpTerpadu');
+    if (lama) lama.remove();
+
+    const hpAwal = (noHpSaatIni && noHpSaatIni !== '-') ? noHpSaatIni : '';
+    const modal = document.createElement('div');
+    modal.id = 'modalEditNoHpTerpadu';
+    modal.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,0.65); z-index:9999; display:flex; align-items:center; justify-content:center; padding:16px;';
+    modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+
+    modal.innerHTML = `
+      <div onclick="event.stopPropagation()" class="tg-card" style="width:100%; max-width:400px; padding:18px; border-radius:14px;">
+        <div class="tg-divider" style="display:flex; justify-content:space-between; align-items:center; padding-bottom:10px; margin-bottom:12px;">
+          <div>
+            <div style="font-size:15px; font-weight:800; color:var(--tg-maroon);">📱 Edit / Tambah Nomor HP</div>
+            <div style="font-size:11.5px; color:var(--tg-text-muted); margin-top:2px;">${nama} (CIF: ${cif})</div>
+          </div>
+          <button type="button" onclick="ViewTagihan.tutupModalNoHp()" style="background:none; border:none; font-size:20px; color:var(--tg-text-muted); cursor:pointer;">✕</button>
+        </div>
+
+        <input type="hidden" id="inpHpCif" value="${cif}">
+        <input type="hidden" id="inpHpNoRek" value="${noRek || '-'}">
+        <input type="hidden" id="inpHpNama" value="${nama}">
+        <input type="hidden" id="inpHpKategori" value="${kategori || 'PINJAMAN'}">
+
+        <div style="margin-bottom:12px;">
+          <label style="display:block; font-size:12px; font-weight:700; margin-bottom:5px; color:var(--tg-text-sub);">Nomor HP / WhatsApp Aktif *</label>
+          <div style="display:flex; gap:8px;">
+            <input type="tel" id="inpHpBaru" class="tg-input" value="${hpAwal}" placeholder="Contoh: 081234567890"
+              style="flex:1; min-width:0; padding:10px 12px; border-radius:9px; font-size:14px; font-weight:700;">
+            <button type="button" onclick="ViewTagihan.ambilDariKontakHP()"
+              title="Tempel nomor HP yang baru disalin"
+              style="padding:0 12px; background:linear-gradient(135deg,#8B0000,#5C0000); color:#FFD700; border:1.5px solid #D4AF37; border-radius:9px; font-size:12px; font-weight:800; cursor:pointer; white-space:nowrap; display:flex; align-items:center; gap:5px;">
+              📋 Tempel Nomor
+            </button>
+          </div>
+          <div id="infoKontakTerpilih" style="font-size:11px; color:#10b981; font-weight:600; margin-top:6px; display:none;"></div>
+        </div>
+
+        <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:16px;">
+          <button type="button" onclick="ViewTagihan.tutupModalNoHp()"
+            class="tg-input"
+            style="padding:9px 14px; border-radius:9px; font-size:12.5px; font-weight:700; cursor:pointer;">
+            Batal
+          </button>
+          <button type="button" id="btnSimpanNoHpBaru" onclick="ViewTagihan.simpanNoHpBaru()"
+            style="padding:9px 16px; border:none; background:#8B0000; color:#FFD700; border-radius:9px; font-size:12.5px; font-weight:800; cursor:pointer;">
+            💾 Simpan Nomor HP
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+    setTimeout(() => document.getElementById('inpHpBaru')?.focus(), 100);
+  };
+
+  const tutupModalNoHp = () => {
+    const modal = document.getElementById('modalEditNoHpTerpadu');
+    if (modal) modal.remove();
+  };
+
+  const ambilDariKontakHP = () => {
+    const inp = document.getElementById('inpHpBaru');
+    const infoEl = document.getElementById('infoKontakTerpilih');
+
+    if (window.CuContactBridge && typeof window.CuContactBridge.pick === 'function') {
+      window.CuContactBridge.pick((res) => {
+        if (res.sukses && res.tel) {
+          if (inp) inp.value = res.tel;
+          if (infoEl) {
+            infoEl.textContent = `✅ Nomor ditempel: ${res.tel}`;
+            infoEl.style.display = 'block';
+          }
+          AppUI.toast(`✅ Nomor berhasil ditempel: ${res.tel}`, 'success');
+        } else {
+          AppUI.toast('Salin nomor dari WhatsApp/Kontak HP dulu, lalu ketuk Tempel Nomor (atau tahan kolom untuk Paste).', 'info');
+          if (inp) inp.focus();
+        }
+      });
+      return;
+    }
+
+    AppUI.toast('Salin nomor dari WhatsApp/Kontak HP dulu, lalu tahan kolom untuk Paste.', 'info');
+    if (inp) inp.focus();
+  };
+
+  const simpanNoHpBaru = async () => {
+    const cif = document.getElementById('inpHpCif').value.trim();
+    const noRek = document.getElementById('inpHpNoRek').value.trim();
+    const nama = document.getElementById('inpHpNama').value.trim();
+    const kategori = document.getElementById('inpHpKategori').value.trim();
+    const noHpBaru = document.getElementById('inpHpBaru').value.trim();
+
+    if (!noHpBaru || noHpBaru.replace(/[^0-9]/g, '').length < 9) {
+      AppUI.toast('Masukkan nomor HP yang valid (minimal 9 digit).', 'warning');
+      return;
+    }
+
+    const uInfo = getUserInfo();
+    const btn = document.getElementById('btnSimpanNoHpBaru');
+    const teksAsli = btn ? btn.innerHTML : '';
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Menyimpan...';
+    }
+
+    const payloadHp = {
+      cif,
+      noRek,
+      nama,
+      kategori,
+      noHpBaru,
+      petugas: uInfo.namaPetugas || 'Petugas'
+    };
+
+    const terapkanHpLokal = (hpNilai, antrekan = false) => {
+      state.allData.forEach(x => {
+        if (String(x.cif) === String(cif)) x.noHp = hpNilai;
+      });
+      const curSnap = readLocalSnapshot(getCacheKeyDaftar(uInfo));
+      if (curSnap && curSnap.payload && Array.isArray(curSnap.payload.list)) {
+        curSnap.payload.list.forEach(x => {
+          if (String(x.cif) === String(cif)) x.noHp = hpNilai;
+        });
+        saveLocalSnapshot(getCacheKeyDaftar(uInfo), curSnap.payload);
+      }
+      renderCards();
+      if (_refreshDetailSetelahHp) {
+        const hpSpan = document.getElementById('detailProfilNoHp');
+        if (hpSpan) hpSpan.textContent = hpNilai;
+        if (state.activeDetail && state.activeDetail.profil && String(state.activeDetail.profil.cif) === String(cif)) {
+          state.activeDetail.profil.noHp = hpNilai;
+          saveSnapshotHybrid(getCacheKeyDetail(cif, kategori, noRek), state.activeDetail);
+        }
+      }
+      updateOfflineBannerUI({ fromCache: antrekan || !navigator.onLine });
+    };
+
+    try {
+      if (!navigator.onLine) {
+        throw new Error('Perangkat sedang offline');
+      }
+      const res = await AppAPI.call('simpanUpdateNoHPTerpadu', payloadHp);
+
+      if (!res || !res.sukses) {
+        throw new Error((res && res.error) || 'Gagal menyimpan nomor HP');
+      }
+
+      const hpFinal = res.noHpBaru || noHpBaru;
+      terapkanHpLokal(hpFinal, false);
+
+      tutupModalNoHp();
+      AppUI.toast(`✅ Nomor HP ${nama} diperbarui ke ${hpFinal}`, 'success');
+
+      if (_refreshDetailSetelahHp) {
+        bukaDetail(cif, kategori, noRek);
+      }
+    } catch (e) {
+      if (isNetworkLikeError(e)) {
+        enqueueAction('simpanUpdateNoHPTerpadu', payloadHp);
+        terapkanHpLokal(noHpBaru, true);
+        tutupModalNoHp();
+        AppUI.toast(`⏳ Sinyal terbatas: No. HP ${nama} disimpan di antrean lokal & akan otomatis dikirim saat online.`, 'warning');
+      } else {
+        AppUI.toast('❌ ' + e.message, 'error');
+      }
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = teksAsli;
+      }
+    }
+  };
+
+  return {
+    render,
+    refreshData,
+    setTab,
+    setSubFilter,
+    setJenisPinjaman,
+    setSortBy,
+    onSearch,
+    clearSearch,
+    onFilterChange,
+    loadMore,
+    bukaDetail,
+    tutupDetail,
+    muatRiwayatPenangananDetail,
+    setFilterRiwayat,
+    bukaModalAktivis,
+    renderListKapsulModal,
+    toggleKapsulAktivis,
+    pilihSemuaAktivisModal,
+    kosongkanAktivisModal,
+    terapkanFilterAktivis,
+    hapusSatuAktivis,
+    resetAktivis,
+    kirimWA,
+    teleponAnggota,
+    bukaKunjungan,
+    bukaModalNoHp,
+    tutupModalNoHp,
+    ambilDariKontakHP,
+    simpanNoHpBaru,
+    flushOfflineQueue
+  };
+})();
+</script>
