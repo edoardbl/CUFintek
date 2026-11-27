@@ -727,6 +727,40 @@
 </style>
 
 <script>
+  window.AppAPI = window.AppAPI || {
+    call: async function () {
+      throw new Error('Offline / di luar sesi GAS');
+    }
+  };
+  window.AppCore = window.AppCore || {
+    getUser: function () {
+      try {
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i) || '';
+          if (k.toLowerCase().indexOf('user') !== -1) {
+            var parsed = JSON.parse(localStorage.getItem(k) || 'null');
+            if (parsed && (parsed.nama || parsed.username)) return parsed;
+          }
+        }
+      } catch (e) {}
+      return { username: '', nama: '', level: '' };
+    }
+  };
+  window.AppUI = window.AppUI || {
+    toast: function (msg) {
+      var el = document.getElementById('cufToastStandalone');
+      if (!el) return;
+      el.textContent = String(msg || '');
+      el.style.display = 'block';
+      clearTimeout(window.__cufToastTimer);
+      window.__cufToastTimer = setTimeout(function () {
+        el.style.display = 'none';
+      }, 2800);
+    }
+  };
+</script>
+
+<script>
 const ViewKunjungan = (() => {
   const CUSTOM_SKENARIO_LABEL = '✏️ Lainnya / Isi sendiri...';
 
