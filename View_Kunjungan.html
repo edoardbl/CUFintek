@@ -1,0 +1,3246 @@
+<style>
+  :root {
+    --kj-card-bg: #ffffff;
+    --kj-surface-bg: #f9fafb;
+    --kj-soft-gold-bg: #fffdf7;
+    --kj-soft-cream-bg: #fff8dc;
+    --kj-border: #e5e7eb;
+    --kj-border-strong: #d1d5db;
+    --kj-text-main: #111827;
+    --kj-text-sub: #374151;
+    --kj-text-muted: #6b7280;
+    --kj-accent: #8B0000;
+    --kj-accent-text: #ffffff;
+    --kj-gold: #FFD700;
+    --kj-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Sinkronisasi Otomatis dengan Mode Gelap */
+  body.dark-mode,
+  html.dark,
+  [data-theme="dark"],
+  [data-bs-theme="dark"] {
+    --kj-card-bg: #1e1616;
+    --kj-surface-bg: #2a1f1f;
+    --kj-soft-gold-bg: #2d221c;
+    --kj-soft-cream-bg: #36281c;
+    --kj-border: #443232;
+    --kj-border-strong: #5c4343;
+    --kj-text-main: #f9fafb;
+    --kj-text-sub: #e5e7eb;
+    --kj-text-muted: #a89999;
+    --kj-accent: #991b1b;
+    --kj-accent-text: #FFD700;
+    --kj-gold: #f59e0b;
+    --kj-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  }
+
+  .kunj-layout,
+  .kunj-layout * {
+    box-sizing: border-box;
+  }
+
+  .kunj-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 270px;
+    gap: 16px;
+    align-items: start;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  @media (max-width: 860px) {
+    .kunj-layout { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  .kunj-card {
+    background: var(--kj-card-bg);
+    border: 1px solid var(--kj-border);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--kj-shadow);
+    color: var(--kj-text-main);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .kunj-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--kj-text-main);
+    margin: 0;
+    min-width: 0;
+  }
+
+  .kunj-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--kj-text-sub);
+    margin-bottom: 6px;
+  }
+  .kunj-label span { color: #ef4444; }
+
+  .kunj-type-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 14px;
+    width: 100%;
+  }
+  .kunj-type-btn {
+    padding: 10px 8px;
+    border-radius: 10px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1.5px solid var(--kj-border-strong);
+    background: var(--kj-surface-bg);
+    color: var(--kj-text-sub);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.15s;
+    min-width: 0;
+    text-align: center;
+  }
+  .kunj-type-btn.active {
+    background: #8B0000;
+    color: #FFD700;
+    border-color: #8B0000;
+    box-shadow: 0 3px 8px rgba(139,0,0,0.25);
+  }
+
+  .kunj-kat-pills {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-bottom: 16px;
+    width: 100%;
+  }
+  .kunj-kat-btn {
+    padding: 9px 4px;
+    border-radius: 9px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1.5px solid var(--kj-border-strong);
+    background: var(--kj-surface-bg);
+    color: var(--kj-text-sub);
+    text-align: center;
+    transition: all 0.15s;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .kunj-kat-btn.active {
+    background: var(--kj-soft-cream-bg);
+    border-color: #d97706;
+    color: var(--kj-gold);
+  }
+  body:not(.dark-mode):not([data-theme="dark"]) .kunj-kat-btn.active {
+    color: #8B0000;
+    border-color: #8B0000;
+  }
+
+  .kunj-status-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+    width: 100%;
+  }
+  @media (max-width: 540px) {
+    .kunj-status-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  .kunj-status-btn {
+    padding: 10px 8px;
+    border-radius: 10px;
+    border: 1.5px solid var(--kj-border-strong);
+    background: var(--kj-surface-bg);
+    color: var(--kj-text-sub);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s;
+    min-width: 0;
+  }
+  .kunj-status-btn:hover {
+    border-color: #b91c1c;
+  }
+  .kunj-status-btn.active {
+    background: #8B0000;
+    color: #FFD700;
+    border-color: #8B0000;
+    box-shadow: 0 2px 6px rgba(139,0,0,0.25);
+  }
+
+  .kunj-input, .kunj-select, .kunj-textarea {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1.5px solid var(--kj-border-strong);
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--kj-text-main);
+    background: var(--kj-surface-bg);
+    outline: none;
+  }
+  .kunj-input:focus, .kunj-select:focus, .kunj-textarea:focus {
+    border-color: #d97706;
+  }
+
+  .kunj-nominal-input {
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Chip Respon Anggota (Satu Ketuk / Opsional) */
+  .respon-chip-wrap {
+    margin-bottom: 12px;
+    padding: 10px;
+    border-radius: 11px;
+    background: var(--kj-soft-gold-bg);
+    border: 1px solid var(--kj-border-strong);
+  }
+  .respon-chip-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .respon-chip-btn {
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1.5px solid var(--kj-border-strong);
+    background: var(--kj-surface-bg);
+    color: var(--kj-text-sub);
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.15s;
+    line-height: 1.25;
+  }
+  .respon-chip-btn:hover {
+    border-color: #d97706;
+  }
+  .respon-chip-btn.active {
+    background: #8B0000;
+    color: #FFD700;
+    border-color: #8B0000;
+    box-shadow: 0 2px 6px rgba(139, 0, 0, 0.25);
+  }
+  .respon-chip-btn.active.is-danger {
+    background: #991b1b;
+    border-color: #f59e0b;
+  }
+  .respon-desc-box {
+    margin-top: 7px;
+    padding: 6px 9px;
+    border-radius: 8px;
+    background: var(--kj-soft-cream-bg);
+    border-left: 3px solid #d97706;
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--kj-text-main);
+  }
+
+  /* Box Rombongan / Anggota Lain 1 Rumah */
+  .rombongan-box {
+    border: 1.5px dashed var(--kj-gold);
+    border-radius: 12px;
+    padding: 12px;
+    background: var(--kj-soft-gold-bg);
+    margin-bottom: 16px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .rombongan-search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+  }
+  .rombongan-dropdown {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 5px);
+    background: var(--kj-card-bg);
+    border: 1.5px solid #8B0000;
+    border-radius: 11px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    z-index: 98;
+    max-height: 240px;
+    overflow-y: auto;
+  }
+  .rombongan-dropdown.is-open {
+    display: block;
+  }
+  .rombongan-opt {
+    padding: 9px 12px;
+    border-bottom: 1px dashed var(--kj-border);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .rombongan-opt:last-child {
+    border-bottom: none;
+  }
+  .rombongan-opt:hover {
+    background: var(--kj-soft-cream-bg);
+  }
+  .rombongan-member-card {
+    background: var(--kj-surface-bg);
+    border: 1.5px solid var(--kj-border-strong);
+    border-left: 4px solid #d97706;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 8px;
+    width: 100%;
+    min-width: 0;
+  }
+  .rombongan-sub-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+  }
+  @media (max-width: 520px) {
+    .rombongan-sub-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* Custom Dropdown Skenario (Sinkron Tema Maroon - Emas) */
+  .kunj-dd-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+  .kunj-dd-trigger {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1.5px solid var(--kj-gold);
+    border-radius: 10px;
+    background: var(--kj-surface-bg);
+    color: var(--kj-text-main);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .kunj-dd-trigger:hover,
+  .kunj-dd-wrap.is-open .kunj-dd-trigger {
+    border-color: #8B0000;
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25);
+  }
+  .kunj-dd-arrow {
+    color: var(--kj-gold);
+    font-size: 11px;
+    flex-shrink: 0;
+    transition: transform 0.15s;
+  }
+  body:not(.dark-mode):not([data-theme="dark"]) .kunj-dd-arrow {
+    color: #8B0000;
+  }
+  .kunj-dd-wrap.is-open .kunj-dd-arrow {
+    transform: rotate(180deg);
+  }
+  .kunj-dd-menu {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 5px);
+    background: var(--kj-card-bg);
+    color: var(--kj-text-main);
+    border: 1.5px solid #8B0000;
+    border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
+    z-index: 95;
+    max-height: 260px;
+    overflow-y: auto;
+    padding: 5px;
+  }
+  .kunj-dd-wrap.is-open .kunj-dd-menu {
+    display: block;
+  }
+  .kunj-dd-opt {
+    padding: 9px 11px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.38;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    border-bottom: 1px dashed var(--kj-border);
+  }
+  .kunj-dd-opt:last-child {
+    border-bottom: none;
+  }
+  .kunj-dd-opt:hover {
+    background: var(--kj-soft-cream-bg);
+    color: var(--kj-gold);
+  }
+  body:not(.dark-mode):not([data-theme="dark"]) .kunj-dd-opt:hover {
+    color: #8B0000;
+  }
+  .kunj-dd-opt.is-selected {
+    background: #8B0000;
+    color: #FFD700 !important;
+    font-weight: 800;
+  }
+  .kunj-dd-opt.is-custom-opt {
+    color: #d97706;
+    font-weight: 800;
+  }
+
+  .kunj-search-row {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .kunj-btn-cari {
+    padding: 0 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--kj-border-strong);
+    background: var(--kj-surface-bg);
+    color: var(--kj-text-main);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .kunj-btn-cari:hover { border-color: #d97706; }
+
+  .kunj-member-box {
+    background: var(--kj-soft-gold-bg);
+    border: 1.5px solid var(--kj-gold);
+    border-left: 5px solid #8B0000;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 14px;
+    color: var(--kj-text-main);
+    width: 100%;
+    min-width: 0;
+  }
+
+  .kunj-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .kunj-quick-chip {
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid var(--kj-border-strong);
+    background: var(--kj-soft-cream-bg);
+    color: var(--kj-text-main);
+  }
+  .kunj-quick-chip:hover {
+    border-color: #d97706;
+  }
+
+  /* Signature Pad */
+  .ttd-wrapper {
+    border: 1.5px dashed #b91c1c;
+    border-radius: 12px;
+    background: var(--kj-soft-gold-bg);
+    padding: 8px;
+    margin-bottom: 14px;
+    width: 100%;
+  }
+  .ttd-canvas {
+    width: 100%;
+    height: 145px;
+    display: block;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    touch-action: none;
+    cursor: crosshair;
+  }
+  .ttd-saved-box {
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #10b981;
+    padding: 8px;
+    text-align: center;
+  }
+  .ttd-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--kj-text-muted);
+  }
+
+  .kunj-action-btn {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 8px;
+    border-radius: 10px;
+    border: 1.5px solid var(--kj-border-strong);
+    background: var(--kj-surface-bg);
+    color: var(--kj-text-sub);
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+    transition: all 0.15s;
+    min-width: 0;
+  }
+  .kunj-action-btn:active {
+    transform: scale(0.98);
+  }
+  .kunj-btn-foto-primary {
+    border-color: #8B0000;
+    background: #8B0000;
+    color: #FFD700;
+  }
+  .kunj-btn-foto-galeri {
+    border-color: #d97706;
+    background: var(--kj-soft-cream-bg);
+    color: var(--kj-text-main);
+  }
+
+  .kunj-footer-btns {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--kj-border);
+  }
+  .kunj-btn-reset {
+    padding: 11px 16px;
+    border-radius: 10px;
+    border: 1.5px solid var(--kj-border-strong);
+    background: var(--kj-surface-bg);
+    color: var(--kj-text-sub);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .kunj-btn-submit {
+    padding: 11px 20px;
+    border-radius: 10px;
+    border: none;
+    background: #8B0000;
+    color: #FFD700;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .kunj-btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 13px;
+    color: var(--kj-text-sub);
+  }
+  .summary-val {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--kj-text-main);
+  }
+
+  .kj-offline-banner {
+    display: none;
+    margin-bottom: 12px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1.5px solid #d97706;
+    background: var(--kj-soft-cream-bg);
+    color: var(--kj-text-main);
+    font-size: 11.5px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .kj-btn-queue-sync {
+    background: #8B0000;
+    color: #FFD700;
+    border: 1px solid #D4AF37;
+    border-radius: 7px;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .kj-btn-queue-sync:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+</style>
+
+<script>
+const ViewKunjungan = (() => {
+  const CUSTOM_SKENARIO_LABEL = '✏️ Lainnya / Isi sendiri...';
+
+  const STATUS_OPTIONS = [
+    { value: 'Bayar Tunai', icon: '✅', label: 'Bayar Tunai' },
+    { value: 'Sudah Bayar Transfer', icon: '💳', label: 'Sudah Transfer' },
+    { value: 'Bayar Sebagian', icon: '💵', label: 'Bayar Sebagian' },
+    { value: 'Janji Bayar', icon: '🟡', label: 'Janji Bayar' },
+    { value: 'Belum Bayar', icon: '❌', label: 'Belum Bayar' },
+    { value: 'Tidak Ditemui', icon: '🚫', label: 'Tidak Ditemui' }
+  ];
+
+  const TRANSPORTASI_OPTIONS = [
+    { value: 'Motor Pribadi', icon: '🏍️', label: 'Motor Pribadi' },
+    { value: 'Motor Kantor', icon: '🛵', label: 'Motor Kantor' },
+    { value: 'Dibonceng Rekan', icon: '👥', label: 'Dibonceng Rekan' },
+    { value: 'Mobil Kantor / Pribadi', icon: '🚗', label: 'Mobil' },
+    { value: 'Jalan Kaki', icon: '🚶', label: 'Jalan Kaki' }
+  ];
+
+  const RESPON_ANGGOTA_OPTIONS = [
+    {
+      id: 'KOOPERATIF',
+      icon: '🤝',
+      label: 'Kooperatif & Terbuka',
+      fullText: 'Kooperatif & Terbuka',
+      desc: 'Anggota/keluarga menyambut baik, mau berdiskusi, dan mencari solusi pembayaran.',
+      danger: false
+    },
+    {
+      id: 'PASIF',
+      icon: '😐',
+      label: 'Pasif / Menghindar',
+      fullText: 'Pasif / Menghindar',
+      desc: 'Cenderung diam, banyak alasan berulang, atau sulit diajak menyepakati jadwal pasti.',
+      danger: false
+    },
+    {
+      id: 'TIDAK_KOOPERATIF',
+      icon: '🙅',
+      label: 'Tidak Kooperatif / Menolak',
+      fullText: 'Tidak Kooperatif / Menolak',
+      desc: 'Keberatan ditagih, menolak menandatangani berita acara/surat, atau menyangkal kewajiban.',
+      danger: true
+    },
+    {
+      id: 'EMOSIONAL',
+      icon: '😠',
+      label: 'Emosional / Marah',
+      fullText: 'Emosional / Marah',
+      desc: '⚠️ Nada tinggi, tersinggung, atau menunjukkan potensi konflik (sinyal wajib pendampingan Tim pada kunjungan berikutnya).',
+      danger: true
+    },
+    {
+      id: 'DIWAKILI',
+      icon: '👨‍👩‍👧',
+      label: 'Diwakili Keluarga',
+      fullText: 'Diwakili Keluarga',
+      desc: 'Yang ditemui di rumah bukan peminjam langsung (pasangan/orang tua/anak), namun pesan tersampaikan.',
+      danger: false
+    }
+  ];
+
+  const DEFAULT_SKENARIO_MAP = {
+    'Bayar Tunai': [
+      'Anggota membayar penuh secara tunai kepada petugas',
+      'Titip pembayaran tunai melalui keluarga / pasangan di rumah',
+      'Pelunasan tunggakan berjalan secara tunai',
+      'Anggota membayar angsuran + denda keterlambatan secara tunai',
+      'Penjemputan setoran sesuai jadwal janji bayar sebelumnya'
+    ],
+    'Sudah Bayar Transfer': [
+      'Anggota sudah transfer via mobile banking / ATM (bukti ditunjukkan)',
+      'Pembayaran ditransfer oleh keluarga / penjamin',
+      'Setoran langsung ke kantor TP Saluampak',
+      'Setoran melalui tempat pelayanan (TP) lain / transfer antar rekening CU',
+      'Bukti transfer sudah dikirim via WhatsApp, menunggu verifikasi kasir'
+    ],
+    'Bayar Sebagian': [
+      'Anggota mencicil sebagian tagihan, sisa dijanjikan menyusul',
+      'Membayar bunga / denda terlebih dahulu, pokok menyusul',
+      'Kemampuan bayar terbatas minggu ini, lanjut angsuran berikutnya',
+      'Membayar Simpanan Wajib & sebagian angsuran pokok/bunga',
+      'Sisa kekurangan akan ditransfer/disetor pada tanggal janji'
+    ],
+    'Janji Bayar': [
+      'Anggota berjanji membayar sesuai tanggal yang disepakati',
+      'Menunggu hasil panen / penjualan hasil kebun (cengkeh/kopi/merica/padi)',
+      'Menunggu pencairan gaji / upah kerja',
+      'Menunggu kiriman dana dari keluarga / anak',
+      'Usaha sedang sepi, minta kelonggaran hingga tanggal janji',
+      'Menunggu pencairan dana proyek / pembayaran piutang pihak ketiga',
+      'Anggota berjanji datang langsung ke kantor TP Saluampak pada tanggal janji'
+    ],
+    'Belum Bayar': [
+      'Anggota ditemui namun belum memiliki dana saat kunjungan',
+      'Mengalami kendala ekonomi / musibah keluarga / anggota sakit',
+      'Anggota keberatan / perlu mediasi lanjutan dengan pengurus',
+      'Usaha mengalami penurunan / gagal panen',
+      'Penyerahan Surat Tagihan di rumah anggota',
+      'Penyerahan Surat SP (Surat Peringatan) 1 di rumah anggota',
+      'Penyerahan Surat SP (Surat Peringatan) 2 di rumah anggota',
+      'Penyerahan Surat SP (Surat Peringatan) 3 di rumah anggota',
+      'Penyerahan Surat Panggilan / Undangan Mediasi ke kantor'
+    ],
+    'Tidak Ditemui': [
+      'Rumah dalam keadaan kosong / terkunci saat dikunjungi',
+      'Anggota sedang berada di kebun / luar desa',
+      'Anggota merantau / bekerja di luar daerah (titip pesan ke keluarga)',
+      'Alamat pindah / rumah sudah tidak ditempati',
+      'Titip surat tagihan / pesan kunjungan melalui keluarga serumah',
+      'Titip pesan / informasi keberadaan anggota melalui tetangga / aparat setempat'
+    ]
+  };
+
+  // Tutup dropdown skenario & dropdown pencarian rombongan jika klik di luar
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.kunj-dd-wrap')) {
+      document.querySelectorAll('.kunj-dd-wrap.is-open').forEach(el => el.classList.remove('is-open'));
+    }
+    if (!e.target.closest('.rombongan-search-wrap')) {
+      document.getElementById('ddRombonganHasil')?.classList.remove('is-open');
+    }
+  });
+
+  const toggleDropdownSkenario = (event) => {
+    if (event) event.stopPropagation();
+    const wrap = document.getElementById('ddKunjSkenarioWrap');
+    if (wrap) wrap.classList.toggle('is-open');
+  };
+
+  let state = {
+    jenisPenagihan: 'INDIVIDU',
+    transportasi: 'Motor Pribadi',
+    timPetugas: [],
+    tempTimPetugas: [],
+    daftarPetugas: [],
+    kategori: 'PINJAMAN',
+    statusKunjungan: 'Bayar Tunai',
+    skenarioMap: JSON.parse(JSON.stringify(DEFAULT_SKENARIO_MAP)),
+    identitas: { koperasi: 'CU SAUAN SIBARRUNG', namaTP: 'TP SALUAMPAK' },
+    selectedSkenario: '',
+    selectedRespon: '',
+    selectedMember: null,
+    rombonganList: [],
+    hasilCariRombongan: [],
+    fromTagihan: false,
+    fotoBase64: '',
+    ttdBase64: '',
+    savedTtd: null,
+    modeTtdBaru: true,
+    hasSigned: false,
+    detectedJanji: '',
+    detectedKunjUlang: '',
+    lat: '',
+    lng: ''
+  };
+
+  let _timerCariRombongan = null;
+
+  // Helper Format & Parse Pemisah Ribuan (Titik)
+  const formatRibuan = (val) => {
+    const digits = String(val ?? '').replace(/[^0-9]/g, '');
+    if (!digits) return '';
+    return Number(digits).toLocaleString('id-ID');
+  };
+
+  const parseRibuan = (val) => {
+    if (typeof val === 'number') return isNaN(val) ? 0 : val;
+    const digits = String(val ?? '').replace(/[^0-9]/g, '');
+    return digits ? Number(digits) : 0;
+  };
+
+  const rp = (n) => 'Rp ' + (Number(n) || 0).toLocaleString('id-ID');
+
+  const setNominalUtama = (angka) => {
+    const inp = document.getElementById('kunjNominalInput');
+    if (!inp) return;
+    const num = parseRibuan(angka);
+    inp.value = num > 0 ? formatRibuan(num) : '';
+  };
+
+  const onInputNominalUtama = (el) => {
+    if (!el) return;
+    const num = parseRibuan(el.value);
+    el.value = num > 0 ? formatRibuan(num) : '';
+  };
+
+  const getUserInfo = () => {
+    const u = (typeof AppCore !== 'undefined' && AppCore.getUser) ? AppCore.getUser() : {};
+    return {
+      username: u.username || u.user || '',
+      namaPetugas: u.nama || document.getElementById('display-nama')?.textContent || '',
+      level: u.level || document.getElementById('display-level')?.textContent || ''
+    };
+  };
+
+  // =========================================================================
+  // OFFLINE-FIRST ENGINE: INDEXEDDB CACHE + ANTREAN SIMPAN KUNJUNGAN
+  // =========================================================================
+  const KUNJ_CACHE_PREFIX = 'cufintek_kunj_cache_v1_';
+  const KUNJ_IDB_NAME = 'cufintek_kunjungan_idb_v1';
+  const KUNJ_STORE_SNAP = 'snapshots';
+  const KUNJ_STORE_QUEUE = 'kunj_queue';
+  let _kunjIdbPromise = null;
+  let _kunjSyncRunning = false;
+  let _kunjOfflineListenersAttached = false;
+  let _kunjQueueCountCache = 0;
+
+  const isNetworkLikeError = (err) => {
+    const msg = String((err && err.message) || err || '').toLowerCase();
+    if (typeof navigator !== 'undefined' && !navigator.onLine) return true;
+    return (
+      msg.includes('network') ||
+      msg.includes('failed to fetch') ||
+      msg.includes('timeout') ||
+      msg.includes('timed out') ||
+      msg.includes('offline') ||
+      msg.includes('load failed') ||
+      msg.includes('disconnect') ||
+      msg.includes('internet') ||
+      msg.includes('aborted') ||
+      msg.includes('unreachable')
+    );
+  };
+
+  const openKunjunganIDB = () => {
+    if (_kunjIdbPromise) return _kunjIdbPromise;
+    if (typeof indexedDB === 'undefined') return Promise.resolve(null);
+    _kunjIdbPromise = new Promise((resolve) => {
+      try {
+        const req = indexedDB.open(KUNJ_IDB_NAME, 1);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(KUNJ_STORE_SNAP)) {
+            db.createObjectStore(KUNJ_STORE_SNAP, { keyPath: 'key' });
+          }
+          if (!db.objectStoreNames.contains(KUNJ_STORE_QUEUE)) {
+            db.createObjectStore(KUNJ_STORE_QUEUE, { keyPath: 'id' });
+          }
+        };
+        req.onsuccess = (e) => resolve(e.target.result);
+        req.onerror = () => resolve(null);
+      } catch (err) {
+        resolve(null);
+      }
+    });
+    return _kunjIdbPromise;
+  };
+
+  const saveKunjSnapshot = async (key, payload) => {
+    try {
+      localStorage.setItem(key, JSON.stringify({ savedAt: Date.now(), payload }));
+    } catch (e) {}
+    try {
+      const db = await openKunjunganIDB();
+      if (!db) return;
+      await new Promise((resolve) => {
+        const tx = db.transaction(KUNJ_STORE_SNAP, 'readwrite');
+        tx.objectStore(KUNJ_STORE_SNAP).put({ key, savedAt: Date.now(), payload });
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => resolve(false);
+      });
+    } catch (e) {}
+  };
+
+  const readKunjSnapshot = async (key) => {
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.payload) return parsed;
+      }
+    } catch (e) {}
+    try {
+      const db = await openKunjunganIDB();
+      if (!db) return null;
+      return await new Promise((resolve) => {
+        const tx = db.transaction(KUNJ_STORE_SNAP, 'readonly');
+        const req = tx.objectStore(KUNJ_STORE_SNAP).get(key);
+        req.onsuccess = () => {
+          const val = req.result;
+          resolve(val && val.payload ? val : null);
+        };
+        req.onerror = () => resolve(null);
+      });
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const readKunjQueue = async () => {
+    try {
+      const db = await openKunjunganIDB();
+      if (db) {
+        const list = await new Promise((resolve) => {
+          const tx = db.transaction(KUNJ_STORE_QUEUE, 'readonly');
+          const req = tx.objectStore(KUNJ_STORE_QUEUE).getAll();
+          req.onsuccess = () => resolve(Array.isArray(req.result) ? req.result : []);
+          req.onerror = () => resolve([]);
+        });
+        list.sort((a, b) => (Number(a.createdAt) || 0) - (Number(b.createdAt) || 0));
+        _kunjQueueCountCache = list.length;
+        return list;
+      }
+    } catch (e) {}
+    try {
+      const raw = localStorage.getItem(KUNJ_CACHE_PREFIX + 'queue_fallback');
+      const arr = raw ? JSON.parse(raw) : [];
+      _kunjQueueCountCache = Array.isArray(arr) ? arr.length : 0;
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) {
+      return [];
+    }
+  };
+
+  const enqueueKunjunganOffline = async (payload, metaLabel = '') => {
+    const clientId = 'kunj_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    const enrichedPayload = Object.assign({}, payload, {
+      clientId: clientId,
+      queuedAt: new Date().toISOString()
+    });
+    const record = {
+      id: clientId,
+      action: 'simpanKunjunganTerpadu',
+      payload: enrichedPayload,
+      metaLabel: metaLabel || `${payload.nama || '-'} (${payload.kategori || 'PINJAMAN'})`,
+      createdAt: Date.now(),
+      attempts: 0,
+      lastError: ''
+    };
+
+    let savedToIdb = false;
+    try {
+      const db = await openKunjunganIDB();
+      if (db) {
+        savedToIdb = await new Promise((resolve) => {
+          const tx = db.transaction(KUNJ_STORE_QUEUE, 'readwrite');
+          tx.objectStore(KUNJ_STORE_QUEUE).put(record);
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = () => resolve(false);
+        });
+      }
+    } catch (e) {}
+
+    if (!savedToIdb) {
+      try {
+        const cur = await readKunjQueue();
+        cur.push(record);
+        localStorage.setItem(KUNJ_CACHE_PREFIX + 'queue_fallback', JSON.stringify(cur));
+      } catch (e) {}
+    }
+
+    await updateKunjOfflineBannerUI();
+    return clientId;
+  };
+
+  const removeKunjQueueItem = async (id) => {
+    try {
+      const db = await openKunjunganIDB();
+      if (db) {
+        await new Promise((resolve) => {
+          const tx = db.transaction(KUNJ_STORE_QUEUE, 'readwrite');
+          tx.objectStore(KUNJ_STORE_QUEUE).delete(id);
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = () => resolve(false);
+        });
+      }
+    } catch (e) {}
+    try {
+      const raw = localStorage.getItem(KUNJ_CACHE_PREFIX + 'queue_fallback');
+      if (raw) {
+        const arr = JSON.parse(raw).filter(x => x.id !== id);
+        localStorage.setItem(KUNJ_CACHE_PREFIX + 'queue_fallback', JSON.stringify(arr));
+      }
+    } catch (e) {}
+  };
+
+  const updateKunjQueueItem = async (item) => {
+    try {
+      const db = await openKunjunganIDB();
+      if (db) {
+        await new Promise((resolve) => {
+          const tx = db.transaction(KUNJ_STORE_QUEUE, 'readwrite');
+          tx.objectStore(KUNJ_STORE_QUEUE).put(item);
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = () => resolve(false);
+        });
+      }
+    } catch (e) {}
+  };
+
+  const updateKunjOfflineBannerUI = async () => {
+    const banner = document.getElementById('offlineStatusBannerKunj');
+    const infoEl = document.getElementById('offlineStatusTextKunj');
+    const btnEl = document.getElementById('btnSinkronAntreanKunj');
+    const q = await readKunjQueue();
+    if (!banner || !infoEl) return;
+
+    const isOffline = (typeof navigator !== 'undefined' && !navigator.onLine);
+    if (!isOffline && q.length === 0) {
+      banner.style.display = 'none';
+      return;
+    }
+
+    banner.style.display = 'flex';
+    const parts = [];
+    if (isOffline) {
+      parts.push('📡 Mode Offline / Mati Sinyal • Input, Foto & TTD disimpan aman di perangkat');
+    }
+    if (q.length > 0) {
+      parts.push(`⏳ ${q.length} data kunjungan menunggu sinkronisasi`);
+    }
+    infoEl.textContent = parts.join(' • ');
+
+    if (btnEl) {
+      btnEl.style.display = q.length > 0 ? 'inline-flex' : 'none';
+      btnEl.disabled = _kunjSyncRunning || isOffline;
+      btnEl.textContent = _kunjSyncRunning ? 'Menyinkronkan...' : `🔄 Kirim Antrean (${q.length})`;
+    }
+  };
+
+  const flushKunjunganOfflineQueue = async (silent = false) => {
+    if (_kunjSyncRunning) return;
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      if (!silent && typeof AppUI !== 'undefined' && AppUI.toast) {
+        AppUI.toast('Belum ada sinyal internet untuk menyinkronkan kunjungan.', 'warning');
+      }
+      await updateKunjOfflineBannerUI();
+      return;
+    }
+
+    const q = await readKunjQueue();
+    if (q.length === 0) {
+      await updateKunjOfflineBannerUI();
+      return;
+    }
+
+    _kunjSyncRunning = true;
+    await updateKunjOfflineBannerUI();
+
+    let berhasil = 0;
+    for (let i = 0; i < q.length; i++) {
+      const item = q[i];
+      try {
+        const res = await AppAPI.call(item.action || 'simpanKunjunganTerpadu', item.payload);
+        if (res && res.sukses) {
+          berhasil++;
+          await removeKunjQueueItem(item.id);
+        } else {
+          item.attempts = (Number(item.attempts) || 0) + 1;
+          item.lastError = (res && res.error) || 'Gagal diproses server';
+          await updateKunjQueueItem(item);
+        }
+      } catch (err) {
+        item.attempts = (Number(item.attempts) || 0) + 1;
+        item.lastError = err.message || 'Gangguan jaringan';
+        await updateKunjQueueItem(item);
+        if ((typeof navigator !== 'undefined' && !navigator.onLine) || isNetworkLikeError(err)) {
+          break;
+        }
+      }
+    }
+
+    _kunjSyncRunning = false;
+    await updateKunjOfflineBannerUI();
+
+    if (berhasil > 0) {
+      muatRingkasanHariIni();
+      if (!silent && typeof AppUI !== 'undefined' && AppUI.toast) {
+        AppUI.toast(`✅ ${berhasil} data kunjungan offline berhasil disinkronkan ke server!`, 'success');
+      }
+    }
+  };
+
+  const attachKunjOfflineListeners = () => {
+    if (_kunjOfflineListenersAttached) return;
+    _kunjOfflineListenersAttached = true;
+    window.addEventListener('online', () => {
+      updateKunjOfflineBannerUI();
+      flushKunjunganOfflineQueue(false);
+    });
+    window.addEventListener('offline', () => {
+      updateKunjOfflineBannerUI();
+    });
+  };
+
+  // Cari anggota langsung dari cache lokal ViewTagihan (localStorage / IndexedDB) saat offline
+  const cariAnggotaDariCacheLokal = async (keyword, mode = 'SINGLE', excludeCif = '') => {
+    const q = String(keyword || '').trim().toLowerCase();
+    if (!q) return mode === 'LIST' ? [] : null;
+
+    const u = getUserInfo();
+    const kandidatKeys = [
+      `cufintek_tagihan_cache_v1_daftar_${String(u.level || '').trim().toLowerCase()}_${String(u.username || 'guest').trim().toLowerCase()}_${String(u.namaPetugas || '').trim().toLowerCase()}`,
+      `cufintek_tagihan_cache_v1_daftar_${String(u.level || '').trim().toLowerCase()}__${String(u.namaPetugas || '').trim().toLowerCase()}`
+    ];
+
+    let allList = [];
+    for (let k of kandidatKeys) {
+      try {
+        const raw = localStorage.getItem(k);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.payload && Array.isArray(parsed.payload.list)) {
+            allList = parsed.payload.list;
+            break;
+          }
+        }
+      } catch (e) {}
+    }
+
+    // Jika belum ketemu di exact key, pindai seluruh key cache tagihan di localStorage
+    if (allList.length === 0) {
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          const lsKey = localStorage.key(i) || '';
+          if (lsKey.startsWith('cufintek_tagihan_cache_v1_daftar_')) {
+            const parsed = JSON.parse(localStorage.getItem(lsKey) || '{}');
+            if (parsed && parsed.payload && Array.isArray(parsed.payload.list) && parsed.payload.list.length > 0) {
+              allList = parsed.payload.list;
+              break;
+            }
+          }
+        }
+      } catch (e) {}
+    }
+
+    // Fallback baca dari IndexedDB cufintek_tagihan_idb_v1 jika localStorage kosong
+    if (allList.length === 0 && typeof indexedDB !== 'undefined') {
+      allList = await new Promise((resolve) => {
+        try {
+          const req = indexedDB.open('cufintek_tagihan_idb_v1', 1);
+          req.onsuccess = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('snapshots')) { resolve([]); return; }
+            const tx = db.transaction('snapshots', 'readonly');
+            const getAllReq = tx.objectStore('snapshots').getAll();
+            getAllReq.onsuccess = () => {
+              const rows = getAllReq.result || [];
+              const found = rows.find(r => String(r.key || '').startsWith('cufintek_tagihan_cache_v1_daftar_') && r.payload && Array.isArray(r.payload.list));
+              resolve(found ? found.payload.list : []);
+            };
+            getAllReq.onerror = () => resolve([]);
+          };
+          req.onerror = () => resolve([]);
+        } catch (err) {
+          resolve([]);
+        }
+      });
+    }
+
+    if (!Array.isArray(allList) || allList.length === 0) {
+      return mode === 'LIST' ? [] : null;
+    }
+
+    const norm = (v) => String(v || '').trim().toLowerCase();
+    const normNum = (v) => String(v || '').replace(/[^0-9]/g, '');
+    const qNum = normNum(q);
+
+    if (mode === 'SINGLE') {
+      // Prioritaskan kecocokan persis pada No. Rekening atau CIF, lalu kecocokan nama/parsial
+      let exact = allList.find(item => {
+        const cif = norm(item.cif);
+        const rek = norm(item.noRek);
+        return cif === q || rek === q || (qNum && (normNum(item.cif) === qNum || normNum(item.noRek) === qNum));
+      });
+      if (!exact) {
+        exact = allList.find(item =>
+          norm(item.cif).includes(q) ||
+          norm(item.noRek).includes(q) ||
+          norm(item.nama).includes(q) ||
+          norm(item.panggilan).includes(q)
+        );
+      }
+      if (!exact) return null;
+      return {
+        cif: exact.cif || '-',
+        noRek: exact.noRek || '-',
+        nama: exact.nama || '-',
+        panggilan: exact.panggilan || '',
+        desa: exact.desa || '',
+        kategori: exact.kategori || state.kategori || 'PINJAMAN',
+        nominalUtama: Number(exact.nominalUtama ?? exact.tagihanNormal ?? exact.totalTagihan ?? 0),
+        nominalProgram: Number(exact.nominalProgram ?? exact.tagihanProgram ?? 0),
+        fromOfflineCache: true
+      };
+    }
+
+    // Mode LIST untuk pencarian Anggota Lain 1 Rumah / Rombongan
+    const exCif = norm(excludeCif);
+    const matches = [];
+    const seen = new Set();
+    for (let i = 0; i < allList.length; i++) {
+      const item = allList[i];
+      const cif = norm(item.cif);
+      if (exCif && cif === exCif) continue;
+      const hay = `${norm(item.nama)} ${norm(item.panggilan)} ${cif} ${norm(item.noRek)} ${norm(item.desa)}`;
+      if (hay.includes(q)) {
+        const uniq = `${item.cif || ''}_${item.kategori || ''}_${item.noRek || ''}`;
+        if (seen.has(uniq)) continue;
+        seen.add(uniq);
+        matches.push({
+          cif: item.cif || '-',
+          noRek: item.noRek || '-',
+          nama: item.nama || '-',
+          panggilan: item.panggilan || '',
+          kategori: item.kategori || 'PINJAMAN',
+          subBadge: item.subBadge || item.kategori || 'Anggota',
+          nominalUtama: Number(item.nominalUtama ?? item.tagihanNormal ?? item.totalTagihan ?? 0)
+        });
+        if (matches.length >= 15) break;
+      }
+    }
+    return matches;
+  };
+
+  const render = async (targetContainer, prefillParam = null) => {
+    const container = (typeof targetContainer === 'string')
+      ? document.getElementById(targetContainer)
+      : (targetContainer || document.getElementById('app-content'));
+    if (!container) return;
+
+    const incoming = prefillParam || window.__KUNJUNGAN_PREFILL__ || null;
+    window.__KUNJUNGAN_PREFILL__ = null;
+
+    if (incoming && incoming.cif) {
+      state.selectedMember = incoming;
+      state.kategori = incoming.kategori || 'PINJAMAN';
+      state.fromTagihan = Boolean(incoming.fromTagihan);
+    } else {
+      state.selectedMember = null;
+      state.kategori = 'PINJAMAN';
+      state.fromTagihan = false;
+    }
+
+    state.jenisPenagihan = 'INDIVIDU';
+    try {
+      state.transportasi = localStorage.getItem('CU_LAST_TRANSPORTASI') || 'Motor Pribadi';
+    } catch (eLs) {
+      state.transportasi = 'Motor Pribadi';
+    }
+    state.timPetugas = [];
+    state.rombonganList = [];
+    state.hasilCariRombongan = [];
+    state.statusKunjungan = 'Bayar Tunai';
+    state.selectedSkenario = '';
+    state.selectedRespon = '';
+    state.fotoBase64 = '';
+    state.ttdBase64 = '';
+    state.savedTtd = null;
+    state.modeTtdBaru = true;
+    state.hasSigned = false;
+    state.detectedJanji = '';
+    state.detectedKunjUlang = '';
+    state.lat = '';
+    state.lng = '';
+
+    const titleEl = document.getElementById('page-title');
+    if (titleEl) titleEl.textContent = 'Input Kunjungan Lapangan';
+
+    container.innerHTML = `
+      <div class="kunj-layout">
+        <div class="kunj-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+            <h2 class="kunj-title">
+              <i class="ph ph-map-pin" style="color:#d97706; font-size:20px; flex-shrink:0;"></i>
+              <span>Input Kunjungan Lapangan</span>
+            </h2>
+            ${state.fromTagihan ? `
+              <button type="button" onclick="ViewKunjungan.kembaliKeTagihan()"
+                style="padding:6px 10px; border-radius:8px; border:1.5px solid #8B0000; background:var(--kj-soft-cream-bg); color:var(--kj-text-main); font-size:11.5px; font-weight:700; cursor:pointer; white-space:nowrap;">
+                ← Ke Tagihan
+              </button>
+            ` : ''}
+          </div>
+
+          <div id="offlineStatusBannerKunj" class="kj-offline-banner">
+            <span id="offlineStatusTextKunj" style="font-weight:700;"></span>
+            <button type="button" id="btnSinkronAntreanKunj" class="kj-btn-queue-sync" onclick="ViewKunjungan.flushKunjunganOfflineQueue(false)" style="display:none;">
+              🔄 Kirim Antrean
+            </button>
+          </div>
+
+          <form id="formKunjunganSatuPintu" onsubmit="ViewKunjungan.submitForm(event)">
+            <!-- 1. Jenis Penagihan -->
+            <label class="kunj-label">Jenis Penagihan <span>*</span></label>
+            <div class="kunj-type-grid">
+              <button type="button" id="btnTypeIndividu" class="kunj-type-btn active" onclick="ViewKunjungan.setJenisPenagihan('INDIVIDU')">
+                <i class="ph ph-user"></i> Individu
+              </button>
+              <button type="button" id="btnTypeTim" class="kunj-type-btn" onclick="ViewKunjungan.setJenisPenagihan('TIM')">
+                <i class="ph ph-users-three"></i> Penagihan Tim
+              </button>
+            </div>
+
+            <!-- Bar Ringkasan Tim Terpilih -->
+            <div id="barTimTerpilih" style="display:none; background:var(--kj-soft-cream-bg); border:1.5px solid #8B0000; border-radius:10px; padding:10px 12px; margin-bottom:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px;">
+                <span style="font-size:12px; font-weight:800; color:var(--kj-text-main);" id="lblJumlahTim">👥 Anggota Tim (0 dipilih)</span>
+                <button type="button" onclick="ViewKunjungan.bukaModalTim()"
+                  style="background:#8B0000; color:#FFD700; border:none; padding:5px 10px; border-radius:7px; font-size:11px; font-weight:700; cursor:pointer; white-space:nowrap;">
+                  + Pilih / Ubah
+                </button>
+              </div>
+              <div id="chipsTimTerpilih" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+            </div>
+
+            <!-- 1B. Moda Transportasi Kunjungan -->
+            <div style="margin-bottom:16px;">
+              <label class="kunj-label">Moda Transportasi Kunjungan <span>*</span></label>
+              <div id="gridTransportasiKunjungan" style="display:flex; flex-wrap:wrap; gap:7px; margin-bottom:8px;">
+                ${TRANSPORTASI_OPTIONS.map(tr => {
+                  const lowTr = state.transportasi.trim().toLowerCase();
+                  const isMatch = tr.value.toLowerCase() === lowTr || (tr.value === 'Dibonceng Rekan' && lowTr.startsWith('dibonceng'));
+                  return `
+                    <button type="button"
+                      class="kunj-status-btn ${isMatch ? 'active' : ''}"
+                      data-transport="${tr.value}"
+                      style="width:auto; flex:1 1 auto; justify-content:center; padding:8px 11px;"
+                      onclick="ViewKunjungan.setTransportasi('${tr.value}')">
+                      <span>${tr.icon}</span>
+                      <span>${tr.label}</span>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+              <input type="text" id="kunjTransportasiInput" class="kunj-input"
+                value="${state.transportasi}"
+                placeholder="Atau ketik detail transportasi (misal: Dibonceng Anthonius)..."
+                oninput="ViewKunjungan.onInputTransportasi(this.value)" required>
+            </div>
+
+            <!-- 2. Kategori Tagihan (1 Pintu) -->
+            <label class="kunj-label">Kategori Tagihan (1 Pintu) <span>*</span></label>
+            <div class="kunj-kat-pills">
+              <button type="button" id="btnKatPINJAMAN" class="kunj-kat-btn active" onclick="ViewKunjungan.setKategori('PINJAMAN')">
+                💳 Pinjaman
+              </button>
+              <button type="button" id="btnKatSW" class="kunj-kat-btn" onclick="ViewKunjungan.setKategori('SW')">
+                🐷 Simpanan Wajib
+              </button>
+              <button type="button" id="btnKatKLPK" class="kunj-kat-btn" onclick="ViewKunjungan.setKategori('KLPK')">
+                ⚠️ KLPK (CO)
+              </button>
+            </div>
+
+            <!-- 3. No. Rekening / CIF -->
+            <div style="margin-bottom:14px;">
+              <label class="kunj-label">No. Rekening / CIF <span>*</span></label>
+              <div class="kunj-search-row">
+                <input type="text" id="kunjInputCari" class="kunj-input" placeholder="Ketik No Rekening atau CIF..." required>
+                <button type="button" id="btnCariAnggotaKunj" class="kunj-btn-cari" onclick="ViewKunjungan.cariAnggota()">Cari</button>
+              </div>
+              <div id="kunjMemberPreview"></div>
+            </div>
+
+            <!-- 3B. ANGGOTA LAIN 1 RUMAH / ROMBONGAN (OPSI B: STATUS & NOMINAL PER ANGGOTA) -->
+            <div class="rombongan-box">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:4px;">
+                <div style="font-size:13px; font-weight:800; color:var(--kj-text-main); min-width:0;">
+                  🏠 Anggota Lain 1 Rumah / Rombongan <span id="badgeJumlahRombongan" style="color:#d97706;">(0)</span>
+                </div>
+                <button type="button" onclick="ViewKunjungan.fokusCariRombongan()"
+                  style="background:#8B0000; color:#FFD700; border:none; border-radius:8px; padding:5px 10px; font-size:11.5px; font-weight:700; cursor:pointer; flex-shrink:0; white-space:nowrap;">
+                  + Tambah
+                </button>
+              </div>
+              <div style="font-size:11.5px; color:var(--kj-text-muted); margin-bottom:10px; padding-bottom:8px; border-bottom:1px dashed var(--kj-border-strong); line-height:1.4;">
+                Opsional jika ada anggota keluarga lain yang juga dikunjungi bersamaan (status & nominal dapat diatur per anggota)
+              </div>
+
+              <div class="kunj-search-row">
+                <div class="rombongan-search-wrap">
+                  <input type="text" id="inputCariRombongan" class="kunj-input"
+                    placeholder="Ketik Nama, Panggilan, atau CIF..."
+                    autocomplete="off"
+                    oninput="ViewKunjungan.onKetikCariRombongan(this.value)"
+                    onfocus="if(this.value.trim().length >= 2) ViewKunjungan.onKetikCariRombongan(this.value)"
+                    style="font-size:13px;">
+                  <div id="ddRombonganHasil" class="rombongan-dropdown"></div>
+                </div>
+                <button type="button" class="kunj-btn-cari" onclick="ViewKunjungan.tambahRombonganCepat()">Tambah</button>
+              </div>
+
+              <div id="listKartuRombongan"></div>
+            </div>
+
+            <!-- 4. Status Kunjungan (Anggota Utama) -->
+            <label class="kunj-label">Status Kunjungan <span>*</span></label>
+            <div class="kunj-status-grid" id="gridStatusKunjungan">
+              ${STATUS_OPTIONS.map(st => `
+                <button type="button"
+                  class="kunj-status-btn ${st.value === state.statusKunjungan ? 'active' : ''}"
+                  data-status="${st.value}"
+                  onclick="ViewKunjungan.setStatusKunjungan('${st.value}')">
+                  <span>${st.icon}</span>
+                  <span style="min-width:0; overflow:hidden; text-overflow:ellipsis;">${st.label}</span>
+                </button>
+              `).join('')}
+            </div>
+
+            <!-- Tanggal Janji Bayar -->
+            <div id="wrapTglJanjiKunj" style="display:none; margin-bottom:14px;">
+              <label class="kunj-label" id="lblTglJanjiKunj">Tanggal Janji Bayar <span>*</span></label>
+              <input type="date" id="kunjTanggalJanji" class="kunj-input" onchange="ViewKunjungan.onInputCatatanChange()">
+              <div class="kunj-chip-row">
+                <button type="button" class="kunj-quick-chip" onclick="ViewKunjungan.setQuickTanggal(1)">Besok</button>
+                <button type="button" class="kunj-quick-chip" onclick="ViewKunjungan.setQuickTanggal(3)">+3 Hari</button>
+                <button type="button" class="kunj-quick-chip" onclick="ViewKunjungan.setQuickTanggal('TGL25')">Tgl 25</button>
+                <button type="button" class="kunj-quick-chip" onclick="ViewKunjungan.setQuickTanggal('AKHIR')">Akhir Bulan</button>
+              </div>
+            </div>
+
+            <!-- Nominal (Rp) dengan Pemisah Ribuan -->
+            <div id="wrapNominalKunj" style="margin-bottom:14px;">
+              <label class="kunj-label">Nominal (Rp)</label>
+              <input type="text" id="kunjNominalInput" inputmode="numeric" class="kunj-input kunj-nominal-input"
+                placeholder="Contoh: 500.000"
+                oninput="ViewKunjungan.onInputNominalUtama(this)">
+              <div id="wrapQuickNominalChips" class="kunj-chip-row"></div>
+            </div>
+
+            <!-- 5. Skenario Kondisi Lapangan, Chip Respon Anggota & Catatan Lapangan -->
+            <div style="margin-bottom:14px;">
+              <label class="kunj-label">Skenario Kondisi Lapangan (Pilihan Cepat)</label>
+              <div id="ddKunjSkenarioWrap" class="kunj-dd-wrap">
+                <button type="button" class="kunj-dd-trigger" onclick="ViewKunjungan.toggleDropdownSkenario(event)">
+                  <span id="lblKunjSkenarioTerpilih" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0;">
+                    -- Pilih skenario kondisi (${state.statusKunjungan}) --
+                  </span>
+                  <span class="kunj-dd-arrow">▼</span>
+                </button>
+                <div id="menuKunjSkenario" class="kunj-dd-menu" onclick="event.stopPropagation()"></div>
+              </div>
+
+              <!-- Chip Respon Anggota (Opsional / Satu Ketuk) -->
+              <div id="wrapChipResponAnggota" class="respon-chip-wrap">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:7px;">
+                  <span style="font-size:12px; font-weight:800; color:var(--kj-text-sub);">
+                    💬 Respon Anggota <span style="font-weight:600; color:var(--kj-text-muted);">(Opsional / Satu Ketuk)</span>
+                  </span>
+                  <span id="lblResponTerpilihBadge" style="font-size:10.5px; font-weight:800; color:#d97706;"></span>
+                </div>
+                <div id="gridChipResponAnggota" class="respon-chip-grid"></div>
+                <div id="boxDescResponAnggota" class="respon-desc-box" style="display:none;"></div>
+              </div>
+
+              <label class="kunj-label">Catatan Lapangan</label>
+              <textarea id="kunjCatatanInput" class="kunj-textarea" rows="3"
+                placeholder="Tulis keterangan hasil kunjungan... (Contoh: Janji bayar tgl 25 atau Kunjungan ulang besok)"
+                oninput="ViewKunjungan.onInputCatatanChange()"></textarea>
+              <div id="badgeDeteksiCatatan" style="display:none; margin-top:6px; padding:6px 10px; border-radius:8px; background:var(--kj-soft-cream-bg); border:1px solid #d97706; font-size:11.5px; font-weight:700; color:var(--kj-text-main);"></div>
+            </div>
+
+            <!-- 6. Tanda Tangan (TTD) Anggota -->
+            <div style="margin-bottom:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:6px; flex-wrap:wrap;">
+                <label class="kunj-label" style="margin:0;">✍️ Tanda Tangan Anggota (Tersimpan Otomatis per CIF)</label>
+                <span id="badgeTtdArsip" style="display:none; font-size:10px; font-weight:800; background:#DCFCE7; color:#166534; padding:2px 8px; border-radius:999px;"></span>
+              </div>
+
+              <div class="ttd-wrapper">
+                <!-- Pratinjau TTD Tersimpan -->
+                <div id="boxTtdTersimpan" style="display:none;">
+                  <div class="ttd-saved-box">
+                    <img id="imgTtdTersimpan" src="" alt="TTD Tersimpan" style="max-height:125px; max-width:100%; object-fit:contain;">
+                  </div>
+                  <div class="ttd-toolbar">
+                    <span style="color:#10b981; font-weight:700;">✅ TTD tersimpan anggota</span>
+                    <button type="button" onclick="ViewKunjungan.aktifkanTtdBaru()"
+                      style="background:var(--kj-soft-cream-bg); color:var(--kj-text-main); border:1px solid #d97706; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; white-space:nowrap;">
+                      ✍️ Ubah / TTD Ulang
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Kanvas TTD Baru -->
+                <div id="boxCanvasTtdBaru">
+                  <canvas id="canvasTtdAnggota" class="ttd-canvas" width="440" height="150"></canvas>
+                  <div class="ttd-toolbar">
+                    <span id="lblStatusTtd" style="flex:1; min-width:0;">Tanda tangan pada kotak putih</span>
+                    <div style="display:flex; gap:6px; flex-shrink:0;">
+                      <button type="button" id="btnBatalTtdBaru" onclick="ViewKunjungan.kembaliKeTtdTersimpan()"
+                        style="display:none; background:#DCFCE7; color:#166534; border:1px solid #86EFAC; padding:4px 9px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; white-space:nowrap;">
+                        ↩ TTD Lama
+                      </button>
+                      <button type="button" onclick="ViewKunjungan.hapusTtd()"
+                        style="background:#FEE2E2; color:#991B1B; border:1px solid #FECACA; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; white-space:nowrap;">
+                        🗑️ Hapus
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 7. Update Lokasi GPS + Foto Bukti (Kamera Langsung & Galeri HP) -->
+            <label class="kunj-label">Lokasi GPS & Foto Bukti (Otomatis Watermark)</label>
+            <div style="margin-bottom:8px;">
+              <button type="button" onclick="ViewKunjungan.ambilGPS(false)" class="kunj-action-btn" title="Perbarui titik koordinat GPS">
+                📍 <span id="lblGpsKunj">Update Lokasi GPS</span>
+              </button>
+            </div>
+            <div id="gpsStatusSub" style="font-size:11px; color:var(--kj-text-muted); margin-bottom:10px;"></div>
+
+            <div style="display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:8px; margin-bottom:6px;">
+              <label class="kunj-action-btn kunj-btn-foto-primary" title="Ambil foto langsung menggunakan kamera HP">
+                📷 <span id="lblFotoKamera">Kamera</span>
+                <input type="file" id="inputFotoKamera" accept="image/*" capture="environment" style="display:none;" onchange="ViewKunjungan.handleFoto(this, 'kamera')">
+              </label>
+              <label class="kunj-action-btn kunj-btn-foto-galeri" title="Pilih foto yang sudah tersimpan di galeri HP">
+                🖼️ <span id="lblFotoGaleri">Dari Galeri</span>
+                <input type="file" id="inputFotoGaleri" accept="image/*" style="display:none;" onchange="ViewKunjungan.handleFoto(this, 'galeri')">
+              </label>
+            </div>
+            <div id="statusFotoWatermark" style="font-size:11px; color:var(--kj-text-muted); margin-bottom:6px;"></div>
+            <div id="previewFotoKunjSatuPintu"></div>
+
+            <!-- Tombol Reset & Simpan -->
+            <div class="kunj-footer-btns">
+              <button type="button" class="kunj-btn-reset" onclick="ViewKunjungan.resetForm()">Reset</button>
+              <button type="submit" id="btnSimpanKunjSatuPintu" class="kunj-btn-submit">
+                <i class="ph ph-floppy-disk"></i> Simpan Data
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- PANEL KANAN: RINGKASAN HARI INI -->
+        <div class="kunj-card" style="padding:18px;">
+          <div style="font-size:15px; font-weight:800; color:var(--kj-text-main); margin-bottom:14px;">Ringkasan Hari Ini</div>
+
+          <div class="summary-row">
+            <span>Total Kunjungan</span>
+            <span class="summary-val" id="sumTotalKunj">0</span>
+          </div>
+          <div class="summary-row" style="border-bottom:1px solid var(--kj-border); padding-bottom:12px; margin-bottom:12px;">
+            <span>Total Nominal</span>
+            <span class="summary-val" style="color:#d97706;" id="sumTotalNominal">Rp 0</span>
+          </div>
+
+          <div style="font-size:11px; font-weight:800; color:var(--kj-text-muted); letter-spacing:0.04em; margin-bottom:8px;">BREAKDOWN</div>
+          <div class="summary-row">
+            <span>✅ Bayar</span>
+            <span class="summary-val" style="font-size:14px;" id="sumBayar">0</span>
+          </div>
+          <div class="summary-row">
+            <span>🟡 Janji Bayar</span>
+            <span class="summary-val" style="font-size:14px;" id="sumJanji">0</span>
+          </div>
+          <div class="summary-row">
+            <span>❌ Belum/Tidak</span>
+            <span class="summary-val" style="font-size:14px;" id="sumBelum">0</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    initSignaturePad();
+    setKategori(state.kategori);
+    setStatusKunjungan(state.statusKunjungan);
+
+    if (state.selectedMember) {
+      terapkanDataAnggota(state.selectedMember);
+    }
+
+    attachKunjOfflineListeners();
+    updateKunjOfflineBannerUI();
+    if (typeof navigator !== 'undefined' && navigator.onLine) {
+      flushKunjunganOfflineQueue(true);
+    }
+
+    ambilGPS(true);
+    muatRingkasanHariIni();
+    muatKonfigurasiSkenario();
+  };
+
+  const kembaliKeTagihan = () => {
+    const navTagihan = document.querySelector('.nav-item[data-target="tagihan"]');
+    if (navTagihan) navTagihan.click();
+  };
+
+  // =========================================================================
+  // MODA TRANSPORTASI KUNJUNGAN
+  // =========================================================================
+  const setTransportasi = (val) => {
+    state.transportasi = val;
+    const inp = document.getElementById('kunjTransportasiInput');
+    if (inp) {
+      if (val === 'Dibonceng Rekan') {
+        inp.value = 'Dibonceng ';
+        inp.focus();
+        state.transportasi = inp.value;
+      } else {
+        inp.value = val;
+      }
+    }
+    document.querySelectorAll('#gridTransportasiKunjungan .kunj-status-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-transport') === val);
+    });
+  };
+
+  const onInputTransportasi = (val) => {
+    state.transportasi = String(val || '');
+    const low = state.transportasi.trim().toLowerCase();
+    document.querySelectorAll('#gridTransportasiKunjungan .kunj-status-btn').forEach(btn => {
+      const optVal = String(btn.getAttribute('data-transport') || '').toLowerCase();
+      const match = optVal === low || (optVal === 'dibonceng rekan' && low.startsWith('dibonceng'));
+      btn.classList.toggle('active', match);
+    });
+  };
+
+  // =========================================================================
+  // CHIP RESPON ANGGOTA (OPSIONAL / SATU KETUK)
+  // =========================================================================
+  const toggleResponAnggota = (id) => {
+    state.selectedRespon = (state.selectedRespon === id) ? '' : id;
+    renderChipResponAnggota();
+  };
+
+  const renderChipResponAnggota = () => {
+    const wrap = document.getElementById('wrapChipResponAnggota');
+    const grid = document.getElementById('gridChipResponAnggota');
+    const descBox = document.getElementById('boxDescResponAnggota');
+    const badge = document.getElementById('lblResponTerpilihBadge');
+    if (!wrap || !grid) return;
+
+    // Otomatis sembunyikan pada status Tidak Ditemui (kecuali skenario titip pesan keluarga/tetangga)
+    const isTitipPesan = /titip|keluarga|tetangga/i.test(state.selectedSkenario || '');
+    const hideWrap = (state.statusKunjungan === 'Tidak Ditemui' && !isTitipPesan);
+
+    if (hideWrap) {
+      wrap.style.display = 'none';
+      state.selectedRespon = '';
+      return;
+    }
+
+    wrap.style.display = 'block';
+
+    grid.innerHTML = RESPON_ANGGOTA_OPTIONS.map(opt => {
+      const active = state.selectedRespon === opt.id;
+      const cls = `respon-chip-btn${active ? ' active' : ''}${active && opt.danger ? ' is-danger' : ''}`;
+      return `
+        <button type="button" class="${cls}" onclick="ViewKunjungan.toggleResponAnggota('${opt.id}')">
+          <span>${opt.icon}</span>
+          <span>${opt.label}</span>
+        </button>
+      `;
+    }).join('');
+
+    const terpilih = RESPON_ANGGOTA_OPTIONS.find(o => o.id === state.selectedRespon);
+    if (badge) {
+      badge.textContent = terpilih ? `✓ ${terpilih.label}` : '';
+    }
+    if (descBox) {
+      if (terpilih) {
+        descBox.style.display = 'block';
+        descBox.innerHTML = `<strong>${terpilih.icon} ${terpilih.label}:</strong> ${terpilih.desc}`;
+      } else {
+        descBox.style.display = 'none';
+        descBox.innerHTML = '';
+      }
+    }
+  };
+
+  // =========================================================================
+  // ANGGOTA LAIN 1 RUMAH / ROMBONGAN (OPSI B: STATUS & NOMINAL PER ANGGOTA)
+  // =========================================================================
+  const fokusCariRombongan = () => {
+    document.getElementById('inputCariRombongan')?.focus();
+  };
+
+  const onKetikCariRombongan = (val) => {
+    clearTimeout(_timerCariRombongan);
+    const dd = document.getElementById('ddRombonganHasil');
+    const q = String(val || '').trim();
+
+    if (q.length < 2) {
+      if (dd) {
+        dd.innerHTML = '';
+        dd.classList.remove('is-open');
+      }
+      return;
+    }
+
+    if (dd) {
+      dd.innerHTML = '<div style="padding:10px 12px; font-size:12px; color:#d97706;">⏳ Mencari nama / panggilan / CIF...</div>';
+      dd.classList.add('is-open');
+    }
+
+    _timerCariRombongan = setTimeout(async () => {
+      const excludeCif = state.selectedMember?.cif || '';
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        const lokalList = await cariAnggotaDariCacheLokal(q, 'LIST', excludeCif);
+        renderDropdownRombongan(lokalList);
+        return;
+      }
+      try {
+        const res = await AppAPI.call('cariDaftarAnggotaTerpaduKunjungan', {
+          keyword: q,
+          excludeCif: excludeCif
+        });
+        if (!res || !res.sukses) {
+          const lokalList = await cariAnggotaDariCacheLokal(q, 'LIST', excludeCif);
+          if (lokalList.length > 0) {
+            renderDropdownRombongan(lokalList);
+            return;
+          }
+          if (dd) dd.innerHTML = '<div style="padding:10px 12px; font-size:12px; color:#ef4444;">Gagal memuat pencarian.</div>';
+          return;
+        }
+        renderDropdownRombongan(res.list || []);
+      } catch (err) {
+        const lokalList = await cariAnggotaDariCacheLokal(q, 'LIST', excludeCif);
+        if (lokalList.length > 0) {
+          renderDropdownRombongan(lokalList);
+          return;
+        }
+        if (dd) dd.innerHTML = `<div style="padding:10px 12px; font-size:12px; color:#ef4444;">Error: ${err.message}</div>`;
+      }
+    }, 250);
+  };
+
+  const renderDropdownRombongan = (list) => {
+    const dd = document.getElementById('ddRombonganHasil');
+    if (!dd) return;
+    state.hasilCariRombongan = list || [];
+
+    if (state.hasilCariRombongan.length === 0) {
+      dd.innerHTML = '<div style="padding:10px 12px; font-size:12px; color:var(--kj-text-muted);">Anggota tidak ditemukan.</div>';
+      dd.classList.add('is-open');
+      return;
+    }
+
+    dd.innerHTML = state.hasilCariRombongan.map((a, idx) => {
+      const pgl = a.panggilan ? ` <span style="color:#d97706; font-weight:700;">(${a.panggilan})</span>` : '';
+      const nomInfo = Number(a.nominalUtama) > 0 ? ` • Tagihan: <strong>${rp(a.nominalUtama)}</strong>` : '';
+      return `
+        <div class="rombongan-opt" onclick="ViewKunjungan.pilihAnggotaRombongan(${idx})">
+          <div style="font-size:13px; font-weight:800; color:var(--kj-text-main);">${a.nama || '-'}${pgl}</div>
+          <div style="font-size:11px; color:var(--kj-text-muted); margin-top:2px;">
+            CIF: <strong style="color:#d97706;">${a.cif || '-'}</strong> • ${a.subBadge || a.kategori || 'Anggota'}${nomInfo}
+          </div>
+        </div>
+      `;
+    }).join('');
+    dd.classList.add('is-open');
+  };
+
+  const pilihAnggotaRombongan = (idx) => {
+    const a = state.hasilCariRombongan[idx];
+    if (!a) return;
+
+    const cifUtama = String(state.selectedMember?.cif || '').trim();
+    if (cifUtama && a.cif === cifUtama) {
+      AppUI.toast('Anggota ini sudah menjadi anggota utama.', 'warning');
+      return;
+    }
+
+    const sudahAda = state.rombonganList.some(x =>
+      (x.cif && x.cif === a.cif) || (x.noRek && x.noRek !== '-' && x.noRek === a.noRek)
+    );
+    if (sudahAda) {
+      AppUI.toast('Anggota sudah ditambahkan ke daftar rombongan.', 'info');
+    } else {
+      const katNorm = (a.kategori === 'SW' || a.kategori === 'KLPK') ? a.kategori : 'PINJAMAN';
+      const defaultNominal = (state.statusKunjungan === 'Tidak Ditemui' || state.statusKunjungan === 'Belum Bayar')
+        ? 0
+        : (Number(a.nominalUtama) || 0);
+
+      state.rombonganList.push({
+        cif: a.cif || '-',
+        noRek: a.noRek || '-',
+        nama: a.nama || '-',
+        panggilan: a.panggilan || '',
+        desa: a.desa || '',
+        kategori: katNorm,
+        subBadge: a.subBadge || katNorm,
+        tagihanAsli: Number(a.nominalUtama) || 0,
+        status: state.statusKunjungan,
+        nominal: defaultNominal,
+        tanggalJanji: document.getElementById('kunjTanggalJanji')?.value || ''
+      });
+    }
+
+    const inp = document.getElementById('inputCariRombongan');
+    const dd = document.getElementById('ddRombonganHasil');
+    if (inp) inp.value = '';
+    if (dd) {
+      dd.innerHTML = '';
+      dd.classList.remove('is-open');
+    }
+    renderKartuRombongan();
+  };
+
+  const tambahRombonganCepat = () => {
+    if (state.hasilCariRombongan.length > 0) {
+      pilihAnggotaRombongan(0);
+      return;
+    }
+    const q = (document.getElementById('inputCariRombongan')?.value || '').trim();
+    if (q.length >= 2) onKetikCariRombongan(q);
+    else fokusCariRombongan();
+  };
+
+  const onInputNominalRombongan = (idx, el) => {
+    const item = state.rombonganList[idx];
+    if (!item || !el) return;
+    const num = parseRibuan(el.value);
+    item.nominal = num;
+    el.value = num > 0 ? formatRibuan(num) : '';
+  };
+
+  const isiTagihanRombongan = (idx) => {
+    const item = state.rombonganList[idx];
+    if (!item) return;
+    item.nominal = Number(item.tagihanAsli) || 0;
+    renderKartuRombongan();
+  };
+
+  const ubahFieldRombongan = (idx, field, val) => {
+    const item = state.rombonganList[idx];
+    if (!item) return;
+    if (field === 'status') {
+      item.status = val;
+      if (val === 'Tidak Ditemui' || val === 'Belum Bayar') {
+        item.nominal = 0;
+      } else if (item.nominal === 0 && item.tagihanAsli > 0) {
+        item.nominal = item.tagihanAsli;
+      }
+      renderKartuRombongan();
+    } else if (field === 'tanggalJanji') {
+      item.tanggalJanji = val;
+    }
+  };
+
+  const hapusAnggotaRombongan = (idx) => {
+    state.rombonganList.splice(idx, 1);
+    renderKartuRombongan();
+  };
+
+  const renderKartuRombongan = () => {
+    const badge = document.getElementById('badgeJumlahRombongan');
+    const box = document.getElementById('listKartuRombongan');
+    if (badge) badge.textContent = `(${state.rombonganList.length})`;
+    if (!box) return;
+
+    if (state.rombonganList.length === 0) {
+      box.innerHTML = '';
+      return;
+    }
+
+    box.innerHTML = state.rombonganList.map((item, idx) => {
+      const pgl = item.panggilan ? ` <span style="color:#d97706;">(${item.panggilan})</span>` : '';
+      const perluTglJanji = (item.status === 'Janji Bayar' || item.status === 'Bayar Sebagian' || item.status === 'Belum Bayar');
+      const sembunyiNominal = (item.status === 'Tidak Ditemui' || item.status === 'Belum Bayar');
+      const nominalFormatted = item.nominal > 0 ? formatRibuan(item.nominal) : '';
+
+      return `
+        <div class="rombongan-member-card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+            <div style="min-width:0;">
+              <div style="font-size:13px; font-weight:800; color:var(--kj-text-main); word-break:break-word;">
+                ${idx + 1}. ${item.nama}${pgl}
+              </div>
+              <div style="font-size:11px; color:var(--kj-text-muted); margin-top:2px;">
+                CIF: <strong>${item.cif}</strong> • Rek: <strong>${item.noRek || '-'}</strong> • <span style="color:#d97706; font-weight:700;">${item.kategori}</span>
+              </div>
+            </div>
+            <button type="button" onclick="ViewKunjungan.hapusAnggotaRombongan(${idx})"
+              style="background:#FEE2E2; color:#991B1B; border:1px solid #FECACA; border-radius:6px; padding:4px 8px; font-size:11px; font-weight:700; cursor:pointer; flex-shrink:0; white-space:nowrap;">
+              ✕ Hapus
+            </button>
+          </div>
+
+          <div class="rombongan-sub-grid">
+            <div>
+              <label style="display:block; font-size:11px; font-weight:700; color:var(--kj-text-muted); margin-bottom:3px;">Status Kunjungan</label>
+              <select class="kunj-select" style="padding:8px 9px; font-size:12.5px;"
+                onchange="ViewKunjungan.ubahFieldRombongan(${idx}, 'status', this.value)">
+                ${STATUS_OPTIONS.map(st => `
+                  <option value="${st.value}" ${item.status === st.value ? 'selected' : ''}>${st.icon} ${st.label}</option>
+                `).join('')}
+              </select>
+            </div>
+
+            ${!sembunyiNominal ? `
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:4px; margin-bottom:3px;">
+                  <label style="font-size:11px; font-weight:700; color:var(--kj-text-muted); margin:0;">Nominal (Rp)</label>
+                  ${item.tagihanAsli > 0 ? `
+                    <button type="button" onclick="ViewKunjungan.isiTagihanRombongan(${idx})"
+                      style="background:none; border:none; padding:0; font-size:10.5px; font-weight:800; color:#d97706; cursor:pointer; text-decoration:underline;">
+                      Tagihan: ${rp(item.tagihanAsli)}
+                    </button>
+                  ` : ''}
+                </div>
+                <input type="text" inputmode="numeric" class="kunj-input kunj-nominal-input"
+                  style="padding:8px 9px; font-size:13px;"
+                  value="${nominalFormatted}" placeholder="0"
+                  oninput="ViewKunjungan.onInputNominalRombongan(${idx}, this)">
+              </div>
+            ` : ''}
+
+            ${perluTglJanji ? `
+              <div style="grid-column: 1 / -1;">
+                <label style="display:block; font-size:11px; font-weight:700; color:var(--kj-text-muted); margin-bottom:3px;">
+                  Tanggal Janji Bayar ${item.status === 'Janji Bayar' ? '<span style="color:#ef4444;">*</span>' : '(Opsional)'}
+                </label>
+                <input type="date" class="kunj-input" style="padding:8px 9px; font-size:12.5px;"
+                  value="${item.tanggalJanji || ''}"
+                  onchange="ViewKunjungan.ubahFieldRombongan(${idx}, 'tanggalJanji', this.value)">
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  };
+
+  // =========================================================================
+  // SIGNATURE PAD & ARSIP TTD PER CIF
+  // =========================================================================
+  const initSignaturePad = () => {
+    const canvas = document.getElementById('canvasTtdAnggota');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.strokeStyle = '#111827';
+    ctx.lineWidth = 2.4;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    let drawing = false;
+
+    const getPos = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: (clientX - rect.left) * (canvas.width / rect.width),
+        y: (clientY - rect.top) * (canvas.height / rect.height)
+      };
+    };
+
+    const startDraw = (e) => {
+      if (e.cancelable) e.preventDefault();
+      drawing = true;
+      const pos = getPos(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+    };
+
+    const moveDraw = (e) => {
+      if (!drawing) return;
+      if (e.cancelable) e.preventDefault();
+      const pos = getPos(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      if (!state.hasSigned) {
+        state.hasSigned = true;
+        const lbl = document.getElementById('lblStatusTtd');
+        if (lbl) {
+          lbl.textContent = '✅ TTD baru terekam';
+          lbl.style.color = '#10b981';
+        }
+      }
+    };
+
+    const endDraw = () => {
+      if (!drawing) return;
+      drawing = false;
+      ctx.closePath();
+    };
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', moveDraw);
+    window.addEventListener('mouseup', endDraw);
+
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove', moveDraw, { passive: false });
+    canvas.addEventListener('touchend', endDraw);
+  };
+
+  const renderStateTtd = () => {
+    const boxSaved = document.getElementById('boxTtdTersimpan');
+    const boxNew = document.getElementById('boxCanvasTtdBaru');
+    const badge = document.getElementById('badgeTtdArsip');
+    const btnBatalBaru = document.getElementById('btnBatalTtdBaru');
+    const imgSaved = document.getElementById('imgTtdTersimpan');
+
+    if (state.savedTtd && state.savedTtd.ttdUrl && !state.modeTtdBaru) {
+      if (boxSaved) boxSaved.style.display = 'block';
+      if (boxNew) boxNew.style.display = 'none';
+      if (imgSaved) imgSaved.src = state.savedTtd.ttdUrl;
+      if (badge) {
+        badge.style.display = 'inline-block';
+        badge.textContent = `✓ TTD Tersimpan (${state.savedTtd.tanggal || 'Arsip'})`;
+      }
+    } else {
+      if (boxSaved) boxSaved.style.display = 'none';
+      if (boxNew) boxNew.style.display = 'block';
+      if (badge) badge.style.display = 'none';
+      if (btnBatalBaru) {
+        btnBatalBaru.style.display = (state.savedTtd && state.savedTtd.ttdUrl) ? 'inline-block' : 'none';
+      }
+    }
+  };
+
+  const aktifkanTtdBaru = () => {
+    state.modeTtdBaru = true;
+    hapusTtd();
+    renderStateTtd();
+  };
+
+  const kembaliKeTtdTersimpan = () => {
+    if (state.savedTtd && state.savedTtd.ttdUrl) {
+      state.modeTtdBaru = false;
+      state.hasSigned = false;
+      state.ttdBase64 = '';
+      renderStateTtd();
+    }
+  };
+
+  const hapusTtd = () => {
+    const canvas = document.getElementById('canvasTtdAnggota');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    state.hasSigned = false;
+    state.ttdBase64 = '';
+    const lbl = document.getElementById('lblStatusTtd');
+    if (lbl) {
+      lbl.textContent = 'Tanda tangan pada kotak putih';
+      lbl.style.color = '';
+    }
+  };
+
+  const muatArsipTtdAnggota = async (cif) => {
+    if (!cif || cif === '-') return;
+    const ttdSnapKey = `${KUNJ_CACHE_PREFIX}ttd_${cif}`;
+    const snapTtd = await readKunjSnapshot(ttdSnapKey);
+    if (snapTtd && snapTtd.payload && snapTtd.payload.ttdUrl) {
+      state.savedTtd = snapTtd.payload;
+      state.modeTtdBaru = false;
+      renderStateTtd();
+    }
+    if (typeof navigator !== 'undefined' && !navigator.onLine) return;
+    try {
+      const res = await AppAPI.call('getArsipTTDAnggota', { cif: cif });
+      if (res && res.sukses && res.found && res.ttdUrl) {
+        state.savedTtd = res;
+        state.modeTtdBaru = false;
+        saveKunjSnapshot(ttdSnapKey, res);
+        renderStateTtd();
+      } else if (!snapTtd) {
+        state.savedTtd = null;
+        state.modeTtdBaru = true;
+        renderStateTtd();
+      }
+    } catch (e) {}
+  };
+
+  // =========================================================================
+  // PARSER CERDAS TANGGAL JANJI BAYAR & KUNJUNGAN ULANG DI FRONTEND
+  // =========================================================================
+  const parseJadwalDariCatatanClient = (teks) => {
+    const txt = String(teks || '').trim();
+    if (!txt) return { janji: '', kunjUlang: '' };
+
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const toIso = (d) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+    const bulanMap = {
+      jan: 1, januari: 1, feb: 2, februari: 2, mar: 3, maret: 3,
+      apr: 4, april: 4, mei: 5, jun: 6, juni: 6, jul: 7, juli: 7,
+      agu: 8, agt: 8, agustus: 8, sep: 9, september: 9, okt: 10, oktober: 10,
+      nov: 11, november: 11, des: 12, desember: 12
+    };
+
+    const parseSeg = (seg) => {
+      const s = String(seg || '').toLowerCase();
+      let m = s.match(/(\d{4})-(\d{1,2})-(\d{1,2})/);
+      if (m) return `${m[1]}-${pad(m[2])}-${pad(m[3])}`;
+
+      m = s.match(/(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?/);
+      if (m) {
+        const dd = parseInt(m[1], 10);
+        const mm = parseInt(m[2], 10);
+        let yy = m[3] ? parseInt(m[3], 10) : now.getFullYear();
+        if (yy < 100) yy += 2000;
+        if (dd >= 1 && dd <= 31 && mm >= 1 && mm <= 12) return `${yy}-${pad(mm)}-${pad(dd)}`;
+      }
+
+      m = s.match(/(\d{1,2})\s+(januari|jan|februari|feb|maret|mar|april|apr|mei|juni|jun|juli|jul|agustus|agu|agt|september|sep|oktober|okt|november|nov|desember|des)(?:\s+(\d{2,4}))?/i);
+      if (m) {
+        const dd = parseInt(m[1], 10);
+        const mm = bulanMap[m[2].toLowerCase()] || (now.getMonth() + 1);
+        let yy = m[3] ? parseInt(m[3], 10) : now.getFullYear();
+        if (yy < 100) yy += 2000;
+        return `${yy}-${pad(mm)}-${pad(dd)}`;
+      }
+
+      m = s.match(/(?:tgl|tanggal)\.?\s*(\d{1,2})(?:\s+(bulan\s+depan|bln\s+depan))?/i);
+      if (m) {
+        const dd = parseInt(m[1], 10);
+        if (dd >= 1 && dd <= 31) {
+          let yy = now.getFullYear();
+          let mm = now.getMonth() + 1;
+          if (m[2] || dd < now.getDate()) {
+            mm += 1;
+            if (mm > 12) { mm = 1; yy += 1; }
+          }
+          return `${yy}-${pad(mm)}-${pad(dd)}`;
+        }
+      }
+
+      if (/besok/.test(s)) { const d = new Date(now); d.setDate(d.getDate() + 1); return toIso(d); }
+      if (/lusa/.test(s)) { const d = new Date(now); d.setDate(d.getDate() + 2); return toIso(d); }
+      if (/minggu\s+depan/.test(s)) { const d = new Date(now); d.setDate(d.getDate() + 7); return toIso(d); }
+      if (/akhir\s+bulan/.test(s)) { const d = new Date(now.getFullYear(), now.getMonth() + 1, 0); return toIso(d); }
+      return '';
+    };
+
+    let janji = '';
+    let kunjUlang = '';
+
+    const mKU = txt.match(/(?:kunjungan\s+ulang|dikunjungi\s+(?:lagi|ulang|kembali)|cek\s+(?:ulang|kembali)|kunjungi\s+lagi)[^.;\n]*/i);
+    if (mKU) kunjUlang = parseSeg(mKU[0]);
+
+    const mJB = txt.match(/(?:janji(?:\s+bayar)?|akan\s+(?:bayar|transfer|setor)|bayar\s+(?:tgl|tanggal|besok|lusa|minggu|akhir)|menyusul)[^.;\n]*/i);
+    if (mJB) janji = parseSeg(mJB[0]);
+
+    if (!janji && !kunjUlang) {
+      const umum = parseSeg(txt);
+      if (umum) {
+        if (state.statusKunjungan === 'Tidak Ditemui') kunjUlang = umum;
+        else janji = umum;
+      }
+    }
+    return { janji, kunjUlang };
+  };
+
+  const onInputCatatanChange = () => {
+    const txt = document.getElementById('kunjCatatanInput')?.value || '';
+    const inpTgl = document.getElementById('kunjTanggalJanji');
+    const badge = document.getElementById('badgeDeteksiCatatan');
+    const det = parseJadwalDariCatatanClient(txt);
+
+    state.detectedJanji = det.janji;
+    state.detectedKunjUlang = det.kunjUlang;
+
+    if (det.janji && inpTgl && !inpTgl.value) {
+      inpTgl.value = det.janji;
+    }
+
+    const tglJanjiAktif = (inpTgl && inpTgl.value) ? inpTgl.value : det.janji;
+    if (!badge) return;
+
+    const infoParts = [];
+    if (tglJanjiAktif) infoParts.push(`🟡 Janji Bayar: ${tglJanjiAktif}`);
+    if (det.kunjUlang) infoParts.push(`🔁 Kunjungan Ulang: ${det.kunjUlang}`);
+
+    if (infoParts.length > 0) {
+      badge.style.display = 'block';
+      badge.textContent = '🗓️ Otomatis masuk Pengingat → ' + infoParts.join('  |  ');
+    } else {
+      badge.style.display = 'none';
+    }
+  };
+
+  const setQuickTanggal = (mode) => {
+    const inp = document.getElementById('kunjTanggalJanji');
+    if (!inp) return;
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    let d = new Date(now);
+
+    if (typeof mode === 'number') {
+      d.setDate(d.getDate() + mode);
+    } else if (mode === 'TGL25') {
+      if (now.getDate() >= 25) d = new Date(now.getFullYear(), now.getMonth() + 1, 25);
+      else d = new Date(now.getFullYear(), now.getMonth(), 25);
+    } else if (mode === 'AKHIR') {
+      d = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    }
+
+    inp.value = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    onInputCatatanChange();
+  };
+
+  // =========================================================================
+  // PENAGIHAN TIM — WINDOW MODAL PILIH PETUGAS (AUTO-PILIH USER AKTIF)
+  // =========================================================================
+  const pastikanUserAktifDiTim = (arrTim) => {
+    const user = getUserInfo();
+    const namaAktif = String(user.namaPetugas || '').trim();
+    const hasil = Array.isArray(arrTim) ? arrTim.slice() : [];
+    if (!namaAktif) return hasil;
+
+    const matchDb = state.daftarPetugas.find(p => p.toLowerCase() === namaAktif.toLowerCase());
+    const namaFinal = matchDb || namaAktif;
+
+    if (!hasil.some(x => x.toLowerCase() === namaFinal.toLowerCase())) {
+      hasil.unshift(namaFinal);
+    }
+    return hasil;
+  };
+
+  const setJenisPenagihan = async (jenis) => {
+    state.jenisPenagihan = jenis;
+    document.getElementById('btnTypeIndividu')?.classList.toggle('active', jenis === 'INDIVIDU');
+    document.getElementById('btnTypeTim')?.classList.toggle('active', jenis === 'TIM');
+
+    const bar = document.getElementById('barTimTerpilih');
+    if (jenis === 'TIM') {
+      if (bar) bar.style.display = 'block';
+      state.timPetugas = pastikanUserAktifDiTim(state.timPetugas);
+      renderRingkasanTimTerpilih();
+      await bukaModalTim();
+    } else {
+      if (bar) bar.style.display = 'none';
+      state.timPetugas = [];
+    }
+  };
+
+  const bukaModalTim = async () => {
+    const lama = document.getElementById('modalPilihTimKunjungan');
+    if (lama) lama.remove();
+
+    if (state.daftarPetugas.length === 0) {
+      const snapPetugas = await readKunjSnapshot(KUNJ_CACHE_PREFIX + 'daftar_petugas');
+      if (snapPetugas && Array.isArray(snapPetugas.payload)) {
+        state.daftarPetugas = snapPetugas.payload;
+      }
+      if (typeof navigator === 'undefined' || navigator.onLine) {
+        try {
+          const res = await AppAPI.call('getDaftarPetugas', {});
+          if (res && res.sukses) {
+            state.daftarPetugas = res.list || [];
+            saveKunjSnapshot(KUNJ_CACHE_PREFIX + 'daftar_petugas', state.daftarPetugas);
+          }
+        } catch (e) {}
+      }
+    }
+
+    state.timPetugas = pastikanUserAktifDiTim(state.timPetugas);
+    state.tempTimPetugas = state.timPetugas.slice();
+
+    const modal = document.createElement('div');
+    modal.id = 'modalPilihTimKunjungan';
+    modal.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,0.65); z-index:9999; display:flex; align-items:center; justify-content:center; padding:16px;';
+    modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+
+    modal.innerHTML = `
+      <div onclick="event.stopPropagation()" style="background:var(--kj-card-bg); color:var(--kj-text-main); border:1px solid var(--kj-border); width:100%; max-width:430px; border-radius:14px; overflow:hidden; display:flex; flex-direction:column; max-height:85vh; box-shadow:0 12px 28px rgba(0,0,0,0.35);">
+        <div style="background:linear-gradient(135deg,#8B0000,#5C0000); color:#fff; padding:14px 16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-weight:800; color:#FFD700; font-size:15px;">Pilih Petugas Penagihan Tim</div>
+            <div style="font-size:11px; opacity:0.9;">Anda sudah otomatis terpilih — ketuk rekan tim lain yang ikut</div>
+          </div>
+          <button type="button" onclick="document.getElementById('modalPilihTimKunjungan').remove()"
+            style="background:none; border:none; color:#FFD700; font-size:18px; font-weight:700; cursor:pointer;">✕</button>
+        </div>
+
+        <div style="padding:10px; border-bottom:1px solid var(--kj-border);">
+          <input type="text" id="searchModalTimKunj" placeholder="🔍 Ketik nama petugas pendamping..."
+            oninput="ViewKunjungan.renderListKapsulTim(this.value)"
+            class="kunj-input" style="border:2px solid var(--kj-gold); font-size:13px;">
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:8px 10px; border-bottom:1px solid var(--kj-border);">
+          <button type="button" onclick="ViewKunjungan.pilihSemuaTimModal()"
+            style="background:#8B0000; color:#FFD700; border:none; padding:8px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">
+            ✓ Pilih Semua
+          </button>
+          <button type="button" onclick="ViewKunjungan.kosongkanTimModal()"
+            style="background:var(--kj-soft-cream-bg); color:var(--kj-text-main); border:1px solid var(--kj-border-strong); padding:8px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">
+            ✗ Reset Rekan Tim
+          </button>
+        </div>
+
+        <div id="wadahChipsModalTim" style="display:flex; flex-wrap:wrap; gap:8px; padding:14px; overflow-y:auto; flex:1; align-content:flex-start;"></div>
+
+        <div style="padding:12px; border-top:1px solid var(--kj-border); background:var(--kj-soft-cream-bg); display:flex; gap:8px;">
+          <button type="button" onclick="ViewKunjungan.terapkanTim()"
+            style="flex:1; background:#8B0000; color:#FFD700; border:none; padding:11px; border-radius:10px; font-size:13px; font-weight:800; cursor:pointer;">
+            Terapkan Petugas Tim (${state.tempTimPetugas.length})
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+    renderListKapsulTim('');
+  };
+
+  const renderListKapsulTim = (keyword = '') => {
+    const wadah = document.getElementById('wadahChipsModalTim');
+    if (!wadah) return;
+
+    const userAktif = String(getUserInfo().namaPetugas || '').trim().toLowerCase();
+    const q = keyword.toLowerCase().trim();
+    const list = state.daftarPetugas.filter(p => !q || p.toLowerCase().includes(q));
+
+    const fullList = list.slice();
+    if (!q && userAktif && !fullList.some(p => p.toLowerCase() === userAktif)) {
+      const namaUser = String(getUserInfo().namaPetugas || '').trim();
+      if (namaUser) fullList.unshift(namaUser);
+    }
+
+    if (fullList.length === 0) {
+      wadah.innerHTML = '<div style="font-size:12px; color:var(--kj-text-muted); width:100%; text-align:center; padding:16px;">Nama petugas tidak ditemukan.</div>';
+      return;
+    }
+
+    wadah.innerHTML = fullList.map(nama => {
+      const isUserSendiri = userAktif && nama.toLowerCase() === userAktif;
+      const terpilih = state.tempTimPetugas.some(x => x.toLowerCase() === nama.toLowerCase());
+      const safeNama = nama.replace(/'/g, "\\'");
+      return `
+        <button type="button" onclick="ViewKunjungan.toggleKapsulTim('${safeNama}')"
+          style="padding:7px 12px; border-radius:999px; font-size:12px; font-weight:700; cursor:pointer; transition:0.15s;
+          border:1.5px solid ${terpilih ? '#8B0000' : 'var(--kj-border-strong)'};
+          background:${terpilih ? '#8B0000' : 'var(--kj-surface-bg)'};
+          color:${terpilih ? '#FFD700' : 'var(--kj-text-sub)'};">
+          ${terpilih ? '✓ ' : '+ '}${nama}${isUserSendiri ? ' (Anda)' : ''}
+        </button>
+      `;
+    }).join('');
+  };
+
+  const toggleKapsulTim = (nama) => {
+    const userAktif = String(getUserInfo().namaPetugas || '').trim().toLowerCase();
+    if (userAktif && nama.toLowerCase() === userAktif) {
+      AppUI.toast('Anda adalah petugas aktif yang menginput kunjungan ini.', 'info');
+      return;
+    }
+    const idx = state.tempTimPetugas.findIndex(x => x.toLowerCase() === nama.toLowerCase());
+    if (idx >= 0) state.tempTimPetugas.splice(idx, 1);
+    else state.tempTimPetugas.push(nama);
+
+    const btnTerapkan = document.querySelector('#modalPilihTimKunjungan button[onclick="ViewKunjungan.terapkanTim()"]');
+    if (btnTerapkan) btnTerapkan.textContent = `Terapkan Petugas Tim (${state.tempTimPetugas.length})`;
+
+    const q = document.getElementById('searchModalTimKunj')?.value || '';
+    renderListKapsulTim(q);
+  };
+
+  const pilihSemuaTimModal = () => {
+    state.tempTimPetugas = pastikanUserAktifDiTim(state.daftarPetugas.slice());
+    const btnTerapkan = document.querySelector('#modalPilihTimKunjungan button[onclick="ViewKunjungan.terapkanTim()"]');
+    if (btnTerapkan) btnTerapkan.textContent = `Terapkan Petugas Tim (${state.tempTimPetugas.length})`;
+    const q = document.getElementById('searchModalTimKunj')?.value || '';
+    renderListKapsulTim(q);
+  };
+
+  const kosongkanTimModal = () => {
+    state.tempTimPetugas = pastikanUserAktifDiTim([]);
+    const btnTerapkan = document.querySelector('#modalPilihTimKunjungan button[onclick="ViewKunjungan.terapkanTim()"]');
+    if (btnTerapkan) btnTerapkan.textContent = `Terapkan Petugas Tim (${state.tempTimPetugas.length})`;
+    const q = document.getElementById('searchModalTimKunj')?.value || '';
+    renderListKapsulTim(q);
+  };
+
+  const terapkanTim = () => {
+    state.timPetugas = pastikanUserAktifDiTim(state.tempTimPetugas);
+    document.getElementById('modalPilihTimKunjungan')?.remove();
+    renderRingkasanTimTerpilih();
+  };
+
+  const hapusSatuAnggotaTim = (nama) => {
+    const userAktif = String(getUserInfo().namaPetugas || '').trim().toLowerCase();
+    if (userAktif && nama.toLowerCase() === userAktif) {
+      AppUI.toast('Nama Anda tidak bisa dihapus dari tim.', 'warning');
+      return;
+    }
+    state.timPetugas = state.timPetugas.filter(x => x.toLowerCase() !== nama.toLowerCase());
+    renderRingkasanTimTerpilih();
+  };
+
+  const renderRingkasanTimTerpilih = () => {
+    const lbl = document.getElementById('lblJumlahTim');
+    const chipsBox = document.getElementById('chipsTimTerpilih');
+    if (lbl) lbl.textContent = `👥 Anggota Tim (${state.timPetugas.length} orang)`;
+    if (!chipsBox) return;
+
+    const userAktif = String(getUserInfo().namaPetugas || '').trim().toLowerCase();
+
+    if (state.timPetugas.length === 0) {
+      chipsBox.innerHTML = '<span style="font-size:11px; color:var(--kj-text-muted);">Belum ada petugas dipilih.</span>';
+      return;
+    }
+
+    chipsBox.innerHTML = state.timPetugas.map(nama => {
+      const isUserSendiri = userAktif && nama.toLowerCase() === userAktif;
+      const safeNama = nama.replace(/'/g, "\\'");
+      return `
+        <span style="display:inline-flex; align-items:center; gap:5px; background:#8B0000; color:#FFD700; padding:4px 10px; border-radius:999px; font-size:11px; font-weight:700;">
+          ${nama}${isUserSendiri ? ' (Anda)' : ''}
+          ${!isUserSendiri ? `<span onclick="ViewKunjungan.hapusSatuAnggotaTim('${safeNama}')" style="cursor:pointer; font-weight:900;">✕</span>` : ''}
+        </span>
+      `;
+    }).join('');
+  };
+
+  // =========================================================================
+  // STATUS KUNJUNGAN & SKENARIO CATATAN LAPANGAN KONTEKSTUAL
+  // =========================================================================
+  const setStatusKunjungan = (statusVal) => {
+    state.statusKunjungan = statusVal;
+    state.selectedSkenario = '';
+
+    document.querySelectorAll('#gridStatusKunjungan .kunj-status-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-status') === statusVal);
+    });
+
+    const wrapTgl = document.getElementById('wrapTglJanjiKunj');
+    const lblTgl = document.getElementById('lblTglJanjiKunj');
+    const wrapNom = document.getElementById('wrapNominalKunj');
+
+    if (wrapTgl) {
+      const showTgl = (statusVal === 'Janji Bayar' || statusVal === 'Belum Bayar' || statusVal === 'Bayar Sebagian');
+      wrapTgl.style.display = showTgl ? 'block' : 'none';
+      if (lblTgl) {
+        lblTgl.innerHTML = statusVal === 'Janji Bayar'
+          ? 'Tanggal Janji Bayar <span>*</span>'
+          : 'Tanggal Janji Bayar (Opsional / Otomatis dari Catatan)';
+      }
+    }
+
+    if (wrapNom) {
+      const hideNom = (statusVal === 'Tidak Ditemui' || statusVal === 'Belum Bayar');
+      wrapNom.style.display = hideNom ? 'none' : 'block';
+    }
+
+    renderDropdownSkenario(statusVal);
+    renderChipResponAnggota();
+    onInputCatatanChange();
+  };
+
+  const renderDropdownSkenario = (statusVal) => {
+    const menu = document.getElementById('menuKunjSkenario');
+    const lbl = document.getElementById('lblKunjSkenarioTerpilih');
+    const baseList = state.skenarioMap[statusVal] || [];
+    const listSkenario = baseList.filter(s => s !== CUSTOM_SKENARIO_LABEL);
+
+    if (lbl) {
+      lbl.textContent = state.selectedSkenario
+        ? state.selectedSkenario
+        : `-- Pilih skenario kondisi (${statusVal}) --`;
+    }
+    if (!menu) return;
+
+    const opsiResetHtml = `
+      <div class="kunj-dd-opt ${!state.selectedSkenario ? 'is-selected' : ''}"
+        onclick="ViewKunjungan.pilihSkenarioByIdx(-1)">
+        <span style="opacity:0.85;">-- Kosongkan pilihan skenario --</span>
+        ${!state.selectedSkenario ? '<span>✓</span>' : ''}
+      </div>
+    `;
+
+    const opsiListHtml = listSkenario.map((s, idx) => {
+      const isSel = state.selectedSkenario === s;
+      return `
+        <div class="kunj-dd-opt ${isSel ? 'is-selected' : ''}"
+          onclick="ViewKunjungan.pilihSkenarioByIdx(${idx})">
+          <span style="flex:1; white-space:normal; word-break:break-word;">${s}</span>
+          ${isSel ? '<span style="flex-shrink:0;">✓</span>' : ''}
+        </div>
+      `;
+    }).join('');
+
+    const opsiCustomHtml = `
+      <div class="kunj-dd-opt is-custom-opt ${state.selectedSkenario === CUSTOM_SKENARIO_LABEL ? 'is-selected' : ''}"
+        onclick="ViewKunjungan.pilihSkenarioCustom()">
+        <span style="flex:1;">${CUSTOM_SKENARIO_LABEL}</span>
+        ${state.selectedSkenario === CUSTOM_SKENARIO_LABEL ? '<span>✓</span>' : ''}
+      </div>
+    `;
+
+    menu.innerHTML = opsiResetHtml + opsiListHtml + opsiCustomHtml;
+  };
+
+  const pilihSkenarioByIdx = (idx) => {
+    const baseList = (state.skenarioMap[state.statusKunjungan] || []).filter(s => s !== CUSTOM_SKENARIO_LABEL);
+    const teksSkenario = idx >= 0 ? (baseList[idx] || '') : '';
+    state.selectedSkenario = teksSkenario;
+
+    document.getElementById('ddKunjSkenarioWrap')?.classList.remove('is-open');
+    renderDropdownSkenario(state.statusKunjungan);
+    renderChipResponAnggota();
+
+    if (!teksSkenario) return;
+    const txtArea = document.getElementById('kunjCatatanInput');
+    if (!txtArea) return;
+
+    const current = txtArea.value.trim();
+    if (!current) {
+      txtArea.value = teksSkenario;
+    } else if (!current.includes(teksSkenario)) {
+      txtArea.value = teksSkenario + '. ' + current;
+    }
+    onInputCatatanChange();
+  };
+
+  const pilihSkenarioCustom = () => {
+    state.selectedSkenario = CUSTOM_SKENARIO_LABEL;
+    document.getElementById('ddKunjSkenarioWrap')?.classList.remove('is-open');
+    renderDropdownSkenario(state.statusKunjungan);
+    renderChipResponAnggota();
+
+    const txtArea = document.getElementById('kunjCatatanInput');
+    if (txtArea) {
+      txtArea.focus();
+    }
+  };
+
+  const muatKonfigurasiSkenario = async () => {
+    try {
+      const snapKonfig = await readKunjSnapshot(KUNJ_CACHE_PREFIX + 'konfig_skenario');
+      if (snapKonfig && snapKonfig.payload) {
+        if (snapKonfig.payload.identitas) state.identitas = snapKonfig.payload.identitas;
+        if (snapKonfig.payload.skenarioMap) {
+          state.skenarioMap = Object.assign({}, DEFAULT_SKENARIO_MAP, snapKonfig.payload.skenarioMap);
+          renderDropdownSkenario(state.statusKunjungan);
+        }
+      }
+      if (typeof navigator !== 'undefined' && !navigator.onLine) return;
+      const res = await AppAPI.call('getKonfigurasiCatatanKunjungan', {});
+      if (res && res.sukses) {
+        if (res.identitas) state.identitas = res.identitas;
+        if (res.skenarioMap) {
+          state.skenarioMap = Object.assign({}, DEFAULT_SKENARIO_MAP, res.skenarioMap);
+          renderDropdownSkenario(state.statusKunjungan);
+        }
+        saveKunjSnapshot(KUNJ_CACHE_PREFIX + 'konfig_skenario', {
+          identitas: state.identitas,
+          skenarioMap: res.skenarioMap || state.skenarioMap
+        });
+      }
+    } catch (e) {}
+  };
+
+  const setKategori = (kat) => {
+    state.kategori = kat === 'NON_TAGIHAN' ? 'PINJAMAN' : kat;
+    ['PINJAMAN', 'SW', 'KLPK'].forEach(k => {
+      document.getElementById('btnKat' + k)?.classList.toggle('active', state.kategori === k);
+    });
+    if (state.selectedMember) {
+      state.selectedMember.kategori = state.kategori;
+      renderMemberBox();
+    }
+  };
+
+  const terapkanDataAnggota = (m) => {
+    state.selectedMember = m;
+    state.rombonganList = state.rombonganList.filter(x => x.cif !== m.cif);
+    renderKartuRombongan();
+
+    const inpCari = document.getElementById('kunjInputCari');
+    if (inpCari) {
+      inpCari.value = (m.noRek && m.noRek !== '-') ? m.noRek : m.cif;
+    }
+
+    const quickNomBox = document.getElementById('wrapQuickNominalChips');
+    const nomUtama = Number(m.nominalUtama) || 0;
+    const nomProg = Number(m.nominalProgram) || 0;
+
+    if (nomUtama > 0) {
+      setNominalUtama(nomUtama);
+    } else {
+      setNominalUtama(0);
+    }
+
+    if (quickNomBox) {
+      const chips = [];
+      if (nomUtama > 0) {
+        chips.push(`<button type="button" class="kunj-quick-chip" onclick="ViewKunjungan.setNominalUtama(${nomUtama})">Tagihan Normal: ${rp(nomUtama)}</button>`);
+      }
+      if (nomProg > 0 && nomProg !== nomUtama) {
+        chips.push(`<button type="button" class="kunj-quick-chip" onclick="ViewKunjungan.setNominalUtama(${nomProg})">Program: ${rp(nomProg)}</button>`);
+      }
+      quickNomBox.innerHTML = chips.join('');
+    }
+
+    if (m.savedTtd && m.savedTtd.ttdUrl) {
+      state.savedTtd = m.savedTtd;
+      state.modeTtdBaru = false;
+      renderStateTtd();
+    } else if (m.cif) {
+      muatArsipTtdAnggota(m.cif);
+    }
+
+    renderMemberBox();
+  };
+
+  const renderMemberBox = () => {
+    const box = document.getElementById('kunjMemberPreview');
+    if (!box) return;
+    const m = state.selectedMember;
+    if (!m) {
+      box.innerHTML = '';
+      return;
+    }
+
+    const targetSheet = state.kategori === 'KLPK'
+      ? '03_PenangananKLPK'
+      : (state.kategori === 'SW' ? '20_RiwayatPenangananSW' : '11_Penanganan');
+
+    box.innerHTML = `
+      <div class="kunj-member-box">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+          <div style="min-width:0;">
+            <div style="font-weight:800; font-size:14px; color:var(--kj-text-main); word-break:break-word;">
+              ${m.nama} ${m.panggilan ? `<span style="color:#d97706;">(${m.panggilan})</span>` : ''}
+            </div>
+            <div style="font-size:11px; color:var(--kj-text-muted); margin-top:2px;">
+              CIF: <strong>${m.cif}</strong> • Rek: <strong>${m.noRek || '-'}</strong> ${m.desa ? '• ' + m.desa : ''}
+            </div>
+          </div>
+          <span style="background:#8B0000; color:#FFD700; padding:3px 8px; border-radius:6px; font-size:10px; font-weight:800; flex-shrink:0; white-space:nowrap;">
+            ${state.kategori}
+          </span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap; margin-top:8px; padding-top:8px; border-top:1px dashed var(--kj-border-strong); font-size:12px;">
+          <span>Tagihan: <strong style="color:#d97706;">${rp(m.nominalUtama)}</strong></span>
+          <span style="font-size:11px; color:var(--kj-text-muted);">Target DB: <strong>${targetSheet}</strong></span>
+        </div>
+      </div>
+    `;
+  };
+
+  const cariAnggota = async () => {
+    const keyword = (document.getElementById('kunjInputCari')?.value || '').trim();
+    if (!keyword) {
+      AppUI.toast('Masukkan No. Rekening atau CIF terlebih dahulu.', 'warning');
+      return;
+    }
+
+    const btn = document.getElementById('btnCariAnggotaKunj');
+    if (btn) { btn.disabled = true; btn.textContent = '...'; }
+
+    try {
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        const lokalAnggota = await cariAnggotaDariCacheLokal(keyword, 'SINGLE');
+        if (lokalAnggota) {
+          if (lokalAnggota.kategori && lokalAnggota.kategori !== 'NON_TAGIHAN') {
+            setKategori(lokalAnggota.kategori);
+          }
+          terapkanDataAnggota(lokalAnggota);
+          AppUI.toast('📡 Data anggota dimuat dari cache offline: ' + lokalAnggota.nama, 'info');
+        } else {
+          AppUI.toast('Mode Offline: anggota tidak ada di cache lokal. Anda tetap bisa mengisi input secara manual.', 'warning');
+        }
+        return;
+      }
+
+      const res = await AppAPI.call('cariAnggotaTerpaduKunjungan', {
+        keyword: keyword,
+        kategoriPreferensi: state.kategori
+      });
+
+      if (!res || !res.sukses || !res.anggota) {
+        const lokalAnggota = await cariAnggotaDariCacheLokal(keyword, 'SINGLE');
+        if (lokalAnggota) {
+          if (lokalAnggota.kategori && lokalAnggota.kategori !== 'NON_TAGIHAN') {
+            setKategori(lokalAnggota.kategori);
+          }
+          terapkanDataAnggota(lokalAnggota);
+          AppUI.toast('📡 Data anggota dimuat dari cache offline: ' + lokalAnggota.nama, 'info');
+          return;
+        }
+        AppUI.toast(res?.error || 'Anggota tidak ditemukan di Pinjaman, SW, maupun KLPK.', 'warning');
+        return;
+      }
+
+      if (res.anggota.kategori && res.anggota.kategori !== 'NON_TAGIHAN') {
+        setKategori(res.anggota.kategori);
+      }
+      terapkanDataAnggota(res.anggota);
+      AppUI.toast('Data anggota ditemukan: ' + res.anggota.nama, 'success');
+    } catch (e) {
+      const lokalAnggota = await cariAnggotaDariCacheLokal(keyword, 'SINGLE');
+      if (lokalAnggota) {
+        if (lokalAnggota.kategori && lokalAnggota.kategori !== 'NON_TAGIHAN') {
+          setKategori(lokalAnggota.kategori);
+        }
+        terapkanDataAnggota(lokalAnggota);
+        AppUI.toast('📡 Sinyal lemah: data anggota dimuat dari cache offline (' + lokalAnggota.nama + ').', 'info');
+        return;
+      }
+      AppUI.toast('Gagal mencari anggota: ' + e.message, 'error');
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = 'Cari'; }
+    }
+  };
+
+  // =========================================================================
+  // AUTO-GPS SAAT BUKA MENU + TOMBOL UPDATE LOKASI GPS
+  // =========================================================================
+  const ambilGPS = (silent = false) => {
+    const lbl = document.getElementById('lblGpsKunj');
+    const sub = document.getElementById('gpsStatusSub');
+    if (!navigator.geolocation) {
+      if (!silent) AppUI.toast('Browser tidak mendukung GPS.', 'warning');
+      if (sub) sub.textContent = '⚠️ Perangkat tidak mendukung GPS.';
+      return;
+    }
+    if (lbl) lbl.textContent = 'Update Lokasi GPS';
+    if (sub) sub.textContent = '🟡 Mengunci titik lokasi GPS...';
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        state.lat = pos.coords.latitude.toFixed(6);
+        state.lng = pos.coords.longitude.toFixed(6);
+        const akurasi = Math.round(pos.coords.accuracy || 0);
+        if (lbl) lbl.textContent = 'Update Lokasi GPS';
+        if (sub) sub.innerHTML = `<span style="color:#10b981; font-weight:700;">🟢 GPS Terkunci: ${state.lat}, ${state.lng}</span> (±${akurasi}m)`;
+        if (!silent) AppUI.toast('Lokasi GPS berhasil diperbarui.', 'success');
+      },
+      () => {
+        if (lbl) lbl.textContent = 'Update Lokasi GPS';
+        if (sub) sub.innerHTML = `<span style="color:#f59e0b;">⚠️ GPS belum terkunci — ketuk "Update Lokasi GPS"</span>`;
+        if (!silent) AppUI.toast('Tidak dapat mengambil titik lokasi GPS. Pastikan izin lokasi aktif.', 'warning');
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 15000 }
+    );
+  };
+
+  // =========================================================================
+  // FOTO BUKTI (KAMERA LANGSUNG / GALERI HP) DENGAN WATERMARK OTOMATIS
+  // =========================================================================
+  const handleFoto = (input, sumber = 'kamera') => {
+    const file = input.files && input.files[0];
+    if (!file) return;
+
+    const statusFotoEl = document.getElementById('statusFotoWatermark');
+    const lblKamera = document.getElementById('lblFotoKamera');
+    const lblGaleri = document.getElementById('lblFotoGaleri');
+
+    if (statusFotoEl) {
+      statusFotoEl.innerHTML = '⏳ Memproses foto & menambahkan watermark...';
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const maxW = 900;
+        const scale = img.width > maxW ? maxW / img.width : 1;
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, '0');
+        const waktuStr = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+        const user = getUserInfo();
+        const m = state.selectedMember || {};
+        const inputId = (document.getElementById('kunjInputCari')?.value || '').trim();
+        const ekstraRomb = state.rombonganList.length > 0 ? ` + ${state.rombonganList.length} anggota 1 rumah` : '';
+        const namaAnggota = (m.nama ? `${m.nama} (${m.cif || inputId})` : (inputId || 'Anggota')) + ekstraRomb;
+        const gpsStr = (state.lat && state.lng) ? `${state.lat}, ${state.lng}` : 'GPS belum dikunci';
+
+        const bannerH = Math.max(66, Math.round(canvas.width * 0.11));
+        const yTop = canvas.height - bannerH;
+        const fontTitle = Math.max(12, Math.round(canvas.width * 0.019));
+        const fontSub = Math.max(10, Math.round(canvas.width * 0.0155));
+        const padX = Math.max(12, Math.round(canvas.width * 0.02));
+
+        ctx.fillStyle = 'rgba(28, 0, 0, 0.80)';
+        ctx.fillRect(0, yTop, canvas.width, bannerH);
+
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(0, yTop, canvas.width, 3);
+
+        ctx.font = `700 ${fontTitle}px sans-serif`;
+        ctx.fillStyle = '#FFD700';
+        const headerLembaga = `${state.identitas.koperasi} • ${state.identitas.namaTP} [${state.kategori}]`;
+        ctx.fillText(headerLembaga, padX, yTop + Math.round(bannerH * 0.34));
+
+        ctx.font = `600 ${fontSub}px sans-serif`;
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillText(`Anggota: ${namaAnggota} • Status: ${state.statusKunjungan}`, padX, yTop + Math.round(bannerH * 0.63));
+
+        ctx.font = `${fontSub}px sans-serif`;
+        ctx.fillStyle = '#E5E7EB';
+        ctx.fillText(`${waktuStr} WITA • Petugas: ${user.namaPetugas || '-'} • GPS: ${gpsStr}`, padX, yTop + Math.round(bannerH * 0.89));
+
+        state.fotoBase64 = canvas.toDataURL('image/jpeg', 0.80);
+
+        if (lblKamera) lblKamera.textContent = sumber === 'kamera' ? 'Kamera ✓' : 'Kamera';
+        if (lblGaleri) lblGaleri.textContent = sumber === 'galeri' ? 'Dari Galeri ✓' : 'Dari Galeri';
+        if (statusFotoEl) {
+          const asalTeks = sumber === 'galeri' ? 'Galeri HP' : 'Kamera Langsung';
+          statusFotoEl.innerHTML = `<span style="color:#10b981; font-weight:700;">✅ Foto (${asalTeks}) siap & sudah diberi watermark</span>`;
+        }
+
+        const prev = document.getElementById('previewFotoKunjSatuPintu');
+        if (prev) {
+          prev.innerHTML = `
+            <div style="position:relative; margin-top:8px;">
+              <img src="${state.fotoBase64}" style="width:100%; max-height:195px; object-fit:cover; border-radius:10px; border:1.5px solid #8B0000; display:block;">
+              <button type="button" onclick="ViewKunjungan.hapusFoto()"
+                style="position:absolute; top:8px; right:8px; background:rgba(139,0,0,0.9); color:#FFD700; border:1px solid #FFD700; border-radius:8px; padding:4px 9px; font-size:11px; font-weight:800; cursor:pointer;">
+                🗑️ Hapus Foto
+              </button>
+            </div>
+          `;
+        }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const hapusFoto = () => {
+    state.fotoBase64 = '';
+    const inpKam = document.getElementById('inputFotoKamera');
+    const inpGal = document.getElementById('inputFotoGaleri');
+    if (inpKam) inpKam.value = '';
+    if (inpGal) inpGal.value = '';
+
+    const lblKam = document.getElementById('lblFotoKamera');
+    const lblGal = document.getElementById('lblFotoGaleri');
+    if (lblKam) lblKam.textContent = 'Kamera';
+    if (lblGal) lblGal.textContent = 'Dari Galeri';
+
+    const statusFotoEl = document.getElementById('statusFotoWatermark');
+    if (statusFotoEl) statusFotoEl.innerHTML = '';
+
+    const prev = document.getElementById('previewFotoKunjSatuPintu');
+    if (prev) prev.innerHTML = '';
+  };
+
+  const resetForm = () => {
+    state.selectedMember = null;
+    state.timPetugas = [];
+    state.rombonganList = [];
+    state.hasilCariRombongan = [];
+    state.savedTtd = null;
+    state.modeTtdBaru = true;
+    state.detectedJanji = '';
+    state.detectedKunjUlang = '';
+    state.selectedSkenario = '';
+    state.selectedRespon = '';
+    let lastTrans = state.transportasi || 'Motor Pribadi';
+    try {
+      lastTrans = localStorage.getItem('CU_LAST_TRANSPORTASI') || lastTrans;
+    } catch (eLs) {}
+    state.jenisPenagihan = 'INDIVIDU';
+    state.transportasi = lastTrans;
+    document.getElementById('btnTypeIndividu')?.classList.add('active');
+    document.getElementById('btnTypeTim')?.classList.remove('active');
+    const barTim = document.getElementById('barTimTerpilih');
+    if (barTim) barTim.style.display = 'none';
+    document.getElementById('formKunjunganSatuPintu')?.reset();
+    onInputTransportasi(lastTrans);
+    const inpTransReset = document.getElementById('kunjTransportasiInput');
+    if (inpTransReset) inpTransReset.value = lastTrans;
+    renderMemberBox();
+    renderKartuRombongan();
+    renderRingkasanTimTerpilih();
+    hapusTtd();
+    renderStateTtd();
+    hapusFoto();
+    setStatusKunjungan('Bayar Tunai');
+
+    const badgeDet = document.getElementById('badgeDeteksiCatatan');
+    if (badgeDet) badgeDet.style.display = 'none';
+    const quickNom = document.getElementById('wrapQuickNominalChips');
+    if (quickNom) quickNom.innerHTML = '';
+
+    ambilGPS(true);
+  };
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+    const inputId = (document.getElementById('kunjInputCari')?.value || '').trim();
+    if (!inputId) {
+      AppUI.toast('No. Rekening / CIF wajib diisi.', 'warning');
+      return;
+    }
+
+    const transportasiVal = (document.getElementById('kunjTransportasiInput')?.value || state.transportasi || 'Motor Pribadi').trim();
+    if (!transportasiVal) {
+      AppUI.toast('Moda transportasi kunjungan wajib diisi.', 'warning');
+      return;
+    }
+
+    const catatanRaw = (document.getElementById('kunjCatatanInput')?.value || '').trim();
+    const det = parseJadwalDariCatatanClient(catatanRaw);
+    const tglJanjiInput = document.getElementById('kunjTanggalJanji')?.value || det.janji || '';
+
+    if (state.statusKunjungan === 'Janji Bayar' && !tglJanjiInput) {
+      AppUI.toast('Tanggal Janji Bayar wajib diisi (atau ketik tgl janji di catatan).', 'warning');
+      return;
+    }
+
+    for (let i = 0; i < state.rombonganList.length; i++) {
+      const rItem = state.rombonganList[i];
+      if (rItem.status === 'Janji Bayar' && !rItem.tanggalJanji && !det.janji) {
+        AppUI.toast(`Tanggal Janji Bayar wajib diisi untuk anggota rombongan: ${rItem.nama}`, 'warning');
+        return;
+      }
+    }
+
+    if (state.hasSigned) {
+      const canvasTtd = document.getElementById('canvasTtdAnggota');
+      if (canvasTtd) state.ttdBase64 = canvasTtd.toDataURL('image/png');
+    } else {
+      state.ttdBase64 = '';
+    }
+
+    const existingTtdUrl = (!state.hasSigned && state.savedTtd && state.savedTtd.ttdUrl)
+      ? state.savedTtd.ttdUrl
+      : '';
+
+    const user = getUserInfo();
+    const m = state.selectedMember || {};
+    const daftarTimKirim = state.jenisPenagihan === 'TIM'
+      ? pastikanUserAktifDiTim(state.timPetugas)
+      : [];
+
+    if (state.jenisPenagihan === 'TIM' && daftarTimKirim.length < 2) {
+      AppUI.toast('Penagihan Tim minimal terdiri dari 2 petugas. Tambahkan rekan tim terlebih dahulu.', 'warning');
+      await bukaModalTim();
+      return;
+    }
+
+    try { localStorage.setItem('CU_LAST_TRANSPORTASI', transportasiVal); } catch (eLs) {}
+
+    const btn = document.getElementById('btnSimpanKunjSatuPintu');
+    const totalAnggotaSimpan = 1 + state.rombonganList.length;
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<i class="ph ph-spinner ph-spin"></i> Menyimpan${totalAnggotaSimpan > 1 ? ` (1/${totalAnggotaSimpan})` : ''}...`;
+    }
+
+    try {
+      const jenisKunj = state.jenisPenagihan === 'TIM' ? 'Penagihan Tim' : 'Kunjungan Lapangan';
+      const namaUtama = m.nama || ('Anggota ' + inputId);
+      const nominalUtamaAngka = parseRibuan(document.getElementById('kunjNominalInput')?.value);
+      const responObj = RESPON_ANGGOTA_OPTIONS.find(o => o.id === state.selectedRespon);
+      const responLabel = responObj ? responObj.fullText : '';
+
+      const infoResponTag = responLabel ? ` [Respon: ${responLabel}]` : '';
+      const infoRombonganUtama = state.rombonganList.length > 0
+        ? ` [1 Rumah bersama: ${state.rombonganList.map(x => x.nama).join(', ')}]`
+        : '';
+
+      const payloadUtama = {
+        kategori: state.kategori,
+        cif: m.cif || inputId,
+        noRek: (m.noRek && m.noRek !== '-') ? m.noRek : inputId,
+        nama: namaUtama,
+        jenis: jenisKunj,
+        transportasi: transportasiVal,
+        hasil: state.statusKunjungan,
+        responAnggota: responLabel,
+        tanggalJanji: tglJanjiInput,
+        tanggalKunjunganUlang: det.kunjUlang || '',
+        nominalJanji: nominalUtamaAngka,
+        catatan: (catatanRaw + infoResponTag + infoRombonganUtama).trim(),
+        petugas: user.namaPetugas || 'Petugas',
+        timPetugas: daftarTimKirim,
+        fotoBase64: state.fotoBase64,
+        ttdBase64: state.ttdBase64,
+        existingTtdUrl: existingTtdUrl,
+        lat: state.lat,
+        lng: state.lng
+      };
+
+      const buildPayloadRombongan = (rItem, ttdArsipAnggota = '') => {
+        const catatanRombongan = `${catatanRaw ? catatanRaw + ' ' : ''}${responLabel ? `[Respon: ${responLabel}] ` : ''}[Kunjungan 1 Rumah bersama ${namaUtama}]`.trim();
+        return {
+          kategori: rItem.kategori || 'PINJAMAN',
+          cif: rItem.cif || '-',
+          noRek: (rItem.noRek && rItem.noRek !== '-') ? rItem.noRek : (rItem.cif || '-'),
+          nama: rItem.nama,
+          jenis: jenisKunj,
+          transportasi: transportasiVal,
+          hasil: rItem.status || state.statusKunjungan,
+          responAnggota: responLabel,
+          tanggalJanji: rItem.tanggalJanji || det.janji || '',
+          tanggalKunjunganUlang: det.kunjUlang || '',
+          nominalJanji: parseRibuan(rItem.nominal),
+          catatan: catatanRombongan,
+          petugas: user.namaPetugas || 'Petugas',
+          timPetugas: daftarTimKirim,
+          fotoBase64: state.fotoBase64,
+          ttdBase64: '',
+          existingTtdUrl: ttdArsipAnggota,
+          lat: state.lat,
+          lng: state.lng
+        };
+      };
+
+      const antrekanSemuaOffline = async (mulaiDariRombonganIdx = -1) => {
+        let jmlAntre = 0;
+        if (mulaiDariRombonganIdx < 0) {
+          await enqueueKunjunganOffline(payloadUtama, `${namaUtama} (${state.kategori})`);
+          jmlAntre++;
+        }
+        const startIdx = Math.max(0, mulaiDariRombonganIdx);
+        for (let k = startIdx; k < state.rombonganList.length; k++) {
+          const rItem = state.rombonganList[k];
+          let cachedTtdUrl = '';
+          if (rItem.cif && rItem.cif !== '-') {
+            const snapTtd = await readKunjSnapshot(`${KUNJ_CACHE_PREFIX}ttd_${rItem.cif}`);
+            if (snapTtd && snapTtd.payload && snapTtd.payload.ttdUrl) {
+              cachedTtdUrl = snapTtd.payload.ttdUrl;
+            }
+          }
+          const pRomb = buildPayloadRombongan(rItem, cachedTtdUrl);
+          await enqueueKunjunganOffline(pRomb, `${rItem.nama} (1 Rumah)`);
+          jmlAntre++;
+        }
+        return jmlAntre;
+      };
+
+      // Jalur 1: Perangkat sedang Offline (mati sinyal)
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        const jml = await antrekanSemuaOffline(-1);
+        AppUI.toast(`📡 Mode Offline: ${jml} data kunjungan (termasuk Foto & TTD) disimpan di HP dan otomatis dikirim saat sinyal kembali.`, 'info');
+        resetForm();
+        muatRingkasanHariIni();
+        return;
+      }
+
+      // Jalur 2: Online (dengan fallback otomatis ke antrean offline jika sinyal tiba-tiba putus)
+      let res = null;
+      try {
+        res = await AppAPI.call('simpanKunjunganTerpadu', payloadUtama);
+      } catch (errUtama) {
+        if (isNetworkLikeError(errUtama)) {
+          const jml = await antrekanSemuaOffline(-1);
+          AppUI.toast(`📡 Sinyal terputus saat mengirim: ${jml} data kunjungan disimpan ke antrean offline HP.`, 'info');
+          resetForm();
+          muatRingkasanHariIni();
+          return;
+        }
+        throw errUtama;
+      }
+
+      if (!res || !res.sukses) {
+        AppUI.toast('Gagal menyimpan anggota utama: ' + (res?.error || 'Error server'), 'error');
+        return;
+      }
+
+      let suksesTambahan = 0;
+      let antreTambahan = 0;
+      const gagalTambahan = [];
+
+      for (let i = 0; i < state.rombonganList.length; i++) {
+        const rItem = state.rombonganList[i];
+        if (btn) {
+          btn.innerHTML = `<i class="ph ph-spinner ph-spin"></i> Menyimpan (${i + 2}/${totalAnggotaSimpan})...`;
+        }
+
+        let ttdArsipAnggota = '';
+        if (rItem.cif && rItem.cif !== '-') {
+          const snapTtd = await readKunjSnapshot(`${KUNJ_CACHE_PREFIX}ttd_${rItem.cif}`);
+          if (snapTtd && snapTtd.payload && snapTtd.payload.ttdUrl) {
+            ttdArsipAnggota = snapTtd.payload.ttdUrl;
+          } else {
+            try {
+              const resTtd = await AppAPI.call('getArsipTTDAnggota', { cif: rItem.cif });
+              if (resTtd && resTtd.sukses && resTtd.found && resTtd.ttdUrl) {
+                ttdArsipAnggota = resTtd.ttdUrl;
+                saveKunjSnapshot(`${KUNJ_CACHE_PREFIX}ttd_${rItem.cif}`, resTtd);
+              }
+            } catch (eTtd) {}
+          }
+        }
+
+        const payloadRomb = buildPayloadRombongan(rItem, ttdArsipAnggota);
+
+        try {
+          const resRomb = await AppAPI.call('simpanKunjunganTerpadu', payloadRomb);
+          if (resRomb && resRomb.sukses) suksesTambahan++;
+          else gagalTambahan.push(rItem.nama);
+        } catch (errRomb) {
+          if (isNetworkLikeError(errRomb)) {
+            antreTambahan += await antrekanSemuaOffline(i);
+            break;
+          }
+          gagalTambahan.push(rItem.nama);
+        }
+      }
+
+      let infoExtra = '';
+      if (res.detectedJanji) infoExtra += ` • Janji: ${res.detectedJanji}`;
+      if (res.detectedKunjUlang) infoExtra += ` • Kunj. Ulang: ${res.detectedKunjUlang}`;
+      if (suksesTambahan > 0) infoExtra += ` • +${suksesTambahan} anggota 1 rumah tersimpan`;
+      if (antreTambahan > 0) infoExtra += ` • +${antreTambahan} masuk antrean offline`;
+
+      if (gagalTambahan.length > 0) {
+        AppUI.toast(`Tersimpan sebagian. Gagal pada: ${gagalTambahan.join(', ')}`, 'warning');
+      } else {
+        AppUI.toast('Tersimpan ke ' + res.target + infoExtra, 'success');
+      }
+
+      resetForm();
+      muatRingkasanHariIni();
+    } catch (err) {
+      AppUI.toast('Error koneksi: ' + err.message, 'error');
+    } finally {
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="ph ph-floppy-disk"></i> Simpan Data'; }
+    }
+  };
+
+  const muatRingkasanHariIni = async () => {
+    const user = getUserInfo();
+    const todayIso = new Date().toISOString().slice(0, 10);
+    const snapKey = `${KUNJ_CACHE_PREFIX}ringkasan_${todayIso}_${String(user.namaPetugas || '').trim().toLowerCase()}`;
+
+    const terapkanRingkasanDenganAntrean = async (baseStats) => {
+      const q = await readKunjQueue();
+      let addTotal = 0;
+      let addNom = 0;
+      let addBayar = 0;
+      let addJanji = 0;
+      let addBelum = 0;
+
+      q.forEach(item => {
+        const p = item.payload || {};
+        addTotal++;
+        addNom += Number(p.nominalJanji) || 0;
+        const h = String(p.hasil || '');
+        if (h.includes('Bayar Tunai') || h.includes('Transfer')) addBayar++;
+        else if (h.includes('Janji')) addJanji++;
+        else addBelum++;
+      });
+
+      const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      const totKunj = (Number(baseStats.totalKunjungan) || 0) + addTotal;
+      setTxt('sumTotalKunj', addTotal > 0 ? `${totKunj} (${addTotal} offline)` : totKunj);
+      setTxt('sumTotalNominal', rp((Number(baseStats.totalNominal) || 0) + addNom));
+      setTxt('sumBayar', (Number(baseStats.bayar) || 0) + addBayar);
+      setTxt('sumJanji', (Number(baseStats.janji) || 0) + addJanji);
+      setTxt('sumBelum', (Number(baseStats.belum) || 0) + addBelum);
+    };
+
+    const snapLama = await readKunjSnapshot(snapKey);
+    if (snapLama && snapLama.payload) {
+      await terapkanRingkasanDenganAntrean(snapLama.payload);
+    } else {
+      await terapkanRingkasanDenganAntrean({ totalKunjungan: 0, totalNominal: 0, bayar: 0, janji: 0, belum: 0 });
+    }
+
+    if (typeof navigator !== 'undefined' && !navigator.onLine) return;
+
+    try {
+      const res = await AppAPI.call('getRingkasanKunjunganHariIni', {
+        namaPetugas: user.namaPetugas,
+        level: user.level
+      });
+      if (!res || !res.sukses) return;
+
+      const stats = {
+        totalKunjungan: res.totalKunjungan || 0,
+        totalNominal: res.totalNominal || 0,
+        bayar: res.bayar || 0,
+        janji: res.janji || 0,
+        belum: res.belum || 0
+      };
+      saveKunjSnapshot(snapKey, stats);
+      await terapkanRingkasanDenganAntrean(stats);
+    } catch (e) {}
+  };
+
+  return {
+    render,
+    flushKunjunganOfflineQueue,
+    kembaliKeTagihan,
+    setTransportasi,
+    onInputTransportasi,
+    toggleResponAnggota,
+    fokusCariRombongan,
+    onKetikCariRombongan,
+    pilihAnggotaRombongan,
+    tambahRombonganCepat,
+    onInputNominalRombongan,
+    isiTagihanRombongan,
+    ubahFieldRombongan,
+    hapusAnggotaRombongan,
+    setNominalUtama,
+    onInputNominalUtama,
+    hapusTtd,
+    aktifkanTtdBaru,
+    kembaliKeTtdTersimpan,
+    setJenisPenagihan,
+    bukaModalTim,
+    renderListKapsulTim,
+    toggleKapsulTim,
+    pilihSemuaTimModal,
+    kosongkanTimModal,
+    terapkanTim,
+    hapusSatuAnggotaTim,
+    setKategori,
+    setStatusKunjungan,
+    toggleDropdownSkenario,
+    pilihSkenarioByIdx,
+    pilihSkenarioCustom,
+    onInputCatatanChange,
+    setQuickTanggal,
+    cariAnggota,
+    ambilGPS,
+    handleFoto,
+    hapusFoto,
+    resetForm,
+    submitForm
+  };
+})();
+</script>
