@@ -1,4 +1,128 @@
-<style>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#8B0000" />
+  <title>Data Anggota & Tagihan (Offline) — TP Saluampak</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: #140b0b;
+      color: #f9fafb;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .standalone-shell {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 10px 12px 28px 12px;
+      box-sizing: border-box;
+    }
+    .standalone-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      background: #2a1414;
+      border: 1px solid rgba(255, 215, 0, 0.35);
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      font-size: 12px;
+    }
+    .standalone-topbar a,
+    .standalone-topbar button {
+      background: #8B0000;
+      color: #FFD700;
+      border: 1px solid #FFD700;
+      border-radius: 7px;
+      padding: 5px 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    #cufToastStandalone {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100000;
+      background: #8B0000;
+      color: #FFD700;
+      border: 1.5px solid #FFD700;
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-size: 12.5px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      display: none;
+      max-width: 90vw;
+      text-align: center;
+    }
+  </style>
+</head>
+<body class="dark-mode">
+  <div class="standalone-shell">
+    <div class="standalone-topbar">
+      <span><strong>CUFintek</strong> • Tagihan Offline</span>
+      <div style="display:flex; gap:6px;">
+        <a href="./View_Kunjungan.html">📍 Kunjungan</a>
+        <a href="./index.html">🏠 Beranda</a>
+      </div>
+    </div>
+    <div id="app-content"></div>
+  </div>
+  <div id="cufToastStandalone"></div>
+
+  <script>
+    (function ensureStandaloneGlobals() {
+      if (!window.AppUI) {
+        window.AppUI = {
+          toast: function (msg) {
+            var el = document.getElementById('cufToastStandalone');
+            if (!el) return;
+            el.textContent = String(msg || '');
+            el.style.display = 'block';
+            clearTimeout(window.__cufToastTimer);
+            window.__cufToastTimer = setTimeout(function () {
+              el.style.display = 'none';
+            }, 2800);
+          }
+        };
+      }
+      if (!window.AppCore) {
+        window.AppCore = {
+          getUser: function () {
+            try {
+              var keys = Object.keys(localStorage);
+              for (var i = 0; i < keys.length; i++) {
+                if (keys[i].toLowerCase().indexOf('user') !== -1) {
+                  var parsed = JSON.parse(localStorage.getItem(keys[i]) || 'null');
+                  if (parsed && (parsed.nama || parsed.username)) {
+                    return parsed;
+                  }
+                }
+              }
+            } catch (e) {}
+            return { username: '', nama: '', level: '' };
+          }
+        };
+      }
+      if (!window.AppAPI) {
+        window.AppAPI = {
+          call: async function () {
+            throw new Error('Mode offline: server belum dapat dihubungi');
+          }
+        };
+      }
+    })();
+  </script>
+
+  <!-- Tempelkan blok <style> ... </style> dan <script>const ViewTagihan = ... </script> asli milikmu di bawah ini -->
+  <style>
   :root {
     --tg-card-bg: #ffffff;
     --tg-surface-bg: #f9fafb;
