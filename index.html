@@ -26,13 +26,124 @@
         body, html {
             margin: 0; padding: 0; height: 100%; height: 100dvh;
             overflow: hidden; background-color: #8B0000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
         .iframe-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
         .iframe-cutter { position: absolute; width: 100%; height: 100%; top: -5px; overflow: hidden; }
         iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+        /* Banner status koneksi tipis di atas */
+        #offlineStatusBar {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 999990;
+            background: #3b0000;
+            color: #FFD700;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 12px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+        }
+        #offlineStatusBar button {
+            background: #FFD700;
+            color: #5C0000;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Fallback layar saat mati sinyal & GAS tidak bisa diakses */
+        #offlineFallbackPanel {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 999995;
+            background: linear-gradient(145deg, #8B0000 0%, #4a0000 100%);
+            color: #ffffff;
+            padding: 24px 18px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            align-items: center;
+            justify-content: center;
+        }
+        .offline-card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(20, 0, 0, 0.55);
+            border: 1.5px solid rgba(255, 215, 0, 0.45);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+            text-align: center;
+        }
+        .offline-badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.16);
+            color: #FFD700;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 999px;
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .offline-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+        }
+        .offline-desc {
+            font-size: 13px;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.88);
+            margin: 0 0 16px 0;
+        }
+        .offline-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .btn-gold {
+            background: #FFD700;
+            color: #4a0000;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-outline {
+            background: rgba(255,255,255,0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.28);
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .offline-meta {
+            margin-top: 14px;
+            font-size: 11.5px;
+            color: rgba(255,255,255,0.72);
+            line-height: 1.45;
+        }
     </style>
 </head>
 <body>
+    <div id="offlineStatusBar">
+        <span id="offlineStatusText">Mode Offline — Menggunakan data lokal</span>
+        <button type="button" id="btnRetryBar">Coba Online</button>
+    </div>
+
     <div class="iframe-container">
         <div class="iframe-cutter">
             <iframe
@@ -43,86 +154,280 @@
             </iframe>
         </div>
     </div>
+
+    <div id="offlineFallbackPanel">
+        <div class="offline-card">
+            <div class="offline-badge">TIDAK ADA SINYAL / OFFLINE</div>
+            <h2 class="offline-title">Aplikasi Berjalan di Mode Offline</h2>
+            <p class="offline-desc">
+                Koneksi ke server Google Apps Script belum tersedia di lokasi ini. Anda tetap dapat menggunakan fitur/data offline yang sudah tersimpan di perangkat.
+            </p>
+            <div class="offline-actions">
+                <button type="button" class="btn-gold" id="btnOpenOfflineMode">Masuk ke Mode Offline</button>
+                <button type="button" class="btn-outline" id="btnRetryConnect">Coba Hubungkan Lagi</button>
+            </div>
+            <div class="offline-meta" id="offlineCacheInfo"></div>
+        </div>
+    </div>
+
 <script>
     // ============================================
     // ⭐ KONFIGURASI DINAMIS (ANTI-GANTI URL & AUTO-UPDATE)
     // ============================================
     var DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbz4g5AqGHcJ2-u0Tq3zPyG91e28zgWAilcVj6jYq-J-EPdsjApRN3E_35H-NCKWTmtB/exec';
-    var ACTIVE_GAS_URL = localStorage.getItem('CUF_LAST_GAS_URL') || DEFAULT_GAS_URL;
-    var CURRENT_APP_VERSION = localStorage.getItem('CUF_APP_VERSION') || '';
+    var CONFIG_CACHE_KEY = 'CUF_CONFIG_CACHE';
+    var OFFLINE_MODE_KEY = 'CUF_OFFLINE_ACTIVE';
+
+    var savedConfig = null;
+    try {
+        var rawCfg = localStorage.getItem(CONFIG_CACHE_KEY);
+        if (rawCfg) savedConfig = JSON.parse(rawCfg);
+    } catch (e) {}
+
+    var ACTIVE_GAS_URL = localStorage.getItem('CUF_LAST_GAS_URL') || (savedConfig && savedConfig.gasUrl) || DEFAULT_GAS_URL;
+    var CURRENT_APP_VERSION = localStorage.getItem('CUF_APP_VERSION') || (savedConfig && savedConfig.appVersion) || '';
     var _lastLoadTime = 0;
     var _iframeLoadTimer = null;
+    var _iframeLoadedOk = false;
+    var _isOfflineFallbackShown = false;
     var STALE_TIMEOUT_MS = 30 * 60 * 1000;
+    var IFRAME_TIMEOUT_MS = 7000;
+
+    function isBrowserOnline() {
+        return typeof navigator !== 'undefined' && navigator.onLine !== false;
+    }
+
+    function updateOfflineIndicator() {
+        var bar = document.getElementById('offlineStatusBar');
+        var info = document.getElementById('offlineCacheInfo');
+        if (!isBrowserOnline() || _isOfflineFallbackShown) {
+            if (bar) bar.style.display = 'flex';
+        } else {
+            if (bar) bar.style.display = 'none';
+        }
+        if (info) {
+            var verText = CURRENT_APP_VERSION ? ('Versi tersimpan: ' + CURRENT_APP_VERSION) : 'Versi lokal tersimpan';
+            info.textContent = verText + ' • Data antrean/lokal tetap aman di perangkat';
+        }
+    }
+
+    function showOfflineFallback(reasonText) {
+        _isOfflineFallbackShown = true;
+        try { localStorage.setItem(OFFLINE_MODE_KEY, '1'); } catch (e) {}
+        var ov = document.getElementById('parentLoadingOverlay');
+        if (ov) ov.remove();
+
+        var panel = document.getElementById('offlineFallbackPanel');
+        var statusText = document.getElementById('offlineStatusText');
+        if (statusText && reasonText) {
+            statusText.textContent = reasonText;
+        }
+        if (panel) {
+            panel.style.display = 'flex';
+        }
+        updateOfflineIndicator();
+    }
+
+    function hideOfflineFallback() {
+        _isOfflineFallbackShown = false;
+        try { localStorage.removeItem(OFFLINE_MODE_KEY); } catch (e) {}
+        var panel = document.getElementById('offlineFallbackPanel');
+        if (panel) {
+            panel.style.display = 'none';
+        }
+        updateOfflineIndicator();
+    }
 
     function buildFreshGasUrl(baseUrl) {
         var u = baseUrl || ACTIVE_GAS_URL || DEFAULT_GAS_URL;
         return u + (u.indexOf('?') === -1 ? '?' : '&') + 't=' + Date.now();
     }
 
-    function loadIframeFresh(baseUrl) {
+    function loadIframeFresh(baseUrl, forceOfflineIfFail) {
         var f = document.getElementById('appIframe');
         if (!f) return;
+
+        if (_iframeLoadTimer) {
+            clearTimeout(_iframeLoadTimer);
+            _iframeLoadTimer = null;
+        }
+
+        // Jika memang mati sinyal saat startup awal dan belum ada iframe aktif, langsung tampilkan panel offline
+        if (!isBrowserOnline() && (forceOfflineIfFail || !_iframeLoadedOk)) {
+            showOfflineFallback('Tidak ada sinyal — Mode Offline aktif');
+            return;
+        }
+
         _lastLoadTime = Date.now();
+        _iframeLoadedOk = false;
         f.src = buildFreshGasUrl(baseUrl);
+
+        // Batas waktu muat iframe agar tidak menggantung selamanya saat sinyal lemah/hilang
+        _iframeLoadTimer = setTimeout(function () {
+            if (!_iframeLoadedOk && (!isBrowserOnline() || forceOfflineIfFail)) {
+                showOfflineFallback('Koneksi lambat / terputus — Mode Offline siap');
+            }
+        }, IFRAME_TIMEOUT_MS);
     }
 
-    // Ambil config.json terbaru dari GitHub tanpa cache
+    // Ambil config.json dengan fallback ke cache lokal saat mati sinyal
     async function fetchRemoteConfig() {
+        if (!isBrowserOnline()) {
+            return savedConfig;
+        }
+
+        var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+        var timer = controller ? setTimeout(function () { controller.abort(); }, 3500) : null;
+
         try {
-            var res = await fetch('config.json?nocache=' + Date.now(), { cache: 'no-store' });
-            if (!res.ok) return null;
-            return await res.json();
+            var res = await fetch('config.json?nocache=' + Date.now(), {
+                cache: 'no-store',
+                signal: controller ? controller.signal : undefined
+            });
+            if (timer) clearTimeout(timer);
+            if (!res.ok) return savedConfig;
+
+            var jsonCfg = await res.json();
+            savedConfig = jsonCfg;
+            try {
+                localStorage.setItem(CONFIG_CACHE_KEY, JSON.stringify(jsonCfg));
+            } catch (e) {}
+            return jsonCfg;
         } catch (e) {
-            return null;
+            if (timer) clearTimeout(timer);
+            return savedConfig;
         }
     }
 
     async function initAppWithConfig(isResumeCheck) {
+        updateOfflineIndicator();
+
+        // Saat resume dari background dan sedang offline, jangan paksa reload paksa yang merusak sesi/offline
+        if (isResumeCheck && !isBrowserOnline()) {
+            updateOfflineIndicator();
+            return;
+        }
+
         var cfg = await fetchRemoteConfig();
         if (cfg && cfg.gasUrl) {
             var urlBerubah = (ACTIVE_GAS_URL !== cfg.gasUrl);
             var versiBerubah = (cfg.appVersion && CURRENT_APP_VERSION && CURRENT_APP_VERSION !== cfg.appVersion);
 
             ACTIVE_GAS_URL = cfg.gasUrl;
+            try { localStorage.setItem('CUF_LAST_GAS_URL', cfg.gasUrl); } catch (e) {}
+
             if (cfg.appVersion) {
                 CURRENT_APP_VERSION = cfg.appVersion;
-                localStorage.setItem('CUF_APP_VERSION', cfg.appVersion);
+                try { localStorage.setItem('CUF_APP_VERSION', cfg.appVersion); } catch (e) {}
             }
 
-            if (isResumeCheck && (urlBerubah || versiBerubah)) {
+            if (isResumeCheck && (urlBerubah || versiBerubah) && isBrowserOnline()) {
                 tampilkanLoadingParent('Memperbarui ke versi ' + (cfg.appVersion || 'terbaru') + '...');
                 setTimeout(function () {
                     var ov = document.getElementById('parentLoadingOverlay');
                     if (ov) ov.remove();
-                    loadIframeFresh(ACTIVE_GAS_URL);
+                    hideOfflineFallback();
+                    loadIframeFresh(ACTIVE_GAS_URL, false);
                 }, 600);
                 return;
             }
         }
 
         if (!isResumeCheck) {
-            loadIframeFresh(ACTIVE_GAS_URL);
+            loadIframeFresh(ACTIVE_GAS_URL, true);
         }
     }
 
     window.addEventListener('DOMContentLoaded', function () {
+        var iframeEl = document.getElementById('appIframe');
+        if (iframeEl) {
+            iframeEl.addEventListener('load', function () {
+                if (iframeEl.src && iframeEl.src !== 'about:blank') {
+                    if (_iframeLoadTimer) {
+                        clearTimeout(_iframeLoadTimer);
+                        _iframeLoadTimer = null;
+                    }
+                    _iframeLoadedOk = true;
+                    hideOfflineFallback();
+                }
+            });
+            iframeEl.addEventListener('error', function () {
+                if (!isBrowserOnline()) {
+                    showOfflineFallback('Gagal memuat server — Mode Offline aktif');
+                }
+            });
+        }
+
+        document.getElementById('btnOpenOfflineMode').addEventListener('click', function () {
+            hideOfflineFallback();
+            document.getElementById('offlineStatusBar').style.display = 'flex';
+            var f = document.getElementById('appIframe');
+            if (f && f.contentWindow) {
+                f.contentWindow.postMessage({ action: 'cuf_enter_offline_mode' }, '*');
+            }
+        });
+
+        function retryConnectionAction() {
+            hideOfflineFallback();
+            tampilkanLoadingParent('Mencoba menghubungkan ke server...');
+            initAppWithConfig(false).finally(function () {
+                setTimeout(function () {
+                    var ov = document.getElementById('parentLoadingOverlay');
+                    if (ov) ov.remove();
+                    if (!isBrowserOnline() || !_iframeLoadedOk) {
+                        showOfflineFallback('Sinyal belum tersedia — Tetap di Mode Offline');
+                    }
+                }, 1200);
+            });
+        }
+
+        document.getElementById('btnRetryConnect').addEventListener('click', retryConnectionAction);
+        document.getElementById('btnRetryBar').addEventListener('click', retryConnectionAction);
+
+        window.addEventListener('offline', function () {
+            updateOfflineIndicator();
+            var f = document.getElementById('appIframe');
+            if (f && f.contentWindow) {
+                f.contentWindow.postMessage({ action: 'cuf_network_status', online: false }, '*');
+            }
+            if (!_iframeLoadedOk) {
+                showOfflineFallback('Koneksi terputus — Mode Offline aktif');
+            }
+        });
+
+        window.addEventListener('online', function () {
+            updateOfflineIndicator();
+            var f = document.getElementById('appIframe');
+            if (f && f.contentWindow) {
+                f.contentWindow.postMessage({ action: 'cuf_network_status', online: true }, '*');
+            }
+            if (_isOfflineFallbackShown || !_iframeLoadedOk) {
+                retryConnectionAction();
+            }
+        });
+
         initAppWithConfig(false);
     });
 
     // Cek pembaruan otomatis setiap kali aktivis membuka kembali aplikasi dari background
     document.addEventListener('visibilitychange', async function () {
         if (document.visibilityState !== 'visible') return;
+        updateOfflineIndicator();
+
+        if (!isBrowserOnline()) {
+            return;
+        }
 
         // 1. Cek apakah ada versi / GAS_URL baru di config.json
         await initAppWithConfig(true);
 
-        // 2. Jika sudah idle > 30 menit, muat ulang agar sesi GAS tetap segar
+        // 2. Jika sudah idle > 30 menit dan sedang online, muat ulang agar sesi GAS tetap segar
         if (_lastLoadTime > 0 && (Date.now() - _lastLoadTime) > STALE_TIMEOUT_MS) {
             tampilkanLoadingParent('Menyegarkan sesi aplikasi...');
             setTimeout(function () {
                 var ov = document.getElementById('parentLoadingOverlay');
                 if (ov) ov.remove();
-                loadIframeFresh(ACTIVE_GAS_URL);
+                loadIframeFresh(ACTIVE_GAS_URL, false);
             }, 500);
         }
     });
@@ -132,10 +437,12 @@
     // ============================================
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
-            navigator.serviceWorker.register('/CUFintek/sw.js')
+            navigator.serviceWorker.register('./sw.js')
                 .then(function (reg) {
                     console.log('SW didaftarkan:', reg.scope);
-                    reg.update();
+                    if (isBrowserOnline()) {
+                        reg.update().catch(function () {});
+                    }
                 })
                 .catch(function (err) { console.log('SW gagal:', err); });
 
@@ -258,19 +565,25 @@
             }
             prosesKeluarAplikasi();
         } else if (d.action === 'reload_iframe_only' || d.action === 'check_update_manual') {
+            if (!isBrowserOnline()) {
+                showOfflineFallback('Tidak ada koneksi internet untuk cek pembaruan');
+                return;
+            }
             tampilkanLoadingParent('Mengecek & memuat versi terbaru aplikasi...');
             fetchRemoteConfig().then(function (cfg) {
                 if (cfg && cfg.gasUrl) {
                     ACTIVE_GAS_URL = cfg.gasUrl;
+                    try { localStorage.setItem('CUF_LAST_GAS_URL', cfg.gasUrl); } catch (e) {}
                     if (cfg.appVersion) {
                         CURRENT_APP_VERSION = cfg.appVersion;
-                        localStorage.setItem('CUF_APP_VERSION', cfg.appVersion);
+                        try { localStorage.setItem('CUF_APP_VERSION', cfg.appVersion); } catch (e) {}
                     }
                 }
                 setTimeout(function () {
                     var ov = document.getElementById('parentLoadingOverlay');
                     if (ov) ov.remove();
-                    loadIframeFresh(ACTIVE_GAS_URL);
+                    hideOfflineFallback();
+                    loadIframeFresh(ACTIVE_GAS_URL, false);
                 }, 500);
             });
         }
@@ -278,11 +591,9 @@
 
     function tanganiBackFisik() {
         var f = document.getElementById('appIframe');
-        if (f && f.contentWindow) {
-            // Kirim sinyal ke dalam GAS agar menutup modal / detail / kembali ke menu sebelumnya
+        if (f && f.contentWindow && _iframeLoadedOk && !_isOfflineFallbackShown) {
             f.contentWindow.postMessage({ action: 'cuf_android_back' }, '*');
 
-            // Fallback jika iframe sedang loading / belum merespons dalam 250ms
             if (_backConfirmTimer) clearTimeout(_backConfirmTimer);
             _backConfirmTimer = setTimeout(function () {
                 prosesKeluarAplikasi();
